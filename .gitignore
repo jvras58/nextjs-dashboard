@@ -28,6 +28,9 @@ yarn-error.log*
 # .env
 .env
 
+# FIXME: para evitar que ele suba as configurações do felipe
+src/firebase/config.tsx
+
 # local env files
 .env*.local
 
