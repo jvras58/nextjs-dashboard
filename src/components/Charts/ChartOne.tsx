@@ -1,17 +1,36 @@
 import { ApexOptions } from "apexcharts";
 import React from "react";
 import ReactApexChart from "react-apexcharts";
+import useDepositsChart from "@/hooks/useDepositsChart";
 import DefaultSelectOption from "@/components/SelectOption/DefaultSelectOption";
 
-const ChartOne: React.FC = () => {
+interface ChartOneProps {
+  param: any;
+}
+
+const ChartOne: React.FC<ChartOneProps> = ({ param }) => {
+  const { data, loading, error } = useDepositsChart(param);
+
+  if (loading) {
+    return (
+      <div className="grid grid-cols-1 gap-4 md:grid-cols-2">
+        {[1].map((_, index) => (
+          <div key={index} className="animate-pulse bg-gray-500 h-[310px] rounded-md"></div>
+        ))}
+      </div>
+    );
+  }
+  
+  if (error) return <p>Erro ao carregar: {error.message}</p>;
+
   const series = [
     {
-      name: "Received Amount",
-      data: [0, 20, 35, 45, 35, 55, 65, 50, 65, 75, 60, 75],
+      name: "Total Arrecadado",
+      data: data.totalArrecadado,
     },
     {
-      name: "Due Amount",
-      data: [15, 9, 17, 32, 25, 68, 80, 68, 84, 94, 74, 62],
+      name: "Depósitos Realizados",
+      data: data.depositosRealizados,
     },
   ];
 
@@ -57,7 +76,6 @@ const ChartOne: React.FC = () => {
     stroke: {
       curve: "smooth",
     },
-
     markers: {
       size: 0,
     },
@@ -79,38 +97,23 @@ const ChartOne: React.FC = () => {
     },
     tooltip: {
       fixed: {
-        enabled: !1,
+        enabled: false,
       },
       x: {
-        show: !1,
+        show: false,
       },
       y: {
         title: {
-          formatter: function (e) {
-            return "";
-          },
+          formatter: () => "",
         },
       },
       marker: {
-        show: !1,
+        show: false,
       },
     },
     xaxis: {
       type: "category",
-      categories: [
-        "Sep",
-        "Oct",
-        "Nov",
-        "Dec",
-        "Jan",
-        "Feb",
-        "Mar",
-        "Apr",
-        "May",
-        "Jun",
-        "Jul",
-        "Aug",
-      ],
+      categories: data.categories,
       axisBorder: {
         show: false,
       },
@@ -132,38 +135,29 @@ const ChartOne: React.FC = () => {
       <div className="mb-3.5 flex flex-col gap-2.5 sm:flex-row sm:items-center sm:justify-between">
         <div>
           <h4 className="text-body-2xlg font-bold text-dark dark:text-white">
-            Payments Overview
+            Visão geral dos Depósitos
           </h4>
         </div>
         <div className="flex items-center gap-2.5">
-          <p className="font-medium uppercase text-dark dark:text-dark-6">
-            Short by:
-          </p>
-          <DefaultSelectOption options={["Monthly", "Yearly"]} />
+          <p className="font-medium uppercase text-dark dark:text-dark-6">Período:</p>
+          <DefaultSelectOption options={["Mensal", "Anual"]} />
         </div>
       </div>
       <div>
-        <div className="-ml-4 -mr-5">
-          <ReactApexChart
-            options={options}
-            series={series}
-            type="area"
-            height={310}
-          />
-        </div>
+        <ReactApexChart options={options} series={series} type="area" height={310} />
       </div>
 
       <div className="flex flex-col gap-2 text-center xsm:flex-row xsm:gap-0">
         <div className="border-stroke dark:border-dark-3 xsm:w-1/2 xsm:border-r">
-          <p className="font-medium">Received Amount</p>
+          <p className="font-medium">Total Arrecadado</p>
           <h4 className="mt-1 text-xl font-bold text-dark dark:text-white">
-            $45,070.00
+            ${data.totalArrecadado.reduce((sum, value) => sum + value, 0).toLocaleString()}
           </h4>
         </div>
         <div className="xsm:w-1/2">
-          <p className="font-medium">Due Amount</p>
+          <p className="font-medium">Depósitos Realizados</p>
           <h4 className="mt-1 text-xl font-bold text-dark dark:text-white">
-            $32,400.00
+            {data.depositosRealizados.reduce((sum, count) => sum + count, 0)}
           </h4>
         </div>
       </div>

@@ -1,4 +1,5 @@
 export type dataStats = {
+  param?: string;
   icon?: string;
   color?: string;
   title?: string;
