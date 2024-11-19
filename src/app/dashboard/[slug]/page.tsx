@@ -1,6 +1,6 @@
 import { Metadata } from "next";
 import DefaultLayout from "@/components/Layouts/DefaultLayout";
-import Dashboard from "@/components/Dashboard/Dashboard";
+
 import React from "react";
 
 export async function generateMetadata({
@@ -19,9 +19,5 @@ interface Props {
 }
 
 export default async function Page({ params }: Props) {
-  return (
-    <DefaultLayout>
-      <Dashboard param={(await params).slug}></Dashboard>
-    </DefaultLayout>
-  );
+  return <DefaultLayout>oi</DefaultLayout>;
 }
