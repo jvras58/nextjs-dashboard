@@ -4,28 +4,39 @@ import useFetchData from "@/hooks/useFetchData";
 import useFetchAndSum from "@/hooks/useFetchAndSum";
 import DataCard from "./DataCard";
 
-const DataStatsOne: React.FC<dataStats> = ({ param }) => {
-  const { data: usefetchdata, loading: usefetchloading, error: usefetcherror } = useFetchData("cadastro", param);
+export default function DataStatsOne({ param }: dataStats) {
+  const {
+    data: usefetchdata,
+    loading: usefetchloading,
+    error: usefetcherror,
+  } = useFetchData("cadastro", param);
 
-  const { total, loading: sumLoading, error: useFetchAndSumerror } = useFetchAndSum(
-    "deposito",
-    "affiliate",
-    param,
-    "transaction_value"
-  );
+  const {
+    total,
+    loading: sumLoading,
+    error: useFetchAndSumerror,
+  } = useFetchAndSum("deposito", "affiliate", param, "transaction_value");
 
   if (sumLoading || usefetchloading) {
     return (
-        <div className="grid grid-cols-1 gap-4 md:grid-cols-2">
-            {[1, 2].map((_, index) => (
-                <div key={index} className="animate-pulse bg-gray-500 h-20 rounded-md"></div>
-            ))}
-        </div>
+      <div className="grid grid-cols-1 gap-4 md:grid-cols-2">
+        {[1, 2].map((_, index) => (
+          <div
+            key={index}
+            className="h-20 animate-pulse rounded-md bg-gray-500"
+          ></div>
+        ))}
+      </div>
     );
-}
+  }
 
   if (usefetcherror || useFetchAndSumerror) {
-    return <div>Erro ao carregar os dados: {usefetcherror?.message || useFetchAndSumerror?.message}</div>;
+    return (
+      <div>
+        Erro ao carregar os dados:{" "}
+        {usefetcherror?.message || useFetchAndSumerror?.message}
+      </div>
+    );
   }
 
   const dataStatsList = [
@@ -77,13 +88,11 @@ const DataStatsOne: React.FC<dataStats> = ({ param }) => {
     },
   ];
 
-    return (
-      <div className="grid grid-cols-1 gap-4 md:grid-cols-2 md:gap-6 xl:grid-cols-4 2xl:gap-7.5">
-          {dataStatsList.map((item, index) => (
-              <DataCard key={index} {...item} />
-          ))}
-      </div>
+  return (
+    <div className="grid grid-cols-1 gap-4 md:grid-cols-2 md:gap-6 xl:grid-cols-4 2xl:gap-7.5">
+      {dataStatsList.map((item, index) => (
+        <DataCard key={index} {...item} />
+      ))}
+    </div>
   );
-};
-
-export default DataStatsOne;
+}
