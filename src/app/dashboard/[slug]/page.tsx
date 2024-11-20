@@ -1,7 +1,9 @@
 import { Metadata } from "next";
-import DefaultLayout from "@/components/Layouts/DefaultLayout";
 
 import React from "react";
+import CardsSection from "@/components/CardsSection";
+import DashboardLayout from "@/components/Layouts/DashboardLayout";
+import Card from "@/components/Card";
 
 export async function generateMetadata({
   params,
@@ -19,5 +21,16 @@ interface Props {
 }
 
 export default async function Page({ params }: Props) {
-  return <DefaultLayout>oi</DefaultLayout>;
+  return (
+    <DashboardLayout title={(await params).slug}>
+      <CardsSection title="Investimento">
+        <Card title="teste" content={50} isCurrency />
+        <Card title="teste" content={50} isPercentage />
+        <Card title="teste" content={50} />
+      </CardsSection>
+      <CardsSection title="GGR" />
+      <CardsSection title="Cadastro" />
+      <CardsSection title="Depósito" />
+    </DashboardLayout>
+  );
 }
