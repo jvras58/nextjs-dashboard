@@ -4,24 +4,22 @@ import CardGeneric from "../CardGeneric";
 const CardMedia_dia_investimento: React.FC = () => {
 return (
 <CardGeneric
-    // Mudar ICON:
     icon={
     <svg
-        width="26"
-        height="26"
-        viewBox="0 0 26 26"
-        fill="none"
+        className="w-6 h-6 text-gray-800 dark:text-white"
+        aria-hidden="true"
         xmlns="http://www.w3.org/2000/svg"
+        width="24"
+        height="24"
+        fill="none"
+        viewBox="0 0 24 24"
     >
-        <ellipse cx="9.75106" cy="6.49984" rx="4.33333" ry="4.33333" fill="white" />
-        <ellipse cx="9.75106" cy="18.4178" rx="7.58333" ry="4.33333" fill="white" />
         <path
-        d="M22.7496 18.4173C22.7496 20.2123 20.5445 21.6673 17.8521 21.6673C18.6453 20.8003 19.1907 19.712 19.1907 18.4189C19.1907 17.1242 18.644 16.0349 17.8493 15.1674C20.5417 15.1674 22.7496 16.6224 22.7496 18.4173Z"
-        fill="white"
-        />
-        <path
-        d="M19.4996 6.50098C19.4996 8.2959 18.0446 9.75098 16.2496 9.75098C15.8582 9.75098 15.483 9.68179 15.1355 9.55498C15.648 8.65355 15.9407 7.61084 15.9407 6.49977C15.9407 5.38952 15.6484 4.34753 15.1366 3.44656C15.4838 3.32001 15.8587 3.25098 16.2496 3.25098C18.0446 3.25098 19.4996 4.70605 19.4996 6.50098Z"
-        fill="white"
+        stroke="currentColor"
+        strokeLinecap="round"
+        strokeLinejoin="round"
+        strokeWidth="2"
+        d="M3 15v4m6-6v6m6-4v4m6-6v6M3 11l6-5 6 5 5.5-5.5"
         />
     </svg>
     }
