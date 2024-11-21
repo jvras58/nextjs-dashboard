@@ -6,6 +6,7 @@ import CampaignTable from "@/components/Tables/CampanhaTable";
 import EstadoTable from "@/components/Tables/EstadoTable";
 import DepositoFTDTable from "@/components/Tables/DepositoFTDTable";
 import GgrCards from "../Cards/CardGGr/layout/Ggr_template";
+import CadastroCards from "../Cards/CardCadastro/layout/Cadastro_template";
 
 const Dashboard: React.FC = () => {
   return (
@@ -23,7 +24,7 @@ const Dashboard: React.FC = () => {
       <div className="flex justify-center items-center mb-6">
         <h2 className="text-heading-2 dark:text-white">Cadastro</h2>
       </div>
-      {/* <DataStatsOne /> */}
+      <CadastroCards />
 
       <div className="mt-4 grid grid-cols-12 gap-4 md:mt-6 md:gap-6 2xl:mt-9 2xl:gap-7.5">
         <div className="col-span-12 xl:col-span-7">
