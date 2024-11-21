@@ -13,7 +13,6 @@ DropdownMenuLabel,
 DropdownMenuSeparator,
 DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
-import { Checkbox } from "@/components/ui/checkbox";
 
 interface Campaign {
 nome_campanha: string;
@@ -25,31 +24,12 @@ const data: Campaign[] = [
 { nome_campanha: "Campanha B", quantidade_de_cadastro: 80 },
 { nome_campanha: "Campanha C", quantidade_de_cadastro: 150 },
 { nome_campanha: "Campanha D", quantidade_de_cadastro: 250 },
+{ nome_campanha: "Campanha E", quantidade_de_cadastro: 300 },
+{ nome_campanha: "Campanha F", quantidade_de_cadastro: 200 },
+{ nome_campanha: "Campanha G", quantidade_de_cadastro: 100 },
 ];
 
 const columns: ColumnDef<Campaign>[] = [
-{
-id: "select",
-header: ({ table }) => (
-    <Checkbox
-    checked={
-        table.getIsAllPageRowsSelected() ||
-        (table.getIsSomePageRowsSelected() && "indeterminate")
-    }
-    onCheckedChange={(value) => table.toggleAllPageRowsSelected(!!value)}
-    aria-label="Select all"
-    />
-),
-cell: ({ row }) => (
-    <Checkbox
-    checked={row.getIsSelected()}
-    onCheckedChange={(value) => row.toggleSelected(!!value)}
-    aria-label="Select row"
-    />
-),
-enableSorting: false,
-enableHiding: false,
-},
 {
 accessorKey: "nome_campanha",
 header: "Campanha",
@@ -59,13 +39,15 @@ cell: ({ row }) => <div className="capitalize">{row.getValue("nome_campanha")}</
 accessorKey: "quantidade_de_cadastro",
 header: ({ column }) => {
     return (
-    <Button
+    <div className="text-right">
+        <Button
         variant="ghost"
         onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
-    >
+        >
         Qtd Cad
-        <ArrowUpDown />
-    </Button>
+        <ArrowUpDown className="ml-2" />
+        </Button>
+    </div>
     );
 },
 cell: ({ row }) => <div className="text-right">{row.getValue("quantidade_de_cadastro")}</div>,
@@ -85,14 +67,13 @@ cell: ({ row }) => {
         </Button>
         </DropdownMenuTrigger>
         <DropdownMenuContent align="end">
-        <DropdownMenuLabel>Actions</DropdownMenuLabel>
+        <DropdownMenuLabel>Ações</DropdownMenuLabel>
         <DropdownMenuItem
             onClick={() => navigator.clipboard.writeText(campaign.nome_campanha)}
         >
-            Copy campaign name
+            Copie o nome da campanha
         </DropdownMenuItem>
         <DropdownMenuSeparator />
-        <DropdownMenuItem>View details</DropdownMenuItem>
         </DropdownMenuContent>
     </DropdownMenu>
     );

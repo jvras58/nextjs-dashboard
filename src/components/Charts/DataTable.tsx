@@ -6,7 +6,6 @@ ColumnDef,
 SortingState,
 ColumnFiltersState,
 VisibilityState,
-RowSelectionState,
 flexRender,
 getCoreRowModel,
 getFilteredRowModel,
@@ -42,7 +41,7 @@ export function DataTable<TData>({ columns, data }: DataTableProps<TData>) {
 const [sorting, setSorting] = React.useState<SortingState>([]);
 const [columnFilters, setColumnFilters] = React.useState<ColumnFiltersState>([]);
 const [columnVisibility, setColumnVisibility] = React.useState<VisibilityState>({});
-const [rowSelection, setRowSelection] = React.useState<RowSelectionState>({});
+const [pagination, setPagination] = React.useState({ pageIndex: 0, pageSize: 5 });
 
 const table = useReactTable({
 data,
@@ -54,13 +53,13 @@ getPaginationRowModel: getPaginationRowModel(),
 getSortedRowModel: getSortedRowModel(),
 getFilteredRowModel: getFilteredRowModel(),
 onColumnVisibilityChange: setColumnVisibility,
-onRowSelectionChange: setRowSelection,
 state: {
     sorting,
     columnFilters,
     columnVisibility,
-    rowSelection,
+    pagination,
 },
+onPaginationChange: setPagination,
 });
 
 return (
@@ -124,7 +123,7 @@ return (
         <TableBody>
         {table.getRowModel().rows?.length ? (
             table.getRowModel().rows.map((row) => (
-            <TableRow
+                        <TableRow
                 key={row.id}
                 data-state={row.getIsSelected() && "selected"}
             >
@@ -153,8 +152,7 @@ return (
     </div>
     <div className="flex items-center justify-end space-x-2 py-4">
     <div className="flex-1 text-sm text-muted-foreground">
-        {table.getFilteredSelectedRowModel().rows.length} a{" "}
-        {table.getFilteredRowModel().rows.length} Colunas(s) selecionadas.
+        {table.getFilteredRowModel().rows.length} Colunas(s) disponível.
     </div>
     <div className="space-x-2">
         <Button
@@ -171,7 +169,7 @@ return (
         onClick={() => table.nextPage()}
         disabled={!table.getCanNextPage()}
         >
-        Proximo
+        Próximo
         </Button>
     </div>
     </div>
