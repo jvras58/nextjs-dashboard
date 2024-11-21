@@ -2,7 +2,7 @@
 
 import * as React from "react";
 import { ColumnDef } from "@tanstack/react-table";
-import { DataTable } from "./DataTable";
+import { DataTable } from "./genericComponent/DataTable";
 import { Button } from "@/components/ui/button";
 import { ArrowUpDown, MoreHorizontal } from "lucide-react";
 import {
@@ -68,6 +68,7 @@ cell: ({ row }) => {
         </DropdownMenuTrigger>
         <DropdownMenuContent align="end">
         <DropdownMenuLabel>Ações</DropdownMenuLabel>
+    {/* TODO: refazer essa parte para ele copiar toda a linha */}
         <DropdownMenuItem
             onClick={() => navigator.clipboard.writeText(campaign.nome_campanha)}
         >
@@ -82,7 +83,19 @@ cell: ({ row }) => {
 ];
 
 const CampaignTable: React.FC = () => {
-return <DataTable columns={columns} data={data} />;
+return (
+<div className="col-span-12 rounded-[10px] bg-white px-7.5 pt-7.5 shadow-1 dark:bg-gray-dark dark:shadow-card xl:col-span-5">
+    <div className="mb-4 justify-between gap-4 sm:flex">
+    <div>
+        <h4 className="text-body-2xlg font-bold text-dark dark:text-white">
+        Campanhas
+        </h4>
+    </div>
+    </div>
+    {/* TODO: refazer essa parte do filtro para ser igual ao datastudio é poder filtrar por qualquer coluna */}
+    <DataTable columns={columns} data={data} filterColumn="nome_campanha" />
+</div>
+);
 };
 
 export default CampaignTable;

@@ -35,9 +35,10 @@ TableRow,
 interface DataTableProps<TData> {
 columns: ColumnDef<TData>[];
 data: TData[];
+filterColumn: string;
 }
 
-export function DataTable<TData>({ columns, data }: DataTableProps<TData>) {
+export function DataTable<TData>({ columns, data, filterColumn }: DataTableProps<TData>) {
 const [sorting, setSorting] = React.useState<SortingState>([]);
 const [columnFilters, setColumnFilters] = React.useState<ColumnFiltersState>([]);
 const [columnVisibility, setColumnVisibility] = React.useState<VisibilityState>({});
@@ -67,9 +68,9 @@ return (
     <div className="flex items-center py-4">
     <Input
         placeholder="Filtrar..."
-        value={(table.getColumn("nome_campanha")?.getFilterValue() as string) ?? ""}
+        value={(table.getColumn(filterColumn)?.getFilterValue() as string) ?? ""}
         onChange={(event) =>
-        table.getColumn("nome_campanha")?.setFilterValue(event.target.value)
+        table.getColumn(filterColumn)?.setFilterValue(event.target.value)
         }
         className="max-w-sm"
     />
@@ -123,10 +124,7 @@ return (
         <TableBody>
         {table.getRowModel().rows?.length ? (
             table.getRowModel().rows.map((row) => (
-                        <TableRow
-                key={row.id}
-                data-state={row.getIsSelected() && "selected"}
-            >
+            <TableRow key={row.id}>
                 {row.getVisibleCells().map((cell) => (
                 <TableCell key={cell.id}>
                     {flexRender(

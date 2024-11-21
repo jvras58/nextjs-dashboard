@@ -1,10 +1,10 @@
 "use client";
 import React from "react";
-import ChartTwo from "../Charts/ChartTwo";
 import DataStatsOne from "@/components/DataStats/DataStatsOne";
-import TableOne from "../Tables/TableOne";
-import MapOne from "../Maps/MapOne";
-import CampaignTable from "@/components/Charts/CampaignTable";
+import MapOne from "@/components/Maps/MapOne";
+import CampaignTable from "@/components/Tables/CampanhaTable";
+import EstadoTable from "@/components/Tables/EstadoTable";
+import DepositoFTDTable from "@/components/Tables/DepositoFTDTable";
 
 const Dashboard: React.FC = () => {
   return (
@@ -28,7 +28,7 @@ const Dashboard: React.FC = () => {
         <div className="col-span-12 xl:col-span-7">
           <CampaignTable />
         </div>
-        <ChartTwo />
+        <EstadoTable />
         <div className="col-span-12 flex justify-center items-center min-h-[400px]">
           <MapOne />
         </div>
@@ -45,7 +45,7 @@ const Dashboard: React.FC = () => {
       </div>
 
       <div className="col-span-12 xl:col-span-8">
-        <TableOne />
+        <DepositoFTDTable />
       </div>
     </>
   );
