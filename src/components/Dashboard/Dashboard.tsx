@@ -7,6 +7,8 @@ import EstadoTable from "@/components/Tables/EstadoTable";
 import DepositoFTDTable from "@/components/Tables/DepositoFTDTable";
 import GgrCards from "../Cards/CardGGr/layout/Ggr_template";
 import CadastroCards from "../Cards/CardCadastro/layout/Cadastro_template";
+import DepositoCards1 from "../Cards/CardDeposito/layout/Deposito_template1";
+import DepositoCards2 from "../Cards/CardDeposito/layout/Deposito_template2";
 
 const Dashboard: React.FC = () => {
   return (
@@ -40,10 +42,10 @@ const Dashboard: React.FC = () => {
         <h2 className="text-heading-2 dark:text-white">Depósito</h2>
       </div>
       <div id="1" className="mb-6">
-        {/* <DataStatsOne /> */}
+        <DepositoCards1 />
       </div>
       <div id="2" className="mb-12 text-heading-2">
-        {/* <DataStatsOne /> */}
+        <DepositoCards2 />
       </div>
 
       <div className="col-span-12 xl:col-span-8">
