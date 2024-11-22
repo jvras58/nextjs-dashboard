@@ -15,6 +15,10 @@ const CardGeneric: React.FC<CardGenericProps> = ({
     value,
     growthRate,
 }) => {
+    const formatGrowthRate = (rate: number) => {
+        return rate.toFixed(2);
+    };
+
     return (
         <div className="rounded-[10px] bg-white p-6 shadow-1 dark:bg-gray-dark">
             <div
@@ -36,7 +40,7 @@ const CardGeneric: React.FC<CardGenericProps> = ({
                             growthRate > 0 ? "text-green" : "text-red"
                         }`}
                     >
-                        {growthRate}%
+                        {formatGrowthRate(growthRate)}%
                         {growthRate > 0 ? (
                             <svg
                                 className="fill-current"
