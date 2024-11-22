@@ -5,8 +5,10 @@ import Header from "@/components/Header";
 
 export default function DefaultLayout({
   children,
+  HeaderTitle,
 }: {
   children: React.ReactNode;
+  HeaderTitle?: string;
 }) {
   const [sidebarOpen, setSidebarOpen] = useState(false);
   return (
@@ -20,7 +22,7 @@ export default function DefaultLayout({
         {/* <!-- ===== Content Area Star ===== --> */}
         <div className="relative flex flex-1 flex-col overflow-y-auto overflow-x-hidden">
           {/* <!-- ===== Header Star ===== --> */}
-          <Header sidebarOpen={sidebarOpen} setSidebarOpen={setSidebarOpen} />
+          <Header sidebarOpen={sidebarOpen} setSidebarOpen={setSidebarOpen} title= {HeaderTitle}/>
           {/* <!-- ===== Header End ===== --> */}
 
           {/* <!-- ===== Main Content Star ===== --> */}

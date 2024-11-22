@@ -20,7 +20,7 @@ params: Promise<{ slug: string }>;
 
 export default async function Page({ params }: Props) {
 return (
-<DefaultLayout>
+<DefaultLayout HeaderTitle={(await params).slug}>
     <Dashboard param={(await params).slug}></Dashboard>
 </DefaultLayout>
 );

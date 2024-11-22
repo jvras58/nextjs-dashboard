@@ -1,9 +1,8 @@
 "use client";
 import jsVectorMap from "jsvectormap";
 import React, { useEffect } from "react";
-import "../../js/us-aea-en";
-// procurar esse arquivo mapa brasil (Importe o arquivo de mapa do Brasil baixa-lo ou instalar via npm)
-// import "../../js/br-merc";
+import "../../js/brasil";
+
 
 const MapOne: React.FC = () => {
 useEffect(() => {
@@ -16,8 +15,7 @@ if (!mapElement) {
 
 const vectorMapOne = new jsVectorMap({
     selector: "#mapOne",
-    map: "us_aea_en",
-    // map: "br_merc",
+    map: "brasil",
     zoomButtons: true,
 
     regionStyle: {
@@ -61,7 +59,7 @@ return () => {
 return (
 <div className="col-span-12 rounded-[10px] bg-white p-7.5 shadow-1 dark:bg-gray-dark dark:shadow-card xl:col-span-7">
     <h4 className="mb-7 text-body-2xlg font-bold text-dark dark:text-white">
-    Region labels
+    Quantidades por região
     </h4>
     <div className="h-[422px]">
     <div id="mapOne" className="mapOne map-btn"></div>

@@ -5,6 +5,7 @@ import Image from "next/image";
 const Header = (props: {
   sidebarOpen: string | boolean | undefined;
   setSidebarOpen: (arg0: boolean) => void;
+  title?: string;
 }) => {
   return (
     <header className="sticky top-0 z-999 flex w-full border-b border-stroke bg-white dark:border-stroke-dark dark:bg-gray-dark">
@@ -66,7 +67,7 @@ const Header = (props: {
         <div className="hidden xl:block">
           <div>
             <h1 className="mb-0.5 text-heading-5 font-bold text-dark dark:text-white">
-              Betinha
+              {props.title}
             </h1>
             <p className="font-medium">Dashboard</p>
           </div>
