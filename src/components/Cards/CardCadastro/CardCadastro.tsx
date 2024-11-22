@@ -1,12 +1,13 @@
 import React from "react";
 import CardGeneric from "../CardGeneric";
-
+import useCadastroCount from "@/hooks/useCadastroCount";
 
 interface CardCadastroProps {
 param?: string;
 }
 
 export default function CardCadastro({ param }: CardCadastroProps) {
+const { count, loading, error, growthRate } = useCadastroCount("cadastro", param || "");
 
 return (
 <CardGeneric
@@ -32,9 +33,8 @@ return (
     }
     color="#18BFFF"
     title="Cadastros"
-    value={param || "12.571"}
-    // growthRate={-0.95}
+    value={loading ? "Carregando..." : error ? "Erro" : count.toString()}
+    growthRate={growthRate}
 />
 );
-};
-
+}
