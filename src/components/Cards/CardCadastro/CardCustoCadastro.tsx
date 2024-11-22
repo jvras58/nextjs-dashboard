@@ -1,7 +1,12 @@
 import React from "react";
 import CardGeneric from "../CardGeneric";
 
-const CardConversaoCadastro: React.FC = () => {
+
+interface CustoCadastroProps {
+param?: string;
+}
+
+export default function CustoCadastro({ param }: CustoCadastroProps) {
 return (
 <CardGeneric
     // Mudar ICON:
@@ -26,11 +31,11 @@ return (
     </svg>
     }
     color="#18BFFF"
-    title="Conversão Cadastro / FTD"
-    value="21,83%"
-    growthRate={-0.95}
+    title="Custo / Cadastro"
+    // tratamento para valores de money
+    value={param || "R$12.57"}
+    // growthRate={-0.95}
 />
 );
 };
 
-export default CardConversaoCadastro;

@@ -1,7 +1,13 @@
 import React from "react";
 import CardGeneric from "../CardGeneric";
 
-const CardCadastro: React.FC = () => {
+
+interface CardCadastroProps {
+param?: string;
+}
+
+export default function CardCadastro({ param }: CardCadastroProps) {
+
 return (
 <CardGeneric
     icon={
@@ -26,10 +32,9 @@ return (
     }
     color="#18BFFF"
     title="Cadastros"
-    value="12.571"
-    growthRate={-0.95}
+    value={param || "12.571"}
+    // growthRate={-0.95}
 />
 );
 };
 
-export default CardCadastro;

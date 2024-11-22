@@ -14,7 +14,7 @@ interface DashboardProps {
   param?: string;
 }
 
-export default function Dashboard({ param }: DashboardProps) {
+export default  function Dashboard({ param }: DashboardProps) {
   return (
     <>
       <div className="flex justify-center items-center mb-6">
@@ -30,7 +30,7 @@ export default function Dashboard({ param }: DashboardProps) {
       <div className="flex justify-center items-center mb-6">
         <h2 className="text-heading-2 dark:text-white">Cadastro</h2>
       </div>
-      <CadastroCards />
+      <CadastroCards param={(param)} />
 
       <div className="mt-4 grid grid-cols-12 gap-4 md:mt-6 md:gap-6 2xl:mt-9 2xl:gap-7.5">
         <div className="col-span-12 xl:col-span-7">
