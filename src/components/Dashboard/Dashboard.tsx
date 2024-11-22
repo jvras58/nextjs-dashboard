@@ -10,7 +10,11 @@ import CadastroCards from "../Cards/CardCadastro/layout/Cadastro_template";
 import DepositoCards1 from "../Cards/CardDeposito/layout/Deposito_template1";
 import DepositoCards2 from "../Cards/CardDeposito/layout/Deposito_template2";
 
-const Dashboard: React.FC = () => {
+interface DashboardProps {
+  param?: string;
+}
+
+export default function Dashboard({ param }: DashboardProps) {
   return (
     <>
       <div className="flex justify-center items-center mb-6">
@@ -54,5 +58,3 @@ const Dashboard: React.FC = () => {
     </>
   );
 };
-
-export default Dashboard;

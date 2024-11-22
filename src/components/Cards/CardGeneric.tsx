@@ -1,11 +1,11 @@
 import React from "react";
 
 interface CardGenericProps {
-icon: React.ReactNode;
-color: string;
-title: string;
-value: string;
-growthRate: number;
+    icon: React.ReactNode;
+    color: string;
+    title: string;
+    value: string | number;
+    growthRate: number;
 }
 
 const CardGeneric: React.FC<CardGenericProps> = ({

@@ -4,7 +4,6 @@ import CardGeneric from "../CardGeneric";
 const CardCadastro: React.FC = () => {
 return (
 <CardGeneric
-    // Mudar ICON:
     icon={
     <svg
         width="26"
