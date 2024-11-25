@@ -18,9 +18,24 @@ const fetchData = async () => {
     try {
     const q = query(collection(db, collectionName));
     const querySnapshot = await getDocs(q);
-    const data = querySnapshot.docs.map(doc => ({ id: doc.id, ...doc.data() }));
+    const data = querySnapshot.docs.map(doc => ({ id: doc.id, ...doc.data() })) as FirebaseDocument[];
     if (isMounted) {
-        setData(data);
+        const afiliadosMap = new Map();
+
+        data.filter(item => item.affiliate).forEach(item => {
+        if (!afiliadosMap.has(item.affiliate)) {
+            afiliadosMap.set(item.affiliate, []);
+        }
+        afiliadosMap.get(item.affiliate).push(item);
+        });
+
+        const afiliados = Array.from(afiliadosMap.values()).map(afiliados => {
+        const sortedAfiliados = afiliados.sort((a: any, b: any) => new Date(b.date!).getTime() - new Date(a.date!).getTime());
+        const [mostRecent] = sortedAfiliados;
+        return { id: mostRecent.id, ...mostRecent };
+        });
+
+        setData(afiliados);
     }
     } catch (error) {
     if (isMounted) {
