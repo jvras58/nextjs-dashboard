@@ -1,17 +1,18 @@
 "use client";
 
-import { useCallback, useState } from "react";
+import { useCallback, useState, useTransition } from "react";
 import { useDropzone } from "react-dropzone";
 import { Input } from "../ui/input";
 import { ScrollArea } from "../ui/scroll-area";
-import { UploadCloud, X, File, FileImage, FileSpreadsheet  } from "lucide-react";
+import { UploadCloud, X, File, FileImage, FileSpreadsheet } from "lucide-react";
 import { Progress } from "../ui/progress";
+import { uploadfileAction } from "@/actions/upload-actions/uploadActions";
 
 enum FileTypes {
-    Image = "image",
-    Pdf = "pdf",
-    Other = "other",
-    csv = "csv",
+Image = "image",
+Pdf = "pdf",
+Other = "other",
+csv = "csv",
 }
 
 interface FileUploadProgress {
@@ -25,13 +26,13 @@ fillColor: "fill-blue-400",
 };
 
 const csvColor = {
-    bgColor: "bg-green-400",
-    fillColor: "fill-green-400",
+bgColor: "bg-green-400",
+fillColor: "fill-green-400",
 };
 
 const ImageColor = {
-    bgColor: "bg-purple-600",
-    fillColor: "fill-purple-600",
+bgColor: "bg-purple-600",
+fillColor: "fill-purple-600",
 };
 
 const OtherColor = {
@@ -42,14 +43,17 @@ fillColor: "fill-gray-400",
 export default function ArquivoUpload() {
 const [uploadedFiles, setUploadedFiles] = useState<File[]>([]);
 const [filesToUpload, setFilesToUpload] = useState<FileUploadProgress[]>([]);
+const [isPending, startTransition] = useTransition();
+const [message, setMessage] = useState('');
+const [error, setError] = useState(false);
 
 const getFileIconAndColor = (file: File) => {
 if (file.type.includes(FileTypes.Image)) {
     return {
-        icon: <FileImage size={40} className={ImageColor.fillColor} />,
-        color: ImageColor.bgColor,
+    icon: <FileImage size={40} className={ImageColor.fillColor} />,
+    color: ImageColor.bgColor,
     };
-    }
+}
 
 if (file.type.includes(FileTypes.Pdf)) {
     return {
@@ -61,7 +65,7 @@ if (file.type.includes(FileTypes.Pdf)) {
 if (file.type.includes(FileTypes.csv)) {
     return {
     icon: <FileSpreadsheet size={40} className={csvColor.fillColor} />,
-    color: PdfColor.bgColor,
+    color: csvColor.bgColor,
     };
 }
 
@@ -85,6 +89,17 @@ const interval = setInterval(() => {
     clearInterval(interval);
     setUploadedFiles((prev) => [...prev, file]);
     setFilesToUpload((prev) => prev.filter((f) => f.file !== file));
+
+    // Enviar o arquivo usando uploadfileAction
+    const formData = new FormData();
+    formData.append('file', file);
+
+    startTransition(async () => {
+        const result = await uploadfileAction(formData);
+
+        setMessage(result.message);
+        setError(result.error);
+    });
     }
 }, 200);
 };
@@ -110,14 +125,19 @@ setFilesToUpload((prev) => prev.filter((item) => item.file !== file));
 setUploadedFiles((prev) => prev.filter((item) => item !== file));
 };
 
-const { getRootProps, getInputProps } = useDropzone({ onDrop });
+const { getRootProps, getInputProps } = useDropzone({
+onDrop,
+disabled: isPending,
+});
 
 return (
 <div>
     <div>
     <label
         {...getRootProps()}
-        className="relative flex flex-col items-center justify-center w-full py-6 border-2 border-gray-300 border-dashed rounded-lg cursor-pointer bg-gray-50 dark:bg-gray-800 hover:bg-gray-100 dark:hover:bg-gray-700"
+        className={`relative flex flex-col items-center justify-center w-full py-6 border-2 border-gray-300 border-dashed rounded-lg cursor-pointer ${
+        isPending ? 'bg-gray-200 cursor-not-allowed' : 'bg-gray-50 hover:bg-gray-100'
+        } dark:bg-gray-800 dark:hover:bg-gray-700`}
     >
         <div className="text-center">
         <div className="border p-2 rounded-md max-w-min mx-auto">
@@ -175,6 +195,7 @@ return (
                 <button
                 onClick={() => removeFile(fileUploadProgress.file)}
                 className="bg-red-500 text-white transition-all items-center justify-center cursor-pointer px-2 hidden group-hover:flex"
+                disabled={isPending}
                 >
                 <X size={20} />
                 </button>
@@ -211,6 +232,7 @@ return (
             <button
                 onClick={() => removeFile(file)}
                 className="bg-red-500 text-white transition-all items-center justify-center px-2 hidden group-hover:flex"
+                disabled={isPending}
             >
                 <X size={20} />
             </button>
@@ -218,6 +240,18 @@ return (
         ))}
         </div>
     </div>
+    )}
+
+    {isPending && (
+    <div className="flex items-center justify-center mt-4">
+        <p className="text-blue-500">Enviando arquivo...</p>
+    </div>
+    )}
+
+    {message && (
+    <p className={error ? 'text-red-500' : 'text-green-500'}>
+        {message}
+    </p>
     )}
 </div>
 );
