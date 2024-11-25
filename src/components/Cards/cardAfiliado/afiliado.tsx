@@ -4,6 +4,7 @@ import { Card, CardHeader, CardTitle, CardContent, CardFooter } from "@/componen
 import { Button } from "@/components/ui/button";
 import photo from "../../../../public/assets/photo.png";
 import Image from "next/image";
+import { useRouter } from "next/navigation";
 
 interface AfiliadoCardProps {
     name: string;
@@ -12,7 +13,16 @@ interface AfiliadoCardProps {
 }
 
 const AfiliadoCard = ({ name, image, dbParam }: AfiliadoCardProps) => {
+const router = useRouter();
 
+const handleRedirect = () => {
+    if (dbParam) {
+        console.log(`Redirecionando para /dashboard/${dbParam}`);
+        router.push(`/dashboard/${dbParam}`);
+    } else {
+        console.error("dbParam está indefinido");
+    }
+    };
 
 return (
 <div className="container mx-auto mt-4">
@@ -31,7 +41,7 @@ return (
         />
     </CardContent>
     <CardFooter className="flex justify-center">
-        <Button>Acessar</Button>
+        <Button onClick={handleRedirect}>Acessar</Button>
     </CardFooter>
     </Card>
 </div>
