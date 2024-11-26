@@ -1,5 +1,5 @@
 import React from "react";
-import CardGeneric from "../../CardGeneric";
+import CardGeneric from  "../CardGeneric";
 
 const CardReDeposito: React.FC = () => {
 return (

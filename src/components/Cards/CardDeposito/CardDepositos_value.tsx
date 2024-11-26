@@ -1,7 +1,7 @@
 import React from "react";
-import CardGeneric from "../../CardGeneric";
+import CardGeneric from "../CardGeneric";
 
-const CardTicketMedio: React.FC = () => {
+const CardDepositoValor: React.FC = () => {
 return (
 <CardGeneric
     // Mudar ICON:
@@ -26,12 +26,11 @@ return (
     </svg>
     }
     color="#18BFFF"
-    title="Ticket Médio (FTD)"
-    // tratamento para valores de money
-    value="R$15.57"
+    title="Depósitos (Valor)"
+    value="163.184.67"
     growthRate={-0.95}
 />
 );
 };
 
-export default CardTicketMedio;
+export default CardDepositoValor;
