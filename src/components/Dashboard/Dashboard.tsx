@@ -36,7 +36,7 @@ export default  function Dashboard({ param }: DashboardProps) {
         <div className="col-span-12 xl:col-span-7">
           <CampaignTable />
         </div>
-        <EstadoTable />
+        <EstadoTable param={(param)} />
         <div className="col-span-12 flex justify-center items-center min-h-[400px]">
           <MapOne />
         </div>

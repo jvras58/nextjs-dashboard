@@ -5,6 +5,7 @@ import { FirebaseDocument } from '../types/firebaseTypes';
 
 
 // TODO: add onSnapshot nos outros hooks
+// TODO: Esse onSnapshot não está funcionando direito ele fica trazendo sempre o ultimo dado já registrado ai complica outra abordagem será necessaria
 const useFiliadoList = (collectionName: string) => {
 const [data, setData] = useState<FirebaseDocument[]>([]);
 const [loading, setLoading] = useState(true);

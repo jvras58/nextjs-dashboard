@@ -17,7 +17,7 @@ try {
 const arrayBuffer = await file.arrayBuffer();
 const buffer = Buffer.from(arrayBuffer);
 
-const uploadDir = path.join(process.cwd(), 'data');
+const uploadDir = path.join(process.cwd(), 'public', 'data');
 fs.ensureDirSync(uploadDir);
 
 const timestamp = Date.now();

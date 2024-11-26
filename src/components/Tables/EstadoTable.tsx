@@ -13,44 +13,35 @@ DropdownMenuLabel,
 DropdownMenuSeparator,
 DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
+import useCadastroPorEstado from '../../hooks/usePhoneEstadoCount';
 
 interface EstadoAfiliado {
 estado: string;
 quantidade_de_cadastro: number;
 }
 
-const data: EstadoAfiliado[] = [
-{ estado: "Estado A", quantidade_de_cadastro: 120 },
-{ estado: "Estado B", quantidade_de_cadastro: 80 },
-{ estado: "Estado C", quantidade_de_cadastro: 150 },
-{ estado: "Estado D", quantidade_de_cadastro: 250 },
-{ estado: "Estado E", quantidade_de_cadastro: 300 },
-{ estado: "Estado F", quantidade_de_cadastro: 200 },
-{ estado: "Estado G", quantidade_de_cadastro: 100 },
-];
-
 const columns: ColumnDef<EstadoAfiliado>[] = [
 {
 accessorKey: "estado",
 header: "Estado",
 cell: ({ row }) => <div className="capitalize">{row.getValue("estado")}</div>,
-},
+},                    
 {
 accessorKey: "quantidade_de_cadastro",
-header: ({ column }) => {
-    return (
+header: ({ column }) => (
     <div className="text-right">
-        <Button
+    <Button
         variant="ghost"
         onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
-        >
+    >
         Qtd Cad
         <ArrowUpDown className="ml-2" />
-        </Button>
+    </Button>
     </div>
-    );
-},
-cell: ({ row }) => <div className="text-right">{row.getValue("quantidade_de_cadastro")}</div>,
+),
+cell: ({ row }) => (
+    <div className="text-right">{row.getValue("quantidade_de_cadastro")}</div>
+),
 },
 {
 id: "actions",
@@ -72,7 +63,7 @@ cell: ({ row }) => {
         <DropdownMenuItem
             onClick={() => navigator.clipboard.writeText(estado.estado)}
         >
-            Copie o nome do Estado
+            Copiar nome do Estado
         </DropdownMenuItem>
         <DropdownMenuSeparator />
         </DropdownMenuContent>
@@ -82,15 +73,27 @@ cell: ({ row }) => {
 },
 ];
 
-const EstadoTable: React.FC = () => {
+interface EstadoTableProps {
+param?: string;
+}
+
+const EstadoTable: React.FC<EstadoTableProps> = ({ param }) => {
+const { cadastrosPorEstado, error } = useCadastroPorEstado(param || "");
+if (error) {
+return <div>Erro: {error.message}</div>;
+}
+
+const data: EstadoAfiliado[] = Object.keys(cadastrosPorEstado).map((estado) => ({
+estado,
+quantidade_de_cadastro: cadastrosPorEstado[estado].length,
+}));
+
 return (
 <div className="col-span-12 rounded-[10px] bg-white px-7.5 pt-7.5 shadow-1 dark:bg-gray-dark dark:shadow-card xl:col-span-5">
     <div className="mb-4 justify-between gap-4 sm:flex">
-    <div>
-        <h4 className="text-body-2xlg font-bold text-dark dark:text-white">
+    <h4 className="text-body-2xlg font-bold text-dark dark:text-white">
         Estados
-        </h4>
-    </div>
+    </h4>
     </div>
     {/* TODO: refazer essa parte do filtro para ser igual ao datastudio é poder filtrar por qualquer coluna */}
     <DataTable columns={columns} data={data} filterColumn="estado" />
