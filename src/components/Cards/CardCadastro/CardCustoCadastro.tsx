@@ -1,6 +1,5 @@
 import React from "react";
 import CardGeneric from "../CardGeneric";
-import useCustoCadastro from "@/hooks/useCustoCadastro";
 
 
 interface CustoCadastroProps {
@@ -8,7 +7,6 @@ param?: string;
 }
 
 export default function CustoCadastro({ param }: CustoCadastroProps) {
-    const { custoPorCadastro, loading, error } = useCustoCadastro( param || "" );
 return (
 <CardGeneric
     // Mudar ICON:
@@ -35,8 +33,7 @@ return (
     color="#18BFFF"
     title="Custo / Cadastro"
     // tratamento para valores de money
-    value = {loading ? "Carregando..." : error ? "Erro" : custoPorCadastro ? custoPorCadastro.toLocaleString('pt-br', {style: 'currency', currency: 'BRL'}) : "N/A"}
-    // value={param || "R$12.57"}
+    value={param || "R$12.57"}
     // growthRate={-0.95}
 />
 );
