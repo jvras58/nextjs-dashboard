@@ -1,7 +1,7 @@
 import React from "react";
-import CardGeneric from "../CardGeneric";
+import CardGeneric from "../card-Generic";
 
-const CardTotalPremios: React.FC = () => {
+const CardFtd_Qtd: React.FC = () => {
 return (
 <CardGeneric
     // Mudar ICON:
@@ -26,11 +26,11 @@ return (
     </svg>
     }
     color="#18BFFF"
-    title="Total Prêmios"
-    value="1.041.000,00"
+    title="FTD Qtd"
+    value="2.571"
     growthRate={-0.95}
 />
 );
 };
 
-export default CardTotalPremios;
+export default CardFtd_Qtd;

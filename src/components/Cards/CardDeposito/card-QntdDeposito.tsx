@@ -1,16 +1,10 @@
 import React from "react";
-import CardGeneric from "../CardGeneric";
-import useCadastroCount from "@/hooks/useCadastroCount";
+import CardGeneric from  "../card-Generic";
 
-interface CardCadastroProps {
-param?: string;
-}
-
-export default function CardCadastro({ param }: CardCadastroProps) {
-const { count, loading, error, growthRate } = useCadastroCount("cadastro", param || "");
-
+const CardDepositoQntd: React.FC = () => {
 return (
 <CardGeneric
+    // Mudar ICON:
     icon={
     <svg
         width="26"
@@ -32,9 +26,11 @@ return (
     </svg>
     }
     color="#18BFFF"
-    title="Cadastros"
-    value={loading ? "Carregando..." : error ? "Erro" : count.toString()}
-    growthRate={growthRate}
+    title="Depósito Quantidade"
+    value="12.57"
+    growthRate={-0.95}
 />
 );
-}
+};
+
+export default CardDepositoQntd;

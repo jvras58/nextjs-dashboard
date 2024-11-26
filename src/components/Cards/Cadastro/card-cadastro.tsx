@@ -1,14 +1,16 @@
 import React from "react";
-import CardGeneric from "../CardGeneric";
+import CardGeneric from "../card-Generic";
+import useCadastroCount from "@/hooks/useCadastroCount";
 
-interface CardConversaoCadastroProps {
-    param?: string;
-    }
-    
-export default function CardConversaoCadastro({ param }: CardConversaoCadastroProps) {
+interface CardCadastroProps {
+param?: string;
+}
+
+export default function CardCadastro({ param }: CardCadastroProps) {
+const { count, loading, error, growthRate } = useCadastroCount("cadastro", param || "");
+
 return (
 <CardGeneric
-    // Mudar ICON:
     icon={
     <svg
         width="26"
@@ -30,10 +32,9 @@ return (
     </svg>
     }
     color="#18BFFF"
-    title="Conversão Cadastro / FTD"
-    value={param ||"21,83%"}
-    // growthRate={-0.95}
+    title="Cadastros"
+    value={loading ? "Carregando..." : error ? "Erro" : count.toString()}
+    growthRate={growthRate}
 />
 );
-};
-
+}

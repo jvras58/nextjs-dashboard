@@ -1,7 +1,7 @@
 import React from "react";
-import CardGeneric from "../CardGeneric";
+import CardGeneric from  "../card-Generic";
 
-const TotalApostado: React.FC = () => {
+const CardReDeposito: React.FC = () => {
 return (
 <CardGeneric
     // Mudar ICON:
@@ -26,12 +26,11 @@ return (
     </svg>
     }
     color="#18BFFF"
-    title="Total Apostado"
-    // tratamento para valores de money
-    value="R$1.070.000,00"
+    title="Taxa Re-Depósito"
+    value="48.57%"
     growthRate={-0.95}
 />
 );
 };
 
-export default TotalApostado;
+export default CardReDeposito;

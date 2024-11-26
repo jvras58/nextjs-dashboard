@@ -1,5 +1,5 @@
 import DefaultLayout from "@/components/Layouts/DefaultLayout";
-import AfiliadosList from "@/components/Cards/cardAfiliado/AfiliadosList";
+import AfiliadosList from "@/components/Cards/Afiliado/Afiliados-List";
 import { Metadata } from "next";
 
 export const metadata: Metadata = {

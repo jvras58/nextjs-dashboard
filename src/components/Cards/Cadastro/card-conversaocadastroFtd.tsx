@@ -1,7 +1,11 @@
 import React from "react";
-import CardGeneric from "../CardGeneric";
+import CardGeneric from "../card-Generic";
 
-const CardFtd_Qtd: React.FC = () => {
+interface CardConversaoCadastroProps {
+    param?: string;
+    }
+    
+export default function CardConversaoCadastro({ param }: CardConversaoCadastroProps) {
 return (
 <CardGeneric
     // Mudar ICON:
@@ -26,11 +30,10 @@ return (
     </svg>
     }
     color="#18BFFF"
-    title="FTD Qtd"
-    value="2.571"
-    growthRate={-0.95}
+    title="Conversão Cadastro / FTD"
+    value={param ||"21,83%"}
+    // growthRate={-0.95}
 />
 );
 };
 
-export default CardFtd_Qtd;

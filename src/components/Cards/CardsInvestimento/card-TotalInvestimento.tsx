@@ -1,5 +1,5 @@
 import React from "react";
-import CardGeneric from "../CardGeneric";
+import CardGeneric from "../card-Generic";
 
 const CardTotalInvestido: React.FC = () => {
 return (

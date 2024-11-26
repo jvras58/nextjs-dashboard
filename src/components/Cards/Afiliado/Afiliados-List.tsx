@@ -1,7 +1,7 @@
 "use client";
 
 import useFiliadoList from "@/hooks/useFiliadoList";
-import AfiliadoCard from "@/components/Cards/cardAfiliado/afiliado";
+import AfiliadoCard from "@/components/Cards/Afiliado/afiliado";
 
 const AfiliadosList = () => {
 const { data } = useFiliadoList("cadastro");

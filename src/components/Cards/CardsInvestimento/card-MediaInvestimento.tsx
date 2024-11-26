@@ -1,5 +1,5 @@
 import React from "react";
-import CardGeneric from "../CardGeneric";
+import CardGeneric from "../card-Generic";
 
 const CardMedia_dia_investimento: React.FC = () => {
 return (

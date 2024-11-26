@@ -1,12 +1,7 @@
 import React from "react";
-import CardGeneric from "../CardGeneric";
+import CardGeneric from "../card-Generic";
 
-
-interface CustoCadastroProps {
-param?: string;
-}
-
-export default function CustoCadastro({ param }: CustoCadastroProps) {
+const CardTotalPremios: React.FC = () => {
 return (
 <CardGeneric
     // Mudar ICON:
@@ -31,11 +26,11 @@ return (
     </svg>
     }
     color="#18BFFF"
-    title="Custo / Cadastro"
-    // tratamento para valores de money
-    value={param || "R$12.57"}
-    // growthRate={-0.95}
+    title="Total Prêmios"
+    value="1.041.000,00"
+    growthRate={-0.95}
 />
 );
 };
 
+export default CardTotalPremios;
