@@ -3,9 +3,8 @@ import { collection, query, onSnapshot } from 'firebase/firestore';
 import { db } from '../firebase/config';
 import { FirebaseDocument } from '../types/firebaseTypes';
 
-
-// TODO: add onSnapshot nos outros hooks
-// TODO: Esse onSnapshot não está funcionando direito ele fica trazendo sempre o ultimo dado já registrado ai complica outra abordagem será necessaria
+// TODO: add onSnapshot nos outros hooks 
+// TODO: Verificar se o onSnapshot está sem atrapalhar
 const useFiliadoList = (collectionName: string) => {
 const [data, setData] = useState<FirebaseDocument[]>([]);
 const [loading, setLoading] = useState(true);
