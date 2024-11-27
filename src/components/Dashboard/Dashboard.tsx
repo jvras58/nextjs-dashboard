@@ -1,7 +1,7 @@
 "use client";
 import React from "react";
 import CardTotalInvestido from "@/components/Cards/CardsInvestimento/card-TotalInvestimento";
-import CardMedia_dia_investimento from "@/components/Cards/CardsInvestimento/card-MediaInvestimento";
+import CardMediaDiaInvestimento from "@/components/Cards/CardsInvestimento/card-MediaInvestimento";
 import CardRoi from "@/components/Cards/CardsInvestimento/card-Roi";
 import MapOne from "@/components/Maps/MapOne";
 import CampaignTable from "@/components/Tables/Campanha-Table";
@@ -14,11 +14,11 @@ import CardRetencaoDeposito from "@/components/Cards/CardGGr/card-RetencaoDeposi
 import CardCadastro from "@/components/Cards/Cadastro/card-cadastro";
 import CardCustoCadastro from "@/components/Cards/Cadastro/card-custocadastro";
 import CardConversaocadastroftd from "@/components/Cards/Cadastro/card-conversaocadastroFtd";
-import CardFTD_Qntd from "@/components/Cards/Deposito/card-Ftdqntd";
-import CardFTD_amount from "@/components/Cards/Deposito/card-AmountFtd";
+import CardFtdqntd from "@/components/Cards/Deposito/card-Ftdqntd";
+import CardFtdamount from "@/components/Cards/Deposito/card-AmountFtd";
 import CardCustoFTD from "@/components/Cards/Deposito/card-custoFtd";
 import CardTicketMedioFTD from "@/components/Cards/Deposito/card-TicktetmedioFtd";
-import CardQntd_Deposito from "@/components/Cards/Deposito/card-depositoqntd";
+import CardQntdDeposito from "@/components/Cards/Deposito/card-depositoqntd";
 import CardDepositoValor from "@/components/Cards/Deposito/card-depositosValue";
 import CardReDeposito from "@/components/Cards/Deposito/card-TaxaReDeposito";
 import CardTicketMedioGeral from "@/components/Cards/Deposito/card-TicktetmedioGeral";
@@ -36,7 +36,7 @@ export default function Dashboard({ param }: DashboardProps) {
       <div className="flex justify-center mb-12">
         <div className="grid grid-cols-1 gap-4 md:grid-cols-2 md:gap-6 xl:grid-cols-3 2xl:gap-7.5">
           <CardTotalInvestido />
-          <CardMedia_dia_investimento />
+          <CardMediaDiaInvestimento />
           <CardRoi />
         </div>
       </div>
@@ -79,8 +79,8 @@ export default function Dashboard({ param }: DashboardProps) {
       </div>
       <div className="flex justify-center mb-12">
         <div className="grid grid-cols-1 gap-4 md:grid-cols-2 md:gap-6 xl:grid-cols-4 2xl:gap-7.5">
-          <CardFTD_Qntd />
-          <CardFTD_amount />
+          <CardFtdqntd />
+          <CardFtdamount />
           <CardCustoFTD />
           <CardTicketMedioFTD />
         </div>
@@ -88,7 +88,7 @@ export default function Dashboard({ param }: DashboardProps) {
 
       <div className="flex justify-center mb-12 text-heading-2">
         <div className="grid grid-cols-1 gap-4 md:grid-cols-2 md:gap-6 xl:grid-cols-4 2xl:gap-7.5">
-          <CardQntd_Deposito />
+          <CardQntdDeposito />
           <CardDepositoValor />
           <CardReDeposito />
           <CardTicketMedioGeral />
