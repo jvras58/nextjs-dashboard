@@ -4,7 +4,6 @@ import { db } from '../firebase/config';
 import { FirebaseDocument } from '../types/firebaseTypes';
 
 // TODO: add onSnapshot nos outros hooks 
-// TODO: Verificar se o onSnapshot está sem atrapalhar
 const useFiliadoList = (collectionName: string) => {
 const [data, setData] = useState<FirebaseDocument[]>([]);
 const [loading, setLoading] = useState(true);

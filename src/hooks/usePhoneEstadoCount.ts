@@ -1,17 +1,14 @@
 import { useState, useEffect } from 'react';
 import Papa from 'papaparse';
-import { collection, query, where, getDocs } from 'firebase/firestore';
+import { collection, query, where, onSnapshot } from 'firebase/firestore';
 import { db } from '../firebase/config';
 
-// Caching e localstoreged dando muitos problemas do nada não carregava nada de usuario ficava dando 0 direto mas tinha dados no firestore
-// outra abordagem é necessaria talvez um redis da vida... mas não sei como funciona no front end
 interface Cadastro {
     id: string;
     affiliate: string;
     estado: string;
     phone: string;
 }
-
 
 const useCadastroPorEstado = (affiliate: string) => {
     const [cadastrosPorEstado, setCadastrosPorEstado] = useState<Record<string, Cadastro[]>>({});
@@ -20,6 +17,7 @@ const useCadastroPorEstado = (affiliate: string) => {
 
     useEffect(() => {
         let isMounted = true;
+        let unsubscribe: (() => void) | undefined;
 
         const fetchData = async () => {
             setLoading(true);
@@ -52,34 +50,41 @@ const useCadastroPorEstado = (affiliate: string) => {
                     collection(db, 'cadastro'),
                     where('affiliate', '==', affiliate)
                 );
-                const querySnapshot = await getDocs(q);
-                const cadastros: Cadastro[] = [];
-                querySnapshot.forEach((doc) => {
-                    cadastros.push(doc.data() as Cadastro);
-                });
 
-                const cadastrosAgrupados: Record<string, Cadastro[]> = {};
+                unsubscribe = onSnapshot(q, (querySnapshot) => {
+                    const cadastros: Cadastro[] = [];
+                    querySnapshot.forEach((doc) => {
+                        cadastros.push(doc.data() as Cadastro);
+                    });
 
-                cadastros.forEach((cadastro) => {
-                    let estado = cadastro.estado;
-                    if (!estado || estado === '') {
-                        const match = cadastro.phone.match(/\((\d{2})\)/);
-                        if (match) {
-                            const ddd = match[1];
-                            estado = dddToEstadoMap[ddd] || 'Desconhecido';
-                        } else {
-                            estado = 'Desconhecido';
+                    const cadastrosAgrupados: Record<string, Cadastro[]> = {};
+
+                    cadastros.forEach((cadastro) => {
+                        let estado = cadastro.estado;
+                        if (!estado || estado === '') {
+                            const match = cadastro.phone.match(/\((\d{2})\)/);
+                            if (match) {
+                                const ddd = match[1];
+                                estado = dddToEstadoMap[ddd] || 'Desconhecido';
+                            } else {
+                                estado = 'Desconhecido';
+                            }
                         }
-                    }
-                    if (!cadastrosAgrupados[estado]) {
-                        cadastrosAgrupados[estado] = [];
-                    }
-                    cadastrosAgrupados[estado].push(cadastro);
-                });
+                        if (!cadastrosAgrupados[estado]) {
+                            cadastrosAgrupados[estado] = [];
+                        }
+                        cadastrosAgrupados[estado].push(cadastro);
+                    });
 
-                if (isMounted) {
-                    setCadastrosPorEstado(cadastrosAgrupados);
-                }
+                    if (isMounted) {
+                        setCadastrosPorEstado(cadastrosAgrupados);
+                    }
+                }, (error) => {
+                    if (isMounted) {
+                        setError(error);
+                        console.error('Erro ao processar os dados:', error);
+                    }
+                });
             } catch (error) {
                 if (isMounted) {
                     setError(error as Error);
@@ -96,6 +101,9 @@ const useCadastroPorEstado = (affiliate: string) => {
 
         return () => {
             isMounted = false;
+            if (unsubscribe) {
+                unsubscribe();
+            }
         };
     }, [affiliate]);
 
