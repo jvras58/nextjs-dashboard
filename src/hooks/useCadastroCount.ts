@@ -26,7 +26,6 @@ const useCadastroCount = (collectionName: string, affiliate: string) => {
             const unsubscribe = onSnapshot(q, (querySnapshot) => {
                 if (isMounted) {
                     const newCount = querySnapshot.size;
-                    console.log('Firestore data:', querySnapshot.docs.map(doc => doc.data()));
                     setCount(newCount);
                     localStorage.setItem(cacheKey, newCount.toString());
                     localStorage.setItem(`${cacheKey}-time`, Date.now().toString());
