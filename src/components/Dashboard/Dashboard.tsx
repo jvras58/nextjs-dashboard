@@ -31,9 +31,9 @@ export default function Dashboard({ param }: DashboardProps) {
   return (
     <>
       <div className="flex justify-center items-center mb-6">
-        <h2 className="text-heading-2 dark:text-white">Investimento</h2>
+        <h2 className="text-heading-2 dark:text-white font-bold p-2">Investimento</h2>
       </div>
-      <div className="flex justify-center">
+      <div className="flex justify-center mb-12">
         <div className="grid grid-cols-1 gap-4 md:grid-cols-2 md:gap-6 xl:grid-cols-3 2xl:gap-7.5">
           <CardTotalInvestido />
           <CardMedia_dia_investimento />
@@ -42,21 +42,21 @@ export default function Dashboard({ param }: DashboardProps) {
       </div>
 
       <div className="flex justify-center items-center mb-6">
-        <h2 className="text-heading-2 dark:text-white">GGR</h2>
+        <h2 className="text-heading-2 dark:text-white font-bold p-2">GGR</h2>
       </div>
-      <div className="flex justify-center">
-      <div className="grid grid-cols-1 gap-4 md:grid-cols-2 md:gap-6 xl:grid-cols-4 2xl:gap-7.5">
-        <TotalApostado />
-        <CardTotalPremios />
-        <CardGGR />
-        <CardRetencaoDeposito />
-      </div>
+      <div className="flex justify-center mb-12">
+        <div className="grid grid-cols-1 gap-4 md:grid-cols-2 md:gap-6 xl:grid-cols-4 2xl:gap-7.5">
+          <TotalApostado />
+          <CardTotalPremios />
+          <CardGGR />
+          <CardRetencaoDeposito />
+        </div>
       </div>
 
       <div className="flex justify-center items-center mb-6">
-        <h2 className="text-heading-2 dark:text-white">Cadastro</h2>
+        <h2 className="text-heading-2 dark:text-white font-bold p-2">Cadastro</h2>
       </div>
-      <div className="flex justify-center">
+      <div className="flex justify-center mb-12">
         <div className="grid grid-cols-1 gap-4 md:grid-cols-2 md:gap-6 xl:grid-cols-3 2xl:gap-7.5">
           <CardCadastro param={param} />
           <CardCustoCadastro param={param} />
@@ -64,7 +64,7 @@ export default function Dashboard({ param }: DashboardProps) {
         </div>
       </div>
 
-      <div className="mt-4 grid grid-cols-12 gap-4 md:mt-6 md:gap-6 2xl:mt-9 2xl:gap-7.5">
+      <div className="mt-4 grid grid-cols-12 gap-4 md:mt-6 md:gap-6 2xl:mt-9 2xl:gap-7.5 mb-12">
         <div className="col-span-12 xl:col-span-7">
           <CampaignTable />
         </div>
@@ -75,24 +75,24 @@ export default function Dashboard({ param }: DashboardProps) {
       </div>
         
       <div className="flex justify-center items-center mb-6">
-        <h2 className="text-heading-2 dark:text-white">Depósito</h2>
+        <h2 className="text-heading-2 dark:text-white font-bold p-2">Depósito</h2>
       </div>
-      <div className="flex justify-center mb-6">
-      <div className="grid grid-cols-1 gap-4 md:grid-cols-2 md:gap-6 xl:grid-cols-4 2xl:gap-7.5">
-        <CardFTD_Qntd />
-        <CardFTD_amount />
-        <CardCustoFTD />
-        <CardTicketMedioFTD />
-      </div>
+      <div className="flex justify-center mb-12">
+        <div className="grid grid-cols-1 gap-4 md:grid-cols-2 md:gap-6 xl:grid-cols-4 2xl:gap-7.5">
+          <CardFTD_Qntd />
+          <CardFTD_amount />
+          <CardCustoFTD />
+          <CardTicketMedioFTD />
+        </div>
       </div>
 
       <div className="flex justify-center mb-12 text-heading-2">
-      <div className="grid grid-cols-1 gap-4 md:grid-cols-2 md:gap-6 xl:grid-cols-4 2xl:gap-7.5">
-        <CardQntd_Deposito />
-        <CardDepositoValor />
-        <CardReDeposito />
-        <CardTicketMedioGeral />
-      </div>
+        <div className="grid grid-cols-1 gap-4 md:grid-cols-2 md:gap-6 xl:grid-cols-4 2xl:gap-7.5">
+          <CardQntd_Deposito />
+          <CardDepositoValor />
+          <CardReDeposito />
+          <CardTicketMedioGeral />
+        </div>
       </div>
 
       <div className="col-span-12 xl:col-span-8">
