@@ -20,7 +20,7 @@ const CardGeneric: React.FC<CardGenericProps> = ({
     };
 
     return (
-        <div className="rounded-[10px] bg-white p-6 shadow-1 dark:bg-gray-dark">
+        <div className="rounded-[10px] bg-white p-6 shadow-1 dark:bg-gray-dark w-72">
             <div
                 className="flex h-14.5 w-14.5 items-center justify-center rounded-full"
                 style={{ backgroundColor: color }}
