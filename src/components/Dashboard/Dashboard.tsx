@@ -1,5 +1,5 @@
 "use client";
-import React from "react";
+import React, { useMemo } from "react";
 import CardTotalInvestido from "@/components/Cards/CardsInvestimento/card-TotalInvestimento";
 import CardMediaDiaInvestimento from "@/components/Cards/CardsInvestimento/card-MediaInvestimento";
 import CardRoi from "@/components/Cards/CardsInvestimento/card-Roi";
@@ -22,82 +22,103 @@ import CardQntdDeposito from "@/components/Cards/Deposito/card-depositoqntd";
 import CardDepositoValor from "@/components/Cards/Deposito/card-depositosValue";
 import CardReDeposito from "@/components/Cards/Deposito/card-TaxaReDeposito";
 import CardTicketMedioGeral from "@/components/Cards/Deposito/card-TicktetmedioGeral";
+import useCadastroData from "@/hooks/useCadastroData";
 
 interface DashboardProps {
   param?: string;
 }
 
 export default function Dashboard({ param }: DashboardProps) {
+  const { data = [] } = useCadastroData("cadastro", param || "");
+
+  const sectionsConfig = useMemo(() => [
+    {
+      title: "Investimento",
+      cards: [
+        { component: CardTotalInvestido, props: {} },
+        { component: CardMediaDiaInvestimento, props: {} },
+        { component: CardRoi, props: {} },
+      ],
+      tables: [],
+    },
+    {
+      title: "GGR",
+      cards: [
+        { component: TotalApostado, props: {} },
+        { component: CardTotalPremios, props: {} },
+        { component: CardGGR, props: {} },
+        { component: CardRetencaoDeposito, props: {} },
+      ],
+      tables: [],
+    },
+    {
+      title: "Cadastro",
+      cards: [
+        { component: CardCadastro, props: { userCount: data.length } },
+        { component: CardCustoCadastro, props: { param: param || "" } },
+        { component: CardConversaocadastroftd, props: { param: param || "" } },
+      ],
+      tables: [
+        { component: CampaignTable, props: {} },
+        { component: EstadoTable, props: { param } },
+        { component: MapOne, props: {} },
+      ],
+    },
+    {
+      title: "Depósito",
+      cards: [
+        { component: CardFtdqntd, props: {} },
+        { component: CardFtdamount, props: {} },
+        { component: CardCustoFTD, props: {} },
+        { component: CardTicketMedioFTD, props: {} },
+      ],
+      tables: [],
+    },
+    {
+      title: "",
+      cards: [
+        { component: CardQntdDeposito, props: {} },
+        { component: CardDepositoValor, props: {} },
+        { component: CardReDeposito, props: {} },
+        { component: CardTicketMedioGeral, props: {} },
+      ],
+      tables: [{ component: DepositoFTDTable, props: {} }],
+    },
+  ], [data, param]);
+
+  if (!data.length) return <div>Loading...</div>;
+
   return (
     <>
-      <div className="flex justify-center items-center mb-6">
-        <h2 className="text-heading-2 dark:text-white font-bold p-2">Investimento</h2>
-      </div>
-      <div className="flex justify-center mb-12">
-        <div className="grid grid-cols-1 gap-4 md:grid-cols-2 md:gap-6 xl:grid-cols-3 2xl:gap-7.5">
-          <CardTotalInvestido />
-          <CardMediaDiaInvestimento />
-          <CardRoi />
+      {sectionsConfig.map((section, sectionIndex) => (
+        <div key={sectionIndex}>
+          {section.title && (
+            <div className="flex justify-center items-center mb-6">
+              <h2 className="text-heading-2 dark:text-white font-bold p-2">{section.title}</h2>
+            </div>
+          )}
+          <div className="flex justify-center mb-12">
+            <div className={`grid grid-cols-1 gap-4 md:grid-cols-2 md:gap-6 xl:grid-cols-${section.cards.length > 3 ? 4 : 3} 2xl:gap-7.5`}>
+              {section.cards.map((cardConfig, cardIndex) => {
+                const CardComponent = cardConfig.component;
+                return <CardComponent key={cardIndex} {...cardConfig.props} />;
+              })}
+            </div>
+          </div>
+          {section.tables.length > 0 && (
+            <div className="mt-4 grid grid-cols-12 gap-4 md:mt-6 md:gap-6 2xl:mt-9 2xl:gap-7.5 mb-12">
+              {section.tables.map((tableConfig, tableIndex) => {
+                const TableComponent = tableConfig.component;
+                return (
+                  <div key={tableIndex} className="col-span-12 xl:col-span-7">
+                    <TableComponent {...tableConfig.props} />
+                  </div>
+                );
+              })}
+            </div>
+          )}
         </div>
-      </div>
-
-      <div className="flex justify-center items-center mb-6">
-        <h2 className="text-heading-2 dark:text-white font-bold p-2">GGR</h2>
-      </div>
-      <div className="flex justify-center mb-12">
-        <div className="grid grid-cols-1 gap-4 md:grid-cols-2 md:gap-6 xl:grid-cols-4 2xl:gap-7.5">
-          <TotalApostado />
-          <CardTotalPremios />
-          <CardGGR />
-          <CardRetencaoDeposito />
-        </div>
-      </div>
-
-      <div className="flex justify-center items-center mb-6">
-        <h2 className="text-heading-2 dark:text-white font-bold p-2">Cadastro</h2>
-      </div>
-      <div className="flex justify-center mb-12">
-        <div className="grid grid-cols-1 gap-4 md:grid-cols-2 md:gap-6 xl:grid-cols-3 2xl:gap-7.5">
-          <CardCadastro param={param} />
-          <CardCustoCadastro param={param} />
-          <CardConversaocadastroftd param={param} />
-        </div>
-      </div>
-
-      <div className="mt-4 grid grid-cols-12 gap-4 md:mt-6 md:gap-6 2xl:mt-9 2xl:gap-7.5 mb-12">
-        <div className="col-span-12 xl:col-span-7">
-          <CampaignTable />
-        </div>
-        <EstadoTable param={param} />
-        <div className="col-span-12 flex justify-center items-center min-h-[400px]">
-          <MapOne />
-        </div>
-      </div>
-        
-      <div className="flex justify-center items-center mb-6">
-        <h2 className="text-heading-2 dark:text-white font-bold p-2">Depósito</h2>
-      </div>
-      <div className="flex justify-center mb-12">
-        <div className="grid grid-cols-1 gap-4 md:grid-cols-2 md:gap-6 xl:grid-cols-4 2xl:gap-7.5">
-          <CardFtdqntd />
-          <CardFtdamount />
-          <CardCustoFTD />
-          <CardTicketMedioFTD />
-        </div>
-      </div>
-
-      <div className="flex justify-center mb-12 text-heading-2">
-        <div className="grid grid-cols-1 gap-4 md:grid-cols-2 md:gap-6 xl:grid-cols-4 2xl:gap-7.5">
-          <CardQntdDeposito />
-          <CardDepositoValor />
-          <CardReDeposito />
-          <CardTicketMedioGeral />
-        </div>
-      </div>
-
-      <div className="col-span-12 xl:col-span-8">
-        <DepositoFTDTable />
-      </div>
+      ))}
     </>
   );
 }
