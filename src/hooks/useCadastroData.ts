@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react';
 import { collection, onSnapshot, query, where } from 'firebase/firestore';
-import { db } from '../firebase/config';
+import { db } from '../config/firebaseconfig';
 
 const useCadastroData = (collectionName: string, affiliate: string) => {
     const [data, setData] = useState<any[]>([]);

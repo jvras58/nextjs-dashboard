@@ -68,8 +68,9 @@ As tecnologias utilizadas são:
 │ │  ├─🖌️ style.css
 │ │  ├─🖌️ satoshi.css
 │ │  
-│ ├─📁 firebase         ->  [configuração do firebase]
-│ │  ├─⚛ config.ts
+│ ├─📁 Config         ->  [configuração de conexões]
+│ │  ├─⚛ firebaseConfig.ts
+| |  ├─⚛ google-sheets-api.json 
 │ │
 │ ├─📁 fonts         ->  [fonts do front]
 │ │  ├─ 𝓐 xxxxx-xxx.eot
@@ -117,17 +118,36 @@ Para rodar o projeto localmente, siga os passos abaixo:
    npm install
    ```
 
-3. Configure o arquivo `.env` na raiz do projeto com suas credenciais do Firebase:
+3. Configure o arquivo `.env` e `google-sheets-api.json` na raiz do projeto com suas credenciais:
 
-   ```bash
-    NEXT_PUBLIC_API_KEY=your_api_key
-    NEXT_PUBLIC_AUTH_DOMAIN=your_auth_domain
-    NEXT_PUBLIC_PROJECT_ID=your_project_id
-    NEXT_PUBLIC_STORAGE_BUCKET=your_storage_bucket
-    NEXT_PUBLIC_MESSAGING_SENDER_ID=your_messaging_sender_id
-    NEXT_PUBLIC_APP_ID=your_app_id
-    NEXT_PUBLIC_MEASUREMENT_ID=your_measurement_id
-   ```
+   1. `.env`
+      ```bash
+      NEXT_PUBLIC_API_KEY=your_api_key
+      NEXT_PUBLIC_AUTH_DOMAIN=your_auth_domain
+      NEXT_PUBLIC_PROJECT_ID=your_project_id
+      NEXT_PUBLIC_STORAGE_BUCKET=your_storage_bucket
+      NEXT_PUBLIC_MESSAGING_SENDER_ID=your_messaging_sender_id
+      NEXT_PUBLIC_APP_ID=your_app_id
+      NEXT_PUBLIC_MEASUREMENT_ID=your_measurement_id
+      ```
+
+   2. `google-sheets-api.json`
+      ```json
+         {
+            "type": "xxxxxxxxxxxx",
+            "project_id": "xxxxxxxxx",
+            "private_key_id": "xxxxxxxxxxxxx",
+            "private_key": "-----BEGIN PRIVATE KEY-----\nxxxxxxxxxxxxx\nxxxxxxxx\n-----END PRIVATE KEY-----\n",
+            "client_email": "xxxxxxxxxxxxxx",
+            "client_id": "xxxxxxxxxxxxxxxx",
+            "auth_uri": "https://accounts.google.com/o/oauth2/auth",
+            "token_uri": "https://oauth2.googleapis.com/token",
+            "auth_provider_x509_cert_url": "https://www.googleapis.com/oauth2/v1/certs",
+            "client_x509_cert_url": "xxxxxxxxxxxxxxxxx",
+            "universe_domain": "googleapis.com"
+         }
+
+      ```
 
 4. Inicie o servidor de desenvolvimento:
 

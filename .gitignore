@@ -29,9 +29,6 @@ yarn-error.log*
 # .env
 .env
 
-# FIXME: para evitar que ele suba as configurações do felipe
-src/firebase/config.tsx
-
 # local env files
 .env*.local
 
@@ -41,3 +38,7 @@ src/firebase/config.tsx
 # typescript
 *.tsbuildinfo
 next-env.d.ts
+
+
+# Configurações privadas
+src/config/google-sheets-api.json

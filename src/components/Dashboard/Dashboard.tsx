@@ -129,7 +129,6 @@ export default function Dashboard({ param }: DashboardProps) {
               >
                 {section.cards.map((cardConfig, cardIndex) => {
                   const CardComponent = cardConfig.component;
-                  console.log(`Renderizando ${CardComponent.name} com props:`, cardConfig.props);
                   return <CardComponent key={cardIndex} {...cardConfig.props} />;
                 })}
               </div>

@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react';
 import { collection, onSnapshot, query, where } from 'firebase/firestore';
-import { db } from '../firebase/config';
+import { db } from '../config/firebaseconfig';
 
 const CACHE_EXPIRATION_TIME = 1000 * 60 * 5;
 

@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react';
 import { collection, query, onSnapshot } from 'firebase/firestore';
-import { db } from '../firebase/config';
+import { db } from '../config/firebaseconfig';
 import { FirebaseDocument } from '../types/firebaseTypes';
 
 // TODO: add onSnapshot nos outros hooks 

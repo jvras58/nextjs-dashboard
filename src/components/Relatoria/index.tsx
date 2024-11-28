@@ -16,7 +16,7 @@ import { Button } from "@/components/ui/button";
 export default function Relatoria() {
   const [hasFile, setHasFile] = useState<boolean>(false);
 
-  console.log(hasFile);
+  // console.log(hasFile);
 
   if (!hasFile) {
     return (
