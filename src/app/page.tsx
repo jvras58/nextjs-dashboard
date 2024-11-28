@@ -2,6 +2,15 @@ import { Metadata } from "next";
 import DefaultLayout from "@/components/Layouts/DefaultLayout";
 import Image from "next/image";
 import React from "react";
+import {
+  Dialog,
+  DialogTrigger,
+  DialogContent,
+  DialogHeader,
+  DialogTitle,
+  DialogDescription,
+  DialogClose,
+} from "@/components/ui/dialog";
 
 export const metadata: Metadata = {
   title: "Betinha - WEB",
@@ -20,16 +29,46 @@ export default function Home() {
                 Painel de Análise Betinha!
               </h1>
               <p className="text-lg max-w-[500px] mb-8 text-muted-foreground">
-              Lorem ipsum dolor sit amet. Et molestiae amet et voluptatem culpa aut nihil labore 
-              aut excepturi velit sed quaerat consectetur ut iste molestiae non doloribus voluptatem
+                Lorem ipsum dolor sit amet. Et molestiae amet et voluptatem culpa aut nihil labore
+                aut excepturi velit sed quaerat consectetur ut iste molestiae non doloribus voluptatem
               </p>
               <div className="flex flex-col sm:flex-row items-center gap-4">
-                <button className="px-6 py-3 bg-primary text-white rounded-lg shadow-lg hover:bg-primary-dark transition">
-                  Explorar
-                </button>
-                <button className="px-6 py-3 bg-gray-700 text-white rounded-lg hover:bg-gray-600 transition">
+                <Dialog>
+                  <DialogTrigger asChild>
+                    <button className="px-6 py-3 bg-primary text-white rounded-lg shadow-lg hover:bg-primary-dark transition">
+                      Explorar
+                    </button>
+                  </DialogTrigger>
+                  <DialogContent>
+                    <DialogHeader>
+                      <DialogTitle>Rotas Disponíveis</DialogTitle>
+                      <DialogDescription>
+                        Aqui estão algumas rotas disponíveis no sistema:
+                      </DialogDescription>
+                    </DialogHeader>
+                    <ul className="list-disc pl-5 space-y-2">
+                      <li>
+                        <strong>/dashboard</strong>: Visão geral dos afiliados a betinha.
+                      </li>
+                      <li>
+                        <strong>/relatoria</strong>: Montagem e upload de Relatorios.
+                      </li>
+                    </ul>
+                    <DialogClose asChild>
+                      <button className="mt-4 px-4 py-2 bg-gray-700 text-white rounded-lg hover:bg-gray-600 transition">
+                        Fechar
+                      </button>
+                    </DialogClose>
+                  </DialogContent>
+                </Dialog>
+                <a
+                  href="https://betinha.com/"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="px-6 py-3 bg-gray-700 text-white rounded-lg hover:bg-gray-600 transition"
+                >
                   Saiba Mais
-                </button>
+                </a>
               </div>
             </div>
 
