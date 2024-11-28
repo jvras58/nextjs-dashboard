@@ -23,13 +23,15 @@ import CardDepositoValor from "@/components/Cards/Deposito/card-depositosValue";
 import CardReDeposito from "@/components/Cards/Deposito/card-TaxaReDeposito";
 import CardTicketMedioGeral from "@/components/Cards/Deposito/card-TicktetmedioGeral";
 import useCadastroData from "@/hooks/useCadastroData";
+import Loader from "../common/Loader";
 
 interface DashboardProps {
   param?: string;
 }
 
 export default function Dashboard({ param }: DashboardProps) {
-  const { data = [] } = useCadastroData("cadastro", param || "");
+  const { data = [], loading } = useCadastroData("cadastro", param || "");
+  // TODO: fazer o calculo da tabela de estados usando os dados do useCadastroData e a planilha como no hook ( usePhoneEstadoCount ) mas sem usar o hook em si
 
   const sectionsConfig = useMemo(() => [
     {
@@ -59,9 +61,21 @@ export default function Dashboard({ param }: DashboardProps) {
         { component: CardConversaocadastroftd, props: { param: param || "" } },
       ],
       tables: [
-        { component: CampaignTable, props: {} },
-        { component: EstadoTable, props: { param } },
-        { component: MapOne, props: {} },
+        { 
+          component: CampaignTable, 
+          props: {}, 
+          layout: "col-span-12 xl:col-span-7" // Tabela maior na esquerda
+        },
+        { 
+          component: EstadoTable, 
+          props: { param }, 
+          layout: "col-span-12 xl:col-span-5" // Tabela menor na direita
+        },
+        { 
+          component: MapOne, 
+          props: {}, 
+          layout: "col-span-12 flex justify-center items-center min-h-[400px]" // Mapa ocupa toda a largura
+        },
       ],
     },
     {
@@ -82,35 +96,54 @@ export default function Dashboard({ param }: DashboardProps) {
         { component: CardReDeposito, props: {} },
         { component: CardTicketMedioGeral, props: {} },
       ],
-      tables: [{ component: DepositoFTDTable, props: {} }],
+      tables: [
+        { 
+          component: DepositoFTDTable, 
+          props: {}, 
+          layout: "col-span-12" // Tabela no final
+        },
+      ],
     },
   ], [data, param]);
 
-  if (!data.length) return <div>Loading...</div>;
+  if (loading) {
+    return <Loader />;
+    }
 
   return (
     <>
       {sectionsConfig.map((section, sectionIndex) => (
         <div key={sectionIndex}>
+          {/* Título da seção */}
           {section.title && (
             <div className="flex justify-center items-center mb-6">
               <h2 className="text-heading-2 dark:text-white font-bold p-2">{section.title}</h2>
             </div>
           )}
-          <div className="flex justify-center mb-12">
-            <div className={`grid grid-cols-1 gap-4 md:grid-cols-2 md:gap-6 xl:grid-cols-${section.cards.length > 3 ? 4 : 3} 2xl:gap-7.5`}>
-              {section.cards.map((cardConfig, cardIndex) => {
-                const CardComponent = cardConfig.component;
-                return <CardComponent key={cardIndex} {...cardConfig.props} />;
-              })}
+
+          {/* Renderização dos cards */}
+          {section.cards.length > 0 && (
+            <div className="flex justify-center mb-12">
+              <div
+                className={`grid grid-cols-1 gap-4 md:grid-cols-2 md:gap-6 xl:grid-cols-${section.cards.length > 3 ? 4 : 3} 2xl:gap-7.5`}
+              >
+                {section.cards.map((cardConfig, cardIndex) => {
+                  const CardComponent = cardConfig.component;
+                  console.log(`Renderizando ${CardComponent.name} com props:`, cardConfig.props);
+                  return <CardComponent key={cardIndex} {...cardConfig.props} />;
+                })}
+              </div>
             </div>
-          </div>
+          )}
+
+          {/* Renderização das tabelas */}
           {section.tables.length > 0 && (
-            <div className="mt-4 grid grid-cols-12 gap-4 md:mt-6 md:gap-6 2xl:mt-9 2xl:gap-7.5 mb-12">
+            <div className="grid grid-cols-12 gap-4 md:gap-6 2xl:gap-7.5 mb-12">
               {section.tables.map((tableConfig, tableIndex) => {
                 const TableComponent = tableConfig.component;
+                const layoutClass = tableConfig.layout || "col-span-12"; // Classe padrão
                 return (
-                  <div key={tableIndex} className="col-span-12 xl:col-span-7">
+                  <div key={tableIndex} className={layoutClass}>
                     <TableComponent {...tableConfig.props} />
                   </div>
                 );
