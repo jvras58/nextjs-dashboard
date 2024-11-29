@@ -31,7 +31,7 @@ interface DashboardProps {
 
 export default function Dashboard({ param }: DashboardProps) {
   const { data = [], loading } = useCadastroData("cadastro", param || "");
-  // TODO: fazer o calculo da tabela de estados usando os dados do useCadastroData e a planilha como no hook ( usePhoneEstadoCount ) mas sem usar o hook em si
+  // FIXME: fazer o calculo da tabela de estados usando os dados do useCadastroData e a planilha como no hook ( usePhoneEstadoCount ) mas sem usar o hook em si
 
   const sectionsConfig = useMemo(() => [
     {

@@ -13,7 +13,7 @@ import {
 } from "@/components/ui/dialog";
 import { Button } from "@/components/ui/button";
 
-export default function Relatoria() {
+export default function uploading() {
   const [hasFile, setHasFile] = useState<boolean>(false);
 
   // console.log(hasFile);

@@ -5,16 +5,15 @@ import { JWT } from "google-auth-library";
 import { createObjectCsvStringifier } from 'csv-writer';
 import credentials from "@/config/google-sheets-api.json";
 
-
 const serviceAccountAuth = new JWT({
     email: credentials.client_email, // Variável de ambiente para o e-mail do serviço
     key: credentials.private_key?.replace(/\\n/g, "\n"), // Corrige quebras de linha na chave
     scopes: ["https://www.googleapis.com/auth/spreadsheets"], // Escopo necessário
 });
 
-export default async function getDocs() {
-    // Substitua pelo ID da planilha
-    const doc = new GoogleSpreadsheet('1NMZv6FsBUdzJLoEozSyOtscnGVnkGkBPng9xrtsRwLc', serviceAccountAuth);
+export default async function getDocs(spreadsheetId: string) {
+    // Use o ID da planilha passado como parâmetro
+    const doc = new GoogleSpreadsheet(spreadsheetId, serviceAccountAuth);
 
     // Carrega as informações da planilha
     await doc.loadInfo();
@@ -47,7 +46,8 @@ export default async function getDocs() {
 // useEffect(() => {
 //     async function fetchData() {
 //         try {
-//             const { title, csv } = await getDocs();
+//             const spreadsheetId = "1NMZv6FsBUdzJLoEozSyOtscnGVnkGkBPng9xrtsRwLc"; // Substitua pelo ID dinâmico
+//             const { title, csv } = await getDocs(spreadsheetId);
 //             console.log({ title, csv });
 //         } catch (error) {
 //             console.error("Erro ao buscar dados:", error);
