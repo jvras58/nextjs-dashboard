@@ -28,6 +28,7 @@ return (
     color="#008000"
     title="Total Investido"
     value={totalInvestido}
+    format="currency"
 />
 );
 };
