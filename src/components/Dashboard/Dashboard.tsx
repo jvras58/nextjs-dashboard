@@ -1,5 +1,5 @@
 "use client";
-import React, { useMemo } from "react";
+import React, { use, useMemo } from "react";
 import CardTotalInvestido from "@/components/Cards/CardsInvestimento/card-TotalInvestimento";
 import CardMediaDiaInvestimento from "@/components/Cards/CardsInvestimento/card-MediaInvestimento";
 import CardRoi from "@/components/Cards/CardsInvestimento/card-Roi";
@@ -24,6 +24,7 @@ import CardReDeposito from "@/components/Cards/Deposito/card-TaxaReDeposito";
 import CardTicketMedioGeral from "@/components/Cards/Deposito/card-TicktetmedioGeral";
 import useCadastroData from "@/hooks/useCadastroData";
 import Loader from "../common/Loader";
+import useTotalInvestido from "@/hooks/useTotalInvestido";
 
 interface DashboardProps {
   param?: string;
@@ -32,12 +33,14 @@ interface DashboardProps {
 export default function Dashboard({ param }: DashboardProps) {
   const { data = [], loading } = useCadastroData("cadastro", param || "");
   // FIXME: fazer o calculo da tabela de estados usando os dados do useCadastroData e a planilha como no hook ( usePhoneEstadoCount ) mas sem usar o hook em si
+  
+  const totalInvestido = useTotalInvestido(param || "");
 
   const sectionsConfig = useMemo(() => [
     {
       title: "Investimento",
       cards: [
-        { component: CardTotalInvestido, props: {} },
+        { component: CardTotalInvestido, props: { totalInvestido: totalInvestido ?? 0 } },
         { component: CardMediaDiaInvestimento, props: {} },
         { component: CardRoi, props: {} },
       ],
