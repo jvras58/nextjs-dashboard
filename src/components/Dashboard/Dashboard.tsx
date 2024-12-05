@@ -25,6 +25,7 @@ import CardTicketMedioGeral from "@/components/Cards/Deposito/card-TicktetmedioG
 import useCadastroData from "@/hooks/useCadastroData";
 import Loader from "../common/Loader";
 import useTotalInvestido from "@/hooks/useTotalInvestido";
+import useTotalApostado from "@/hooks/useTotalApostado";
 
 interface DashboardProps {
   param?: string;
@@ -35,6 +36,9 @@ export default function Dashboard({ param }: DashboardProps) {
   // FIXME: fazer o calculo da tabela de estados usando os dados do useCadastroData e a planilha como no hook ( usePhoneEstadoCount ) mas sem usar o hook em si
   
   const totalInvestido = useTotalInvestido(param || "");
+  const totalApostado = useTotalApostado(param || "");
+
+
 
   const sectionsConfig = useMemo(() => [
     {
@@ -49,7 +53,7 @@ export default function Dashboard({ param }: DashboardProps) {
     {
       title: "GGR",
       cards: [
-        { component: TotalApostado, props: {} },
+        { component: TotalApostado, props: {totalApostado: totalApostado ?? 0} },
         { component: CardTotalPremios, props: {} },
         { component: CardGGR, props: {} },
         { component: CardRetencaoDeposito, props: {} },

@@ -6,8 +6,8 @@ interface Row {
 [key: string]: any;
 }
 
-export default function useTotalInvestido(param: string) {
-const [totalInvestido, setTotalInvestido] = useState<number | null>(null);
+export default function useTotalApostado(param: string) {
+const [totalApostado, setTotalApostado] = useState<number | null>(null);
 
 useEffect(() => {
 async function fetchData() {
@@ -34,32 +34,34 @@ async function fetchData() {
     });
 
     const total = filteredRows.reduce((sum, row) => {
-        let investValueStr = row["Total Investido (Dia)"]?.trim() || "0";
+        let totalApostaValueStr = row["Total Apostado"]?.trim() || "0";
 
         // Remove o prefixo "R$", substitui vírgulas por pontos e remove espaços extras
-        investValueStr = investValueStr
+        totalApostaValueStr = totalApostaValueStr
         .replace("R$", "")
         .replace(/\s+/g, "")
         .replace(".", "")
         .replace(",", ".");
 
         // Converte para número ou considera como 0 em caso de erro
-        const investValue = (() => {
-            const value = parseFloat(investValueStr);
+        const totalApostaValue = (() => {
+            const value = parseFloat(totalApostaValueStr);
             if (isNaN(value)) {
-                console.error(`Erro ao converter o valor: ${investValueStr}`);
+                console.error(`Erro ao converter o valor: ${totalApostaValueStr}`);
                 return 0;
             }
             return value;
         })();
+        console.log(sum + totalApostaValue);
+        return sum + totalApostaValue;
 
-        return sum + investValue;
     }, 0);
+
 
     // Arredonda para 2 casas decimais
     const roundedTotal = Math.round((total + Number.EPSILON) * 100) / 100;
 
-    setTotalInvestido(roundedTotal);
+    setTotalApostado(roundedTotal);
     } catch (error) {
     console.error("Erro ao buscar dados:", error);
     }
@@ -67,5 +69,5 @@ async function fetchData() {
 
 fetchData();
 }, [param]);
-return totalInvestido;
+return totalApostado;
 }

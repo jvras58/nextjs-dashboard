@@ -1,7 +1,12 @@
 import React from "react";
 import CardGeneric from "../card-Generic";
 
-const TotalApostado: React.FC = () => {
+
+interface CardTotalApostaProps {
+    totalApostado?: number;
+}
+
+const TotalApostado: React.FC<CardTotalApostaProps> = ({ totalApostado= 0 }) => {
 return (
 <CardGeneric
     // Mudar ICON:
@@ -27,9 +32,9 @@ return (
     }
     color="#18BFFF"
     title="Total Apostado"
-    // tratamento para valores de money
-    value="R$1.070.000,00"
-    growthRate={-0.95}
+    value={totalApostado}
+    format="currency"
+
 />
 );
 };
