@@ -212,4 +212,5 @@ Este projeto ainda não possui licença definida.
 
 [Server Actions](https://react.dev/reference/rsc/server-actions)
 
+[Google Api](https://theoephraim.github.io/node-google-spreadsheet/#/)
 
