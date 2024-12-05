@@ -117,7 +117,7 @@ export default function Dashboard({ param }: DashboardProps) {
         },
       ],
     },
-  ], [cadastroData, totalInvestido, totalApostado, param]);
+  ], [cadastroData, totalInvestido, totalApostado, totalPremios, totalFtd, totalAmountFtd, totalDeposito, totalAmountDeposito, param]);
 
   if (loading) {
     return <Loader />;
