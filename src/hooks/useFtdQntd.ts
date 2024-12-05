@@ -1,6 +1,5 @@
 import { useState, useEffect } from "react";
 import getDocs from "@/actions/spreadsheets-actions/getDocs";
-import Papa from "papaparse";
 
 interface Row {
 "Operação": string;
@@ -29,22 +28,18 @@ async function fetchData() {
     setError(null);
 
     try {
-    const { csv } = await getDocs("13hI14GUtGXqt_NEAvbJyl2TtRLLUB9c4Ve2oh98zJN4");
+    const response = await getDocs("13hI14GUtGXqt_NEAvbJyl2TtRLLUB9c4Ve2oh98zJN4");
 
-    const parsedData = Papa.parse<Row>(csv, {
-        header: true,
-        skipEmptyLines: true,
-        dynamicTyping: false,
-    });
-
-    if (!parsedData.meta.fields) {
-        throw new Error("Cabeçalhos não encontrados no CSV");
+    if (!response.headers || !response.rows) {
+        throw new Error("Dados da planilha não encontrados");
     }
 
-    const total = parsedData.data
-        .filter(row => row["Operação"]?.trim() === param)
-        .reduce((sum, row) => {
-        const valueStr = row["FTD (Qtd)"]?.trim() || "0";
+    const rows = response.rows as Row[];
+    
+    const total = rows
+        .filter((row: Row) => row["Operação"]?.trim() === param)
+        .reduce((sum: number, row: Row) => {
+        const valueStr = row["FTD (Qtd)"]?.toString().trim() || "0";
         const value = parseInt(valueStr, 10);
         
         if (isNaN(value)) {
