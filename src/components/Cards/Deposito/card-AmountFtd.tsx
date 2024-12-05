@@ -1,7 +1,11 @@
 import React from "react";
 import CardGeneric from "../card-Generic";
 
-const CardFTD_Amount: React.FC = () => {
+interface CardFTDAmountProps {
+    totalAmountFtd?: number;
+    }
+    
+const CardFTDAmount: React.FC<CardFTDAmountProps> = ({ totalAmountFtd= 0 }) => {
 return (
 <CardGeneric
     // Mudar ICON:
@@ -27,11 +31,11 @@ return (
     }
     color="#18BFFF"
     title="FTD Amount"
-    // tratamento para valores de money
-    value="R$12.57"
-    growthRate={-0.95}
+    value={totalAmountFtd}
+    format="currency"
+
 />
 );
 };
 
-export default CardFTD_Amount;
+export default CardFTDAmount;

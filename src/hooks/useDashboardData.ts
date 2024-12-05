@@ -3,6 +3,7 @@ import useTotalApostado from "@/hooks/useTotalApostado";
 import useTotalInvestido from "@/hooks/useTotalInvestido";
 import useTotalPremios from "@/hooks/useTotalPremios";
 import useQuantidadeFTD from "@/hooks/useFtdQntd";
+import useFtdAmount from "@/hooks/useFtdAmount";
 
 export default function useDashboardData(param: string) {
     const { data: cadastroData, loading: cadastroLoading } = useCadastroData("cadastro", param);
@@ -10,6 +11,7 @@ export default function useDashboardData(param: string) {
     const { data: totalApostado, loading: apostadoLoading } = useTotalApostado(param);
     const { data: totalPremios, loading: premiosLoading } = useTotalPremios(param);
     const {data: totalFtd, loading: ftdLoading} = useQuantidadeFTD(param);
+    const {data: totalAmountFtd, loading: amountFtdLoading} = useFtdAmount(param);
 
     return {
         cadastroData,
@@ -17,6 +19,7 @@ export default function useDashboardData(param: string) {
         totalApostado,
         totalPremios,
         totalFtd,
-        loading: cadastroLoading || investidoLoading || apostadoLoading || premiosLoading || ftdLoading,    
+        totalAmountFtd,
+        loading: cadastroLoading || investidoLoading || apostadoLoading || premiosLoading || ftdLoading || amountFtdLoading 
     };
 }
