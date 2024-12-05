@@ -1,6 +1,7 @@
 "use client";
 
-import useFiliadoList from "@/hooks/useFiliadoList";
+// import useFiliadoList from "@/hooks/useFiliadoList"; // Original SEM OS FILTROS DA PLANILHA DE OPERAÇÕES
+import useFiliadoList from "@/hooks/useFiliadoListFiltered";
 import AfiliadoCard from "@/components/Cards/Afiliado/afiliado";
 import Loader from "@/components/common/Loader";
 
