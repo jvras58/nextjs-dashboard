@@ -2,7 +2,6 @@
 
 import { GoogleSpreadsheet } from "google-spreadsheet";
 import { JWT } from "google-auth-library";
-import { createObjectCsvStringifier } from 'csv-writer';
 import credentials from "@/config/google-sheets-api.json";
 
 const serviceAccountAuth = new JWT({
@@ -11,47 +10,32 @@ const serviceAccountAuth = new JWT({
     scopes: ["https://www.googleapis.com/auth/spreadsheets"], // Escopo necessário
 });
 
-export default async function getDocs(spreadsheetId: string) {
-    // Use o ID da planilha passado como parâmetro
+export default async function getDocs(spreadsheetId: string, sheetIndex: number = 0) {
     const doc = new GoogleSpreadsheet(spreadsheetId, serviceAccountAuth);
-
-    // Carrega as informações da planilha
     await doc.loadInfo();
 
-    const sheet = doc.sheetsByIndex[0]; // Pegue a primeira aba da planilha
-    const rows = await sheet.getRows(); // Pegue todas as linhas da aba
+    const sheet = doc.sheetsByIndex[sheetIndex]; // Pega a planilha definida pelo índice 
+    const rows = await sheet.getRows(); // Pega todas as linhas da planilha
 
-    // Crie o CSV em memória
-    const csvStringifier = createObjectCsvStringifier({
-        header: sheet.headerValues.map(header => ({ id: header, title: header }))
+    // Converte as linhas em um array de objetos
+    const data = rows.map(row => {
+        // Pega as chaves (cabeçalhos) da planilha
+        const headers = sheet.headerValues;
+        const rowData: Record<string, any> = {};
+        
+        // Cria um objeto com os valores de cada coluna
+        headers.forEach(header => {
+            rowData[header] = row.get(header);
+        });
+        
+        return rowData;
     });
 
-    const csv = csvStringifier.getHeaderString() + csvStringifier.stringifyRecords(
-        rows.map(row => {
-            const rowData: { [key: string]: any } = {};
-            sheet.headerValues.forEach(header => {
-                rowData[header] = row.get(header);
-            });
-            return rowData;
-        })
-    );
-
-    // console.log("CSV em Memoria: ", csv);
-
-    return { title: doc.title, csv };
+    return {
+        title: doc.title,
+        sheetTitle: sheet.title,
+        headers: sheet.headerValues,
+        rows: data,
+        totalRows: rows.length
+    };
 }
-
-// Exemplo de uso:
-
-// useEffect(() => {
-//     async function fetchData() {
-//         try {
-//             const spreadsheetId = "1NMZv6FsBUdzJLoEozSyOtscnGVnkGkBPng9xrtsRwLc"; // Substitua pelo ID dinâmico
-//             const { title, csv } = await getDocs(spreadsheetId);
-//             console.log({ title, csv });
-//         } catch (error) {
-//             console.error("Erro ao buscar dados:", error);
-//         }
-//     }
-//     fetchData();
-// }, []);
