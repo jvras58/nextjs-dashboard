@@ -22,21 +22,22 @@ import CardQntdDeposito from "@/components/Cards/Deposito/card-depositoqntd";
 import CardDepositoValor from "@/components/Cards/Deposito/card-depositosValue";
 import CardReDeposito from "@/components/Cards/Deposito/card-TaxaReDeposito";
 import CardTicketMedioGeral from "@/components/Cards/Deposito/card-TicktetmedioGeral";
-import useCadastroData from "@/hooks/useCadastroData";
+
 import Loader from "../common/Loader";
-import useTotalInvestido from "@/hooks/useTotalInvestido";
-import useTotalApostado from "@/hooks/useTotalApostado";
+
+import useDashboardData from "@/hooks/useDashboardData";
 
 interface DashboardProps {
   param?: string;
 }
 
 export default function Dashboard({ param }: DashboardProps) {
-  const { data = [], loading } = useCadastroData("cadastro", param || "");
-  // FIXME: fazer o calculo da tabela de estados usando os dados do useCadastroData e a planilha como no hook ( usePhoneEstadoCount ) mas sem usar o hook em si
-  
-  const totalInvestido = useTotalInvestido(param || "");
-  const totalApostado = useTotalApostado(param || "");
+  const { 
+    cadastroData,
+    totalInvestido,
+    totalApostado,
+    loading 
+  } = useDashboardData(param || "");
 
 
 
@@ -63,7 +64,7 @@ export default function Dashboard({ param }: DashboardProps) {
     {
       title: "Cadastro",
       cards: [
-        { component: CardCadastro, props: { userCount: data.length } },
+        { component: CardCadastro, props: { userCount: cadastroData.length } },
         { component: CardCustoCadastro, props: { param: param || "" } },
         { component: CardConversaocadastroftd, props: { param: param || "" } },
       ],
@@ -111,7 +112,7 @@ export default function Dashboard({ param }: DashboardProps) {
         },
       ],
     },
-  ], [data, param]);
+  ], [cadastroData, totalInvestido, totalApostado, param]);
 
   if (loading) {
     return <Loader />;
