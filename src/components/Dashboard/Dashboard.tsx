@@ -36,6 +36,7 @@ export default function Dashboard({ param }: DashboardProps) {
     cadastroData,
     totalInvestido,
     totalApostado,
+    totalPremios,
     loading 
   } = useDashboardData(param || "");
 
@@ -55,7 +56,7 @@ export default function Dashboard({ param }: DashboardProps) {
       title: "GGR",
       cards: [
         { component: TotalApostado, props: {totalApostado: totalApostado ?? 0} },
-        { component: CardTotalPremios, props: {} },
+        { component: CardTotalPremios, props: {totalPremios: totalPremios ?? 0} },
         { component: CardGGR, props: {} },
         { component: CardRetencaoDeposito, props: {} },
       ],

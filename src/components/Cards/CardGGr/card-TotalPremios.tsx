@@ -1,7 +1,12 @@
 import React from "react";
 import CardGeneric from "../card-Generic";
 
-const CardTotalPremios: React.FC = () => {
+// totalPremios: number;    
+interface CardTotalPremiosProps {
+    totalPremios?: number;
+}
+
+const CardTotalPremios: React.FC<CardTotalPremiosProps> = ({ totalPremios= 0 }) => {
 return (
 <CardGeneric
     // Mudar ICON:
@@ -27,8 +32,8 @@ return (
     }
     color="#18BFFF"
     title="Total Prêmios"
-    value="1.041.000,00"
-    growthRate={-0.95}
+    value={totalPremios}
+    format="currency"
 />
 );
 };
