@@ -39,6 +39,8 @@ export default function Dashboard({ param }: DashboardProps) {
     totalPremios,
     totalFtd,
     totalAmountFtd,
+    totalDeposito,
+    totalAmountDeposito,
     loading 
   } = useDashboardData(param || "");
 
@@ -102,8 +104,8 @@ export default function Dashboard({ param }: DashboardProps) {
     {
       title: "",
       cards: [
-        { component: CardQntdDeposito, props: {} },
-        { component: CardDepositoValor, props: {} },
+        { component: CardQntdDeposito, props: {totalDeposito: totalDeposito?? 0} },
+        { component: CardDepositoValor, props: {totalAmountDeposito: totalAmountDeposito?? 0} },
         { component: CardReDeposito, props: {} },
         { component: CardTicketMedioGeral, props: {} },
       ],
