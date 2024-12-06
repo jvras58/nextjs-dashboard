@@ -6,7 +6,7 @@ interface CardGenericProps {
     title: string;
     value: string | number;
     growthRate?: number;
-    format?: 'number' | 'currency' | 'percent'; // Novo prop para formato
+    format?: 'number' | 'currency' | 'percent';
 }
 
 const CardGeneric: React.FC<CardGenericProps> = ({
@@ -15,7 +15,7 @@ const CardGeneric: React.FC<CardGenericProps> = ({
     title,
     value,
     growthRate,
-    format = 'number', // Valor padrão
+    format = 'number',
 }) => {
     const formatGrowthRate = (rate: number) => {
         return rate.toFixed(2);
@@ -26,10 +26,15 @@ const CardGeneric: React.FC<CardGenericProps> = ({
         
         switch (format) {
             case 'currency':
-                return new Intl.NumberFormat('pt-BR', {
+                // Formata o número absoluto primeiro
+                const absValue = Math.abs(val);
+                const formattedValue = new Intl.NumberFormat('pt-BR', {
                     style: 'currency',
                     currency: 'BRL'
-                }).format(val);
+                }).format(absValue);
+                
+                // Adiciona o sinal negativo após o símbolo da moeda se necessário
+                return val < 0 ? `R$ -${formattedValue.slice(3)}` : formattedValue;
             case 'percent':
                 return `${val.toFixed(2)}%`;
             default:

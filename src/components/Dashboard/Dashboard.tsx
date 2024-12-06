@@ -41,6 +41,7 @@ export default function Dashboard({ param }: DashboardProps) {
     totalAmountFtd,
     totalDeposito,
     totalAmountDeposito,
+    totalGgr,
     loading 
   } = useDashboardData(param || "");
 
@@ -61,7 +62,7 @@ export default function Dashboard({ param }: DashboardProps) {
       cards: [
         { component: TotalApostado, props: {totalApostado: totalApostado ?? 0} },
         { component: CardTotalPremios, props: {totalPremios: totalPremios ?? 0} },
-        { component: CardGGR, props: {} },
+        { component: CardGGR, props: {totalGgr: totalGgr ?? 0} },
         { component: CardRetencaoDeposito, props: {} },
       ],
       tables: [],

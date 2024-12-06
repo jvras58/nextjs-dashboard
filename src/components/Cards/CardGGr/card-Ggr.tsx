@@ -1,7 +1,12 @@
 import React from "react";
 import CardGeneric from "../card-Generic";
 
-const CardGGR: React.FC = () => {
+
+interface CardTotalGgrProps {
+    totalGgr?: number;
+}
+
+const CardGGR: React.FC<CardTotalGgrProps> = ({ totalGgr= 0 }) => {
 return (
 <CardGeneric
     // Mudar ICON:
@@ -27,8 +32,8 @@ return (
     }
     color="#18BFFF"
     title="GGR"
-    value="R$57.998,37"
-    growthRate={-0.95}
+    value={totalGgr}
+    format="currency"
 />
 );
 };
