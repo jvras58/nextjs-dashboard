@@ -28,11 +28,13 @@ async function fetchData() {
     setError(null);
 
     try {
-        const spreadsheetId = process.env.NEXT_PUBLIC_GOOGLE_SHEETS_SPREADSHEET_ID;
-        if (!spreadsheetId) {
-            throw new Error("Spreadsheet ID is not defined");
-        }
-        const response = await getDocs(spreadsheetId);
+    // FIXME: NÃO CONSIGO USAR O .ENV SOMENTE NESSE....
+    // const spreadsheetId = process.env.NEXT_PUBLIC_GOOGLE_SHEETS_SPREADSHEET_ID;
+    // if (!spreadsheetId) {
+    //     throw new Error("Spreadsheet ID is not defined");
+    // }
+
+    const response = await getDocs("13hI14GUtGXqt_NEAvbJyl2TtRLLUB9c4Ve2oh98zJN4");
 
     if (!response.headers || !response.rows) {
         throw new Error("Dados da planilha não encontrados");
