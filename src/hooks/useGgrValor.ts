@@ -1,5 +1,6 @@
 import { useState, useEffect } from "react";
 import getDocs from "@/actions/spreadsheets-actions/getDocs";
+import { buscarOperacao } from "@/utils/BuscarOperacao";
 
 interface Row {
 "Operação": string;
@@ -24,26 +25,37 @@ useEffect(() => {
     async function fetchData() {
     if (!param) return;
     
-    console.log('🔍 Parâmetro recebido:', param); // Log do parâmetro
+    // console.log('🔍 Parâmetro recebido:', param); // Log do parâmetro
     
     setLoading(true);
     setError(null);
 
     try {
+        // 1. Busca o nome da operação baseado no Código
+        const operacaoResult = await buscarOperacao(param);
+        if (!operacaoResult.exists || !operacaoResult.nome) {
+            throw new Error("Operação correspondente não encontrada");
+        }
+
+        const operacaoNome = operacaoResult.nome;
+
+        // 2. Busca a planilha de operações 
         const spreadsheetId = process.env.NEXT_PUBLIC_GOOGLE_SHEETS_SPREADSHEET_ID;
         if (!spreadsheetId) {
             throw new Error("Spreadsheet ID is not defined");
         }
         const response = await getDocs(spreadsheetId);
-        console.log('📊 Resposta da API:', response); // Log da resposta
+        // console.log('📊 Resposta da API:', response); 
 
         if (!response.headers || !response.rows) {
         throw new Error("Dados da planilha não encontrados");
         }
-
+        
         const rows = response.rows as Row[];
-        const filteredRows = rows.filter((row: Row) => row["Operação"]?.trim() === param);
-        console.log('🎯 Linhas filtradas:', filteredRows); // Log das linhas filtradas
+                
+        // 3. Filtra e calcula o total baseado na operação
+        const filteredRows = rows.filter((row: Row) => row["Operação"]?.trim( ) === operacaoNome.trim());
+        // console.log('🎯 Linhas filtradas:', filteredRows);
         
         const total = filteredRows.reduce((sum: number, row: Row) => {
         const valueStr = row["GGR"]?.toString().trim() || "0";
@@ -62,14 +74,14 @@ useEffect(() => {
         return sum + value;
         }, 0);
 
-        console.log('💰 Total calculado:', total); // Log do total
+        // console.log('💰 Total calculado:', total);
 
         if (isMounted) {
         setData(total);
         setError(null);
         }
     } catch (err) {
-        console.error('❌ Erro:', err); // Log de erro
+        // console.error('❌ Erro:', err);
         if (isMounted) {
         setError(err instanceof Error ? err : new Error('Erro desconhecido'));
         setData(null);
