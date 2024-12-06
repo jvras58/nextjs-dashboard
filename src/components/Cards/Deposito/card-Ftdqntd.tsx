@@ -1,7 +1,12 @@
 import React from "react";
 import CardGeneric from "../card-Generic";
 
-const CardFtd_Qtd: React.FC = () => {
+
+interface CardFtdQtdProps {
+    totalFtd?: number;
+    }
+    
+const CardFtd_Qtd: React.FC<CardFtdQtdProps> = ({ totalFtd= 0 }) => {
 return (
 <CardGeneric
     // Mudar ICON:
@@ -27,8 +32,7 @@ return (
     }
     color="#18BFFF"
     title="FTD Qtd"
-    value="2.571"
-    growthRate={-0.95}
+    value={totalFtd}
 />
 );
 };

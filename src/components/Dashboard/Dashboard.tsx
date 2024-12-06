@@ -1,5 +1,5 @@
 "use client";
-import React, { useMemo } from "react";
+import React, { use, useMemo } from "react";
 import CardTotalInvestido from "@/components/Cards/CardsInvestimento/card-TotalInvestimento";
 import CardMediaDiaInvestimento from "@/components/Cards/CardsInvestimento/card-MediaInvestimento";
 import CardRoi from "@/components/Cards/CardsInvestimento/card-Roi";
@@ -22,22 +22,35 @@ import CardQntdDeposito from "@/components/Cards/Deposito/card-depositoqntd";
 import CardDepositoValor from "@/components/Cards/Deposito/card-depositosValue";
 import CardReDeposito from "@/components/Cards/Deposito/card-TaxaReDeposito";
 import CardTicketMedioGeral from "@/components/Cards/Deposito/card-TicktetmedioGeral";
-import useCadastroData from "@/hooks/useCadastroData";
+
 import Loader from "../common/Loader";
+
+import useDashboardData from "@/hooks/useDashboardData";
 
 interface DashboardProps {
   param?: string;
 }
 
 export default function Dashboard({ param }: DashboardProps) {
-  const { data = [], loading } = useCadastroData("cadastro", param || "");
-  // FIXME: fazer o calculo da tabela de estados usando os dados do useCadastroData e a planilha como no hook ( usePhoneEstadoCount ) mas sem usar o hook em si
+  const { 
+    cadastroData,
+    totalInvestido,
+    totalApostado,
+    totalPremios,
+    totalFtd,
+    totalAmountFtd,
+    totalDeposito,
+    totalAmountDeposito,
+    loading 
+  } = useDashboardData(param || "");
+
+
 
   const sectionsConfig = useMemo(() => [
     {
       title: "Investimento",
       cards: [
-        { component: CardTotalInvestido, props: {} },
+        { component: CardTotalInvestido, props: { totalInvestido: totalInvestido ?? 0 } },
         { component: CardMediaDiaInvestimento, props: {} },
         { component: CardRoi, props: {} },
       ],
@@ -46,8 +59,8 @@ export default function Dashboard({ param }: DashboardProps) {
     {
       title: "GGR",
       cards: [
-        { component: TotalApostado, props: {} },
-        { component: CardTotalPremios, props: {} },
+        { component: TotalApostado, props: {totalApostado: totalApostado ?? 0} },
+        { component: CardTotalPremios, props: {totalPremios: totalPremios ?? 0} },
         { component: CardGGR, props: {} },
         { component: CardRetencaoDeposito, props: {} },
       ],
@@ -56,7 +69,7 @@ export default function Dashboard({ param }: DashboardProps) {
     {
       title: "Cadastro",
       cards: [
-        { component: CardCadastro, props: { userCount: data.length } },
+        { component: CardCadastro, props: { userCount: cadastroData.length } },
         { component: CardCustoCadastro, props: { param: param || "" } },
         { component: CardConversaocadastroftd, props: { param: param || "" } },
       ],
@@ -81,8 +94,8 @@ export default function Dashboard({ param }: DashboardProps) {
     {
       title: "Depósito",
       cards: [
-        { component: CardFtdqntd, props: {} },
-        { component: CardFtdamount, props: {} },
+        { component: CardFtdqntd, props: {totalFtd: totalFtd ?? 0} },
+        { component: CardFtdamount, props: {totalAmountFtd: totalAmountFtd ?? 0} },
         { component: CardCustoFTD, props: {} },
         { component: CardTicketMedioFTD, props: {} },
       ],
@@ -91,8 +104,8 @@ export default function Dashboard({ param }: DashboardProps) {
     {
       title: "",
       cards: [
-        { component: CardQntdDeposito, props: {} },
-        { component: CardDepositoValor, props: {} },
+        { component: CardQntdDeposito, props: {totalDeposito: totalDeposito?? 0} },
+        { component: CardDepositoValor, props: {totalAmountDeposito: totalAmountDeposito?? 0} },
         { component: CardReDeposito, props: {} },
         { component: CardTicketMedioGeral, props: {} },
       ],
@@ -104,7 +117,7 @@ export default function Dashboard({ param }: DashboardProps) {
         },
       ],
     },
-  ], [data, param]);
+  ], [cadastroData, totalInvestido, totalApostado, totalPremios, totalFtd, totalAmountFtd, totalDeposito, totalAmountDeposito, param]);
 
   if (loading) {
     return <Loader />;

@@ -4,16 +4,36 @@ import getDocs from "@/actions/spreadsheets-actions/getDocs";
 import { useState } from "react";
 import CSVTable from "../Tables/Csv-table";
 
+interface SheetData {
+title: string;
+sheetTitle: string;
+headers: string[];
+rows: Record<string, any>[];
+totalRows: number;
+}
+
 const InputBox: React.FC = () => {
-const [id, setId] = useState<string>("1NMZv6FsBUdzJLoEozSyOtscnGVnkGkBPng9xrtsRwLc");
-const [result, setResult] = useState<{ title: string; csv: string } | null>(null);
+const [id, setId] = useState<string>("");
+const [result, setResult] = useState<SheetData | null>(null);
+const [error, setError] = useState<string | null>(null);
+
+const convertToCSV = (data: SheetData): string => {
+const headers = data.headers.join(",");
+const rows = data.rows.map(row => 
+    data.headers.map(header => row[header]).join(",")
+);
+return [headers, ...rows].join("\n");
+};
 
 const handleSubmit = async (event: React.FormEvent) => {
 event.preventDefault();
+setError(null);
+
 try {
     const data = await getDocs(id);
     setResult(data);
 } catch (error) {
+    setError("Erro ao buscar dados da planilha");
     console.error("Erro ao buscar dados:", error);
 }
 };
@@ -36,7 +56,26 @@ return (
         Enviar
     </button>
     </form>
-    {result && <CSVTable csvData={result.csv} title={result.title} />}
+
+    {error && (
+    <div className="mt-4 p-3 bg-red-100 text-red-700 rounded-lg">
+        {error}
+    </div>
+    )}
+
+    {result && (
+    <div className="mt-6">
+        <div className="mb-4">
+        <h2 className="text-xl font-bold">{result.title}</h2>
+        <p className="text-sm text-gray-600">Aba: {result.sheetTitle}</p>
+        <p className="text-sm text-gray-600">Total de linhas: {result.totalRows}</p>
+        </div>
+        <CSVTable 
+        csvData={convertToCSV(result)} 
+        title={result.title} 
+        />
+    </div>
+    )}
 </div>
 );
 };

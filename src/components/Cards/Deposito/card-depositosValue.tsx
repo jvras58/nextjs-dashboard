@@ -1,7 +1,11 @@
 import React from "react";
 import CardGeneric from "../card-Generic";
 
-const CardDepositoValor: React.FC = () => {
+interface CardDepositoValorProps {
+totalAmountDeposito?: number;
+}
+        
+const CardDepositoValor: React.FC<CardDepositoValorProps> = ({ totalAmountDeposito= 0 }) => {
 return (
 <CardGeneric
     // Mudar ICON:
@@ -27,8 +31,8 @@ return (
     }
     color="#18BFFF"
     title="Depósitos (Valor)"
-    value="163.184.67"
-    growthRate={-0.95}
+    value={totalAmountDeposito}
+    format="currency"
 />
 );
 };

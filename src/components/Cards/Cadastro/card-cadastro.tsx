@@ -30,6 +30,7 @@ return (
     }
     color="#18BFFF"
     title="Cadastros"
+    // TODO: Ajustar o hook para trazer logo a contagem não o array
     value={userCount.toString()}
 />
 );

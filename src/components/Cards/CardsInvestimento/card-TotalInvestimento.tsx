@@ -1,7 +1,11 @@
 import React from "react";
 import CardGeneric from "../card-Generic";
 
-const CardTotalInvestido: React.FC = () => {
+interface CardTotalInvestidoProps {
+    totalInvestido?: number;
+}
+
+const CardTotalInvestido: React.FC<CardTotalInvestidoProps> = ({ totalInvestido= 0 }) => {
 return (
 <CardGeneric
     icon={
@@ -23,8 +27,8 @@ return (
     }
     color="#008000"
     title="Total Investido"
-    value="R$157.998,37"
-    growthRate={-0.95}
+    value={totalInvestido}
+    format="currency"
 />
 );
 };

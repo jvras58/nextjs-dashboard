@@ -6,6 +6,7 @@ interface CardGenericProps {
     title: string;
     value: string | number;
     growthRate?: number;
+    format?: 'number' | 'currency' | 'percent'; // Novo prop para formato
 }
 
 const CardGeneric: React.FC<CardGenericProps> = ({
@@ -14,9 +15,26 @@ const CardGeneric: React.FC<CardGenericProps> = ({
     title,
     value,
     growthRate,
+    format = 'number', // Valor padrão
 }) => {
     const formatGrowthRate = (rate: number) => {
         return rate.toFixed(2);
+    };
+
+    const formatValue = (val: string | number) => {
+        if (typeof val === 'string') return val;
+        
+        switch (format) {
+            case 'currency':
+                return new Intl.NumberFormat('pt-BR', {
+                    style: 'currency',
+                    currency: 'BRL'
+                }).format(val);
+            case 'percent':
+                return `${val.toFixed(2)}%`;
+            default:
+                return val.toLocaleString('pt-BR');
+        }
     };
 
     return (
@@ -30,7 +48,7 @@ const CardGeneric: React.FC<CardGenericProps> = ({
             <div className="mt-6 flex items-end justify-between">
                 <div>
                     <h4 className="mb-1.5 text-heading-6 font-bold text-dark dark:text-white">
-                        {value}
+                        {formatValue(value)}
                     </h4>
                     <span className="text-body-sm font-medium">{title}</span>
                 </div>
