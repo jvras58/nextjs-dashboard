@@ -11,18 +11,20 @@ const [error, setError] = useState<Error | null>(null);
 
 useEffect(() => {
 const fetchData = async () => {
-    try {
-    const spreadsheetData = await getDocs(
-        "13hI14GUtGXqt_NEAvbJyl2TtRLLUB9c4Ve2oh98zJN4", 
-        1
-    );
 
-    if (!spreadsheetData.rows) {
+    try {
+        const spreadsheetId = process.env.NEXT_PUBLIC_GOOGLE_SHEETS_SPREADSHEET_ID;
+        if (!spreadsheetId) {
+            throw new Error("Spreadsheet ID is not defined");
+        }
+        const response = await getDocs(spreadsheetId, 1);
+
+    if (!response.rows) {
         throw new Error("Dados da planilha não encontrados");
     }
 
     // Extrai os códigos
-    const affiliateCodes = spreadsheetData.rows.map(row => row["Código"]).filter(Boolean);
+    const affiliateCodes = response.rows.map(row => row["Código"]).filter(Boolean);
 
     // Cache key para armazenar localmente
     const cacheKey = `${collectionName}-filtered`;
