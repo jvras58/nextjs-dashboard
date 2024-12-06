@@ -17,7 +17,9 @@ export default function useDashboardData(param: string) {
     const {data: totalAmountFtd, loading: amountFtdLoading} = useFtdAmount(param);
     const {data: totalDeposito, loading: depositoLoading} = useQuantidadeDeposito(param);
     const {data: totalAmountDeposito, loading: depositoAmountLoading} = useDepositoValor(param);
-    const {data: totalGgr, loading: ggrLoading} = useGgrValor(param);  
+    //TODO: é alguma coisa com o tempo que não esta retornando o valor logo de cara 
+    const {data: totalGgr, loading: ggrLoading} = useGgrValor(param);
+
 
     return {
         cadastroData,

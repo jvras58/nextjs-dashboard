@@ -19,39 +19,41 @@ const [loading, setLoading] = useState(true);
 const [error, setError] = useState<Error | null>(null);
 
 useEffect(() => {
-let isMounted = true;
+    let isMounted = true;
 
-async function fetchData() {
+    async function fetchData() {
     if (!param) return;
+    
+    console.log('🔍 Parâmetro recebido:', param); // Log do parâmetro
     
     setLoading(true);
     setError(null);
 
     try {
-    // FIXME: NÃO CONSIGO USAR O .ENV SOMENTE NESSE....
-    // const spreadsheetId = process.env.NEXT_PUBLIC_GOOGLE_SHEETS_SPREADSHEET_ID;
-    // if (!spreadsheetId) {
-    //     throw new Error("Spreadsheet ID is not defined");
-    // }
+        const spreadsheetId = process.env.NEXT_PUBLIC_GOOGLE_SHEETS_SPREADSHEET_ID;
+        if (!spreadsheetId) {
+            throw new Error("Spreadsheet ID is not defined");
+        }
+        const response = await getDocs(spreadsheetId);
+        console.log('📊 Resposta da API:', response); // Log da resposta
 
-    const response = await getDocs("13hI14GUtGXqt_NEAvbJyl2TtRLLUB9c4Ve2oh98zJN4");
-
-    if (!response.headers || !response.rows) {
+        if (!response.headers || !response.rows) {
         throw new Error("Dados da planilha não encontrados");
-    }
+        }
 
-    const rows = response.rows as Row[];
-    
-    const total = rows
-        .filter((row: Row) => row["Operação"]?.trim() === param)
-        .reduce((sum: number, row: Row) => {
+        const rows = response.rows as Row[];
+        const filteredRows = rows.filter((row: Row) => row["Operação"]?.trim() === param);
+        console.log('🎯 Linhas filtradas:', filteredRows); // Log das linhas filtradas
+        
+        const total = filteredRows.reduce((sum: number, row: Row) => {
         const valueStr = row["GGR"]?.toString().trim() || "0";
         const normalizedValue = valueStr
-        .replace("R$", "")
-        .replace(/\s+/g, "")
-        .replace(".", "")
-        .replace(",", ".");
+            .replace("R$", "")
+            .replace(/\s+/g, "")
+            .replace(".", "")
+            .replace(",", ".");
         const value = parseFloat(normalizedValue);
+        
         if (isNaN(value)) {
             console.warn(`Valor inválido encontrado: ${valueStr}`);
             return sum;
@@ -60,27 +62,30 @@ async function fetchData() {
         return sum + value;
         }, 0);
 
-    if (isMounted) {
+        console.log('💰 Total calculado:', total); // Log do total
+
+        if (isMounted) {
         setData(total);
         setError(null);
-    }
+        }
     } catch (err) {
-    if (isMounted) {
+        console.error('❌ Erro:', err); // Log de erro
+        if (isMounted) {
         setError(err instanceof Error ? err : new Error('Erro desconhecido'));
         setData(null);
-    }
+        }
     } finally {
-    if (isMounted) {
+        if (isMounted) {
         setLoading(false);
+        }
     }
     }
-}
 
-fetchData();
+    fetchData();
 
-return () => {
+    return () => {
     isMounted = false;
-};
+    };
 }, [param]);
 
 return { data, loading, error };

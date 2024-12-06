@@ -7,6 +7,7 @@ interface CardTotalGgrProps {
 }
 
 const CardGGR: React.FC<CardTotalGgrProps> = ({ totalGgr= 0 }) => {
+// FIXME: Card Ggr com problema de parecer o valor de GGR  algumas vezes ele aparece depois de um tempinho
 return (
 <CardGeneric
     // Mudar ICON:
