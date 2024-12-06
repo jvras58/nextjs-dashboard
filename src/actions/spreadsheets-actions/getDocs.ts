@@ -2,11 +2,11 @@
 
 import { GoogleSpreadsheet } from "google-spreadsheet";
 import { JWT } from "google-auth-library";
-import credentials from "@/config/google-sheets-api.json";
+
 
 const serviceAccountAuth = new JWT({
-    email: credentials.client_email, // Variável de ambiente para o e-mail do serviço
-    key: credentials.private_key?.replace(/\\n/g, "\n"), // Corrige quebras de linha na chave
+    email:process.env.NEXT_PUBLIC_GOOGLE_SHEETS_CLIENT_EMAIL, // Variável de ambiente para o e-mail do serviço
+    key: process.env.NEXT_PUBLIC_GOOGLE_SHEETS_PRIVATE_KEY?.replace(/\\n/g, "\n"), // Corrige quebras de linha na chave
     scopes: ["https://www.googleapis.com/auth/spreadsheets"], // Escopo necessário
 });
 

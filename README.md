@@ -41,8 +41,8 @@ As tecnologias utilizadas são:
 ├─📁 public            ->  [Pagina para imagens e icons e arquivos csv]
 ├─📁 src               ->  [Implementação da aplicação]
 │ ├─📁 actions           ->  [Server Actions]
-│ │ ├─📁 upload-actions
-| | |  ├─ 🇹 UploadActions.ts
+│ │ ├─📁 spreadsheets-actions -> [Aplicado errado [necessario revisar pois actions são utlizadas para Post]]
+| | |  ├─ 🇹 getDocs.ts
 | | |
 │ ├─📁 app           ->  [Entrypoint]
 │ │ ├─📁 dashboard
@@ -70,7 +70,6 @@ As tecnologias utilizadas são:
 │ │  
 │ ├─📁 Config         ->  [configuração de conexões]
 │ │  ├─⚛ firebaseConfig.ts
-| |  ├─⚛ google-sheets-api.json 
 │ │
 │ ├─📁 fonts         ->  [fonts do front]
 │ │  ├─ 𝓐 xxxxx-xxx.eot
@@ -118,10 +117,11 @@ Para rodar o projeto localmente, siga os passos abaixo:
    npm install
    ```
 
-3. Configure o arquivo `.env` e `google-sheets-api.json` na raiz do projeto com suas credenciais:
+3. Configure o arquivo `.env` na raiz do projeto com suas credenciais:
 
    1. `.env`
       ```bash
+      <!-- Firebase Conexão -->
       NEXT_PUBLIC_API_KEY=your_api_key
       NEXT_PUBLIC_AUTH_DOMAIN=your_auth_domain
       NEXT_PUBLIC_PROJECT_ID=your_project_id
@@ -129,24 +129,18 @@ Para rodar o projeto localmente, siga os passos abaixo:
       NEXT_PUBLIC_MESSAGING_SENDER_ID=your_messaging_sender_id
       NEXT_PUBLIC_APP_ID=your_app_id
       NEXT_PUBLIC_MEASUREMENT_ID=your_measurement_id
-      ```
 
-   2. `google-sheets-api.json`
-      ```json
-         {
-            "type": "xxxxxxxxxxxx",
-            "project_id": "xxxxxxxxx",
-            "private_key_id": "xxxxxxxxxxxxx",
-            "private_key": "-----BEGIN PRIVATE KEY-----\nxxxxxxxxxxxxx\nxxxxxxxx\n-----END PRIVATE KEY-----\n",
-            "client_email": "xxxxxxxxxxxxxx",
-            "client_id": "xxxxxxxxxxxxxxxx",
-            "auth_uri": "https://accounts.google.com/o/oauth2/auth",
-            "token_uri": "https://oauth2.googleapis.com/token",
-            "auth_provider_x509_cert_url": "https://www.googleapis.com/oauth2/v1/certs",
-            "client_x509_cert_url": "xxxxxxxxxxxxxxxxx",
-            "universe_domain": "googleapis.com"
-         }
-
+      <!-- Google Api conexão -->
+      NEXT_PUBLIC_GOOGLE_SHEETS_TYPE="service_account"
+      NEXT_PUBLIC_GOOGLE_SHEETS_PROJECT_ID="xxxxxxxxxxxxx"
+      NEXT_PUBLIC_GOOGLE_SHEETS_PRIVATE_KEY_ID="xxxxxxxxxxxxxx"
+      NEXT_PUBLIC_GOOGLE_SHEETS_PRIVATE_KEY="-----BEGIN PRIVATE KEY-----\nxxxxxxxxxx\n-----END PRIVATE KEY-----\n"
+      NEXT_PUBLIC_GOOGLE_SHEETS_CLIENT_EMAIL="xxxxxx@xxxxxxx.iam.gserviceaccount.com"
+      NEXT_PUBLIC_GOOGLE_SHEETS_CLIENT_ID="xxxxxxxxxxxxxx"
+      NEXT_PUBLIC_GOOGLE_SHEETS_AUTH_URI="https://accounts.google.com/o/oauth2/auth"
+      NEXT_PUBLIC_GOOGLE_SHEETS_TOKEN_URI="https://oauth2.googleapis.com/token"
+      NEXT_PUBLIC_GOOGLE_SHEETS_AUTH_PROVIDER_CERT_URL="https://www.googleapis.com/oauth2/v1/certs"
+      NEXT_PUBLIC_GOOGLE_SHEETS_CLIENT_CERT_URL="https://www.googleapis.com/robot/v1/metadata/x509/testing-spreadsheets%40betinha-testing.iam.gserviceaccount.com"
       ```
 
 4. Inicie o servidor de desenvolvimento:
