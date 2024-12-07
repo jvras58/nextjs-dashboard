@@ -44,7 +44,7 @@ async function fetchData() {
         }
         const response = await getDocs(spreadsheetId);
 
-    if (!response.headers || !response.rows) {
+        if (!response || !response.headers || !response.rows) {
         throw new Error("Dados da planilha não encontrados");
     }
 

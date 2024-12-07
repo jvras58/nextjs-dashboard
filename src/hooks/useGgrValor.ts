@@ -47,14 +47,14 @@ useEffect(() => {
         const response = await getDocs(spreadsheetId);
         // console.log('📊 Resposta da API:', response); 
 
-        if (!response.headers || !response.rows) {
+        if (!response || !response.headers || !response.rows) {
         throw new Error("Dados da planilha não encontrados");
         }
         
         const rows = response.rows as Row[];
                 
         // 3. Filtra e calcula o total baseado na operação
-        const filteredRows = rows.filter((row: Row) => row["Operação"]?.trim( ) === operacaoNome.trim());
+        const filteredRows = rows.filter((row: Row) => row["Operação"]?.trim() === operacaoNome.trim());
         // console.log('🎯 Linhas filtradas:', filteredRows);
         
         const total = filteredRows.reduce((sum: number, row: Row) => {
