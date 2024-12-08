@@ -213,5 +213,7 @@ Este projeto ainda não possui licença definida.
 
 [Server Actions](https://react.dev/reference/rsc/server-actions)
 
+[UseQuery](https://tanstack.com/query/latest/docs/framework/react/reference/useQuery)
+
 [Google Api](https://theoephraim.github.io/node-google-spreadsheet/#/)
 
