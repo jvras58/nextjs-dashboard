@@ -1,5 +1,3 @@
-import getDocs from "@/actions/spreadsheets-actions/getDocs";
-
 interface Row {
 "Código": string;
 "Nome": string;
@@ -28,13 +26,17 @@ if (!spreadsheetId) {
     throw new Error("Spreadsheet ID is not defined");
 }
 
-const response = await getDocs(spreadsheetId, 1);
+// Usa a API Route para buscar os dados
+const response = await fetch(
+    `/api/sheets?spreadsheetId=${spreadsheetId}&sheetIndex=1`
+    );
 
-if (!response || !response.headers || !response.rows) {
-    throw new Error("Dados da planilha não encontrados");
-}
+if (!response.ok) {
+    throw new Error("Falha ao buscar dados da planilha");
+    }
 
-const rows = response.rows as Row[];
+const sheetData = await response.json();
+const rows = sheetData.rows as Row[];
 const foundRow = rows.find((row: Row) => row["Código"]?.trim() === param);
 
 return {

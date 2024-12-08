@@ -40,11 +40,11 @@ As tecnologias utilizadas são:
 /
 ├─📁 public            ->  [Pagina para imagens e icons e arquivos csv]
 ├─📁 src               ->  [Implementação da aplicação]
-│ ├─📁 actions           ->  [Server Actions]
-│ │ ├─📁 spreadsheets-actions -> [Aplicado errado [necessario revisar pois actions são utlizadas para Post]]
-| | |  ├─ 🇹 getDocs.ts
-| | |
 │ ├─📁 app           ->  [Entrypoint]
+│ │ ├─📁 api
+│ │ │  ├─📁 sheets  ->  [Api Router sheets]
+│ │ │  │ ├─⚛ route.ts
+| | |  
 │ │ ├─📁 dashboard
 │ │ │  ├─📁 [slug]  ->  [Router dinamica do dashboard]
 │ │ │  │ ├─⚛ page.tsx
@@ -82,6 +82,10 @@ As tecnologias utilizadas são:
 │ ├─📁 lib         ->  []
 │ │  ├─🇹 utils.ts
 │ │
+│ ├─📁 service         ->  [Servicos utilizados]
+│ │  ├─ 📁 google
+│ │  |   ├─🇹 sheets.ts
+| |
 │ ├─📁 types         ->  [tipagem para o typescript]
 │ │  ├─🇹 xxxx.ts
 │ │      ...

@@ -1,5 +1,4 @@
 import { useState, useEffect } from "react";
-import getDocs from "@/actions/spreadsheets-actions/getDocs";
 import { buscarOperacao } from "@/utils/BuscarOperacao";
 
 interface Row {
@@ -42,13 +41,16 @@ async function fetchData() {
     if (!spreadsheetId) {
         throw new Error("Spreadsheet ID is not defined");
     }
-    const response = await getDocs(spreadsheetId);
+    const response = await fetch(
+        `/api/sheets?spreadsheetId=${spreadsheetId}`
+      );
 
-    if (!response || !response.headers || !response.rows) {
-        throw new Error("Dados da planilha não encontrados");
-    }
-
-    const rows = response.rows as Row[];
+      if (!response.ok) {
+        throw new Error("Falha ao buscar dados da planilha");
+      }
+    
+    const sheetData = await response.json();
+    const rows = sheetData.rows as Row[];
     
     // 3. Filtra e calcula o total baseado na operação
     const total = rows
