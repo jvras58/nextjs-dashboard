@@ -1,31 +1,13 @@
-import { useQuery } from '@tanstack/react-query';
-import { fetchQuantidadeFTD } from '@/service/google/ftdService';
+import { useSheetData, parseNumericValue } from '@/service/google/baseGoogleService';
 
-const useQuantidadeFTD = (param: string) => {
-  return useQuery<number, Error>({
-    queryKey: ['ftdQuantidade', param],
-    queryFn: () => fetchQuantidadeFTD(param),
-    enabled: !!param,
-    
-    // Configurações de cache
-    staleTime: 5 * 60 * 1000,
-    gcTime: 30 * 60 * 1000,
-    
-    // Configurações de retry
-    retry: 3,
-    retryDelay: attemptIndex => Math.min(1000 * 2 ** attemptIndex, 30000),
-    
-    // Configurações de refetch
-    refetchOnMount: true,
-    refetchOnWindowFocus: false,
-    refetchOnReconnect: true,
-    
-    // Otimizações
-    structuralSharing: true,
-    
-    // Configurações de rede
-    networkMode: 'online'
-  });
+interface QuantidadeFTDResult {
+  data: number;
+  isLoading: boolean;
+  error: Error | null;
+}
+
+const useQuantidadeFTD = (param: string): QuantidadeFTDResult => {
+  return useSheetData(param, "FTD (Qtd)", parseNumericValue);
 };
 
 export default useQuantidadeFTD;

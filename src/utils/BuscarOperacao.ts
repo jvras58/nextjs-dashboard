@@ -23,7 +23,7 @@ return {
 try {
 const spreadsheetId = process.env.NEXT_PUBLIC_GOOGLE_SHEETS_SPREADSHEET_ID;
 if (!spreadsheetId) {
-    throw new Error("Spreadsheet ID is not defined");
+    throw new Error("O ID da planilha não está definido");
 }
 
 // Usa a API Route para buscar os dados

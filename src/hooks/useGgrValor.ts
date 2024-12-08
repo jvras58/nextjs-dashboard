@@ -1,31 +1,13 @@
-import { useQuery } from '@tanstack/react-query';
-import { fetchGgrValor } from '@/service/google/ggrService';
+import { useSheetData, parseCurrencyValue } from '@/service/google/baseGoogleService';
 
-const useGgrValor = (param: string) => {
-  return useQuery<number, Error>({
-    queryKey: ['ggrValor', param],
-    queryFn: () => fetchGgrValor(param),
-    enabled: !!param,
-    
-    // Configurações de cache
-    staleTime: 5 * 60 * 1000,
-    gcTime: 30 * 60 * 1000,
-    
-    // Configurações de retry
-    retry: 3,
-    retryDelay: attemptIndex => Math.min(1000 * 2 ** attemptIndex, 30000),
-    
-    // Configurações de refetch
-    refetchOnMount: true,
-    refetchOnWindowFocus: false,
-    refetchOnReconnect: true,
-    
-    // Otimizações
-    structuralSharing: true,
-    
-    // Configurações de rede
-    networkMode: 'online'
-  });
+interface GgrValorResult {
+  data: number;
+  isLoading: boolean;
+  error: Error | null;
+}
+
+const useGgrValor = (param: string): GgrValorResult => {
+  return useSheetData(param, "GGR", parseCurrencyValue);
 };
 
 export default useGgrValor;

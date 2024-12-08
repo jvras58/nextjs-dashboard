@@ -6,61 +6,34 @@ interface FiliadoData {
   [key: string]: any;
 }
 
+// Configurações base para queries
+const baseQueryConfig = {
+  staleTime: 5 * 60 * 1000,
+  gcTime: 30 * 60 * 1000,
+  retry: 3,
+  retryDelay: (attemptIndex: number) => Math.min(1000 * 2 ** attemptIndex, 30000),
+  refetchOnMount: true,
+  refetchOnWindowFocus: false,
+  refetchOnReconnect: true,
+  structuralSharing: true,
+  networkMode: 'online' as const
+};
+
 const useFiliadoListFiltered = (collectionName: string) => {
-  // Query para dados da planilha
   const sheetQuery = useQuery<string[], Error>({
     queryKey: ['sheetCodes'],
     queryFn: fetchSheetData,
-    
-    // Configurações de cache
-    staleTime: 5 * 60 * 1000,
-    gcTime: 30 * 60 * 1000,
-    
-    // Configurações de retry
-    retry: 3,
-    retryDelay: attemptIndex => Math.min(1000 * 2 ** attemptIndex, 30000),
-    
-    // Configurações de refetch
-    refetchOnMount: true,
-    refetchOnWindowFocus: false,
-    refetchOnReconnect: true,
-    
-    // Otimizações
-    structuralSharing: true,
-    
-    // Configurações de rede
-    networkMode: 'online'
+    ...baseQueryConfig
   });
 
-  // Query para dados dos filiados
   const filiadosQuery = useQuery<FiliadoData[], Error>({
     queryKey: ['filiados', collectionName, sheetQuery.data],
     queryFn: () => fetchFiliadoData(collectionName, sheetQuery.data || []),
     enabled: !!sheetQuery.data,
-    
-    // Configurações de cache
-    staleTime: 5 * 60 * 1000,
-    gcTime: 30 * 60 * 1000,
-    
-    // Configurações de retry
-    retry: 3,
-    retryDelay: attemptIndex => Math.min(1000 * 2 ** attemptIndex, 30000),
-    
-    // Configurações de refetch
-    refetchOnMount: true,
-    refetchOnWindowFocus: false,
-    refetchOnReconnect: true,
-    
-    // Otimizações
-    structuralSharing: true,
-    
-    // Configurações de rede
-    networkMode: 'online',
-    
-    // Select para transformação de dados
     select: (data: FiliadoData[]) => {
       return data.sort((a, b) => b.id.localeCompare(a.id));
-    }
+    },
+    ...baseQueryConfig
   });
 
   return {

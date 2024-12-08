@@ -1,31 +1,13 @@
-import { useQuery } from '@tanstack/react-query';
-import { fetchTotalPremios } from '@/service/google/premiosService';
+import { useSheetData, parseCurrencyValue } from '@/service/google/baseGoogleService';
 
-const useTotalPremios = (param: string) => {
-  return useQuery<number, Error>({
-    queryKey: ['totalPremios', param],
-    queryFn: () => fetchTotalPremios(param),
-    enabled: !!param,
-    
-    // Configurações de cache
-    staleTime: 5 * 60 * 1000,
-    gcTime: 30 * 60 * 1000,
-    
-    // Configurações de retry
-    retry: 3,
-    retryDelay: attemptIndex => Math.min(1000 * 2 ** attemptIndex, 30000),
-    
-    // Configurações de refetch
-    refetchOnMount: true,
-    refetchOnWindowFocus: false,
-    refetchOnReconnect: true,
-    
-    // Otimizações
-    structuralSharing: true,
-    
-    // Configurações de rede
-    networkMode: 'online'
-  });
+interface TotalPremiosResult {
+  data: number;
+  isLoading: boolean;
+  error: Error | null;
+}
+
+const useTotalPremios = (param: string): TotalPremiosResult => {
+  return useSheetData(param, "Total de Prêmios", parseCurrencyValue);
 };
 
 export default useTotalPremios;

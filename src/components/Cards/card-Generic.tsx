@@ -43,7 +43,7 @@ const formatValue = (val: string | number) => {
     }
 };
 
-console.log("CardGeneric -> Value recebido:", value, "Formatado:", formatValue(value)); // Debug
+// console.log("CardGeneric -> Value recebido:", value, "Formatado:", formatValue(value)); // Debug
 
 return (
     <div className="rounded-[10px] bg-white p-6 shadow-1 dark:bg-gray-dark w-72">
