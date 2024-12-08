@@ -9,20 +9,28 @@ import useDepositoValor from "@/hooks/useDepositoValorQntd";
 import useGgrValor from "@/hooks/useGgrValor";
 
 export default function useDashboardData(param: string) {
-    const { data: cadastroData, loading: cadastroLoading } = useCadastroData("cadastro", param);
-    const { data: totalInvestido, loading: investidoLoading } = useTotalInvestido(param);
-    const { data: totalApostado, loading: apostadoLoading } = useTotalApostado(param);
-    const { data: totalPremios, loading: premiosLoading } = useTotalPremios(param);
-    const {data: totalFtd, loading: ftdLoading} = useQuantidadeFTD(param);
-    const {data: totalAmountFtd, loading: amountFtdLoading} = useFtdAmount(param);
-    const {data: totalDeposito, loading: depositoLoading} = useQuantidadeDeposito(param);
-    const {data: totalAmountDeposito, loading: depositoAmountLoading} = useDepositoValor(param);
-    //TODO: é alguma coisa com o tempo que não esta retornando o valor logo de cara 
-    const {data: totalGgr, loading: ggrLoading} = useGgrValor(param);
+    const { data: cadastroData, isLoading: cadastroLoading } = useCadastroData("cadastro", param);
+    
+    const { data: totalInvestido, isLoading: investidoLoading } = useTotalInvestido(param);
+
+    const { data: totalApostado, isLoading: apostadoLoading } = useTotalApostado(param);
+
+    const { data: totalPremios, isLoading: premiosLoading } = useTotalPremios(param);
+
+    const { data: totalFtd, isLoading: ftdLoading } = useQuantidadeFTD(param);
+
+    const { data: totalAmountFtd, isLoading: amountFtdLoading } = useFtdAmount(param);
+
+    const { data: totalDeposito, isLoading: depositoLoading } = useQuantidadeDeposito(param);
+
+    const { data: totalAmountDeposito, isLoading: depositoAmountLoading} = useDepositoValor(param);
+
+    // FIXME: O unico com problema.... as vezes não carrega de cara mas é mexer no codigo ele aparece....
+    const { data: totalGgr, isLoading: ggrLoading} = useGgrValor(param);
 
 
     return {
-        cadastroData,
+        cadastroData: cadastroData ?? [],
         totalInvestido,
         totalApostado,
         totalPremios,

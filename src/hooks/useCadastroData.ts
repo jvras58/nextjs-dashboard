@@ -1,36 +1,40 @@
-import { useState, useEffect } from 'react';
-import { collection, onSnapshot, query, where } from 'firebase/firestore';
-import { db } from '../config/firebaseconfig';
+import { useQuery } from '@tanstack/react-query';
+import { fetchCadastroData } from '@/service/firestore/cadastroService';
+
+interface CadastroData {
+  id: string;
+  [key: string]: any;
+}
 
 const useCadastroData = (collectionName: string, affiliate: string) => {
-    const [data, setData] = useState<any[]>([]);
-    const [loading, setLoading] = useState(true);
-    const [error, setError] = useState<Error | null>(null);
-
-    useEffect(() => {
-        let isMounted = true;
-
-        const q = query(collection(db, collectionName), where("affiliate", "==", affiliate));
-        const unsubscribe = onSnapshot(q, (querySnapshot) => {
-            if (isMounted) {
-                const newData = querySnapshot.docs.map(doc => doc.data());
-                setData(newData);
-                setLoading(false);
-            }
-        }, (error) => {
-            if (isMounted) {
-                setError(error);
-                setLoading(false);
-            }
-        });
-
-        return () => {
-            isMounted = false;
-            unsubscribe();
-        };
-    }, [collectionName, affiliate]);
-
-    return { data, loading, error };
+  return useQuery<CadastroData[], Error>({
+    queryKey: ['cadastro', collectionName, affiliate],
+    queryFn: () => fetchCadastroData(collectionName, affiliate),
+    
+    // Configurações de cache
+    staleTime: 5 * 60 * 1000, // Dados considerados obsoletos após 5 minutos
+    gcTime: 30 * 60 * 1000,   // Manter em cache por 30 minutos
+    
+    // Configurações de retry
+    retry: 3,                  // Tentar 3 vezes em caso de erro
+    retryDelay: attemptIndex => Math.min(1000 * 2 ** attemptIndex, 30000),
+    
+    // Configurações de refetch
+    refetchOnMount: true,      // Refetch ao montar o componente
+    refetchOnWindowFocus: false, // Não refetch ao focar janela
+    refetchOnReconnect: true,  // Refetch ao reconectar
+    
+    // Otimizações
+    structuralSharing: true,   // Manter referências de dados inalterados
+    
+    // Configurações de rede
+    networkMode: 'online',     // Só busca quando online
+    
+    // Select para transformação de dados (opcional)
+    select: (data: CadastroData[]) => {
+      return data.sort((a, b) => b.id.localeCompare(a.id));
+    }
+  });
 };
 
 export default useCadastroData;

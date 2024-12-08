@@ -6,9 +6,9 @@ import AfiliadoCard from "@/components/Cards/Afiliado/afiliado";
 import Loader from "@/components/common/Loader";
 
 const AfiliadosList = () => {
-const { data, loading } = useFiliadoList("cadastro");
+const { data, isLoading  } = useFiliadoList("cadastro");
 
-if (loading) {
+if (isLoading) {
 return <Loader />;
 }
 
