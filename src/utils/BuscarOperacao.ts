@@ -30,7 +30,7 @@ if (!spreadsheetId) {
 
 const response = await getDocs(spreadsheetId, 1);
 
-if (!response.headers || !response.rows) {
+if (!response || !response.headers || !response.rows) {
     throw new Error("Dados da planilha não encontrados");
 }
 
