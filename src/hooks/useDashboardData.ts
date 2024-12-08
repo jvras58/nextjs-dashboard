@@ -9,6 +9,7 @@ import useDepositoValor from "@/hooks/useDepositoValorQntd";
 import useGgrValor from "@/hooks/useGgrValor";
 
 export default function useDashboardData(param: string) {
+
     const { data: cadastroData, isLoading: cadastroLoading } = useCadastroData("cadastro", param);
     
     const { data: totalInvestido, isLoading: investidoLoading } = useTotalInvestido(param);

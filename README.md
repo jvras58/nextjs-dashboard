@@ -85,6 +85,9 @@ As tecnologias utilizadas são:
 │ ├─📁 service         ->  [Servicos utilizados]
 │ │  ├─ 📁 google
 │ │  |   ├─🇹 sheets.ts
+| |  |   ├─🇹 xxxxxxx.ts
+│ │  ├─ 📁 firestore
+| |  |   ├─🇹 xxxxxxx.ts
 | |
 │ ├─📁 types         ->  [tipagem para o typescript]
 │ │  ├─🇹 xxxx.ts
