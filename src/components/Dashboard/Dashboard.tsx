@@ -26,6 +26,7 @@ import CardTicketMedioGeral from "@/components/Cards/Deposito/card-TicktetmedioG
 import Loader from "../common/Loader";
 
 import useDashboardData from "@/hooks/useDashboardData";
+import DateRangePicker from "@/components/Dashboard/DateRangePicker";
 
 interface DashboardProps {
   param?: string;
@@ -126,6 +127,9 @@ export default function Dashboard({ param }: DashboardProps) {
 
   return (
     <>
+      <div className="flex justify-end mb-6 px-7.5">
+        <DateRangePicker />
+      </div>
       {sectionsConfig.map((section, sectionIndex) => (
         <div key={sectionIndex}>
           {/* Título da seção */}

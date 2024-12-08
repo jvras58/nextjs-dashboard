@@ -26,7 +26,6 @@ export default function useDashboardData(param: string) {
 
     const { data: totalAmountDeposito, isLoading: depositoAmountLoading} = useDepositoValor(param);
 
-    // FIXME: O unico com problema.... as vezes não carrega de cara mas é mexer no codigo ele aparece....
     const { data: totalGgr, isLoading: ggrLoading} = useGgrValor(param);
 
 
