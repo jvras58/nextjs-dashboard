@@ -1,28 +1,33 @@
-"use client"
+"use client";
 
-import * as React from "react"
-import { addDays, format } from "date-fns"
-import { pt } from 'date-fns/locale'
-import { CalendarIcon } from 'lucide-react'
+import * as React from "react";
+import { format } from "date-fns";
+import { pt } from "date-fns/locale";
+import { CalendarIcon } from "lucide-react";
 
-import { cn } from "@/lib/utils"
-import { Button } from "@/components/ui/button"
-import { Calendar } from "@/components/ui/calendar"
+import { cn } from "@/lib/utils";
+import { Button } from "@/components/ui/button";
+import { Calendar } from "@/components/ui/calendar";
 import {
   Popover,
   PopoverContent,
   PopoverTrigger,
-} from "@/components/ui/popover"
+} from "@/components/ui/popover";
 
-export default function DateRangePicker() {
-  const [date, setDate] = React.useState<{
-    from: Date | undefined
-    to: Date | undefined
-  }>({
-    from: new Date(),
-    to: addDays(new Date(), 7),
-  })
+interface Props {
+  date: {
+    from: Date | undefined;
+    to: Date | undefined;
+  };
+  changeStartDate: (newDate: Date | undefined) => void;
+  changeEndDate: (newDate: Date | undefined) => void;
+}
 
+export default function DateRangePicker({
+  date,
+  changeEndDate,
+  changeStartDate,
+}: Props) {
   return (
     <Popover>
       <PopoverTrigger asChild>
@@ -30,7 +35,7 @@ export default function DateRangePicker() {
           variant={"outline"}
           className={cn(
             "w-[280px] justify-start text-left font-normal",
-            !date && "text-muted-foreground"
+            !date && "text-muted-foreground",
           )}
         >
           <CalendarIcon className="mr-2 h-4 w-4" />
@@ -53,9 +58,7 @@ export default function DateRangePicker() {
           <Calendar
             mode="single"
             selected={date?.from}
-            onSelect={(newDate) =>
-              setDate((prev) => ({ ...prev, from: newDate }))
-            }
+            onSelect={(newDate) => changeStartDate(newDate)}
             initialFocus
             locale={pt}
             lang="pt-BR"
@@ -63,12 +66,7 @@ export default function DateRangePicker() {
           <Calendar
             mode="single"
             selected={date?.to}
-            onSelect={(newDate) =>
-              setDate((prev) => ({
-                ...prev,
-                to: newDate && prev.from && newDate < prev.from ? prev.from : newDate
-              }))
-            }
+            onSelect={(newDate) => changeEndDate(newDate)}
             initialFocus
             locale={pt}
             fromDate={date.from || new Date()}
@@ -77,6 +75,5 @@ export default function DateRangePicker() {
         </div>
       </PopoverContent>
     </Popover>
-  )
+  );
 }
-
