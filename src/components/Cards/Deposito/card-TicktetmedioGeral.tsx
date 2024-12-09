@@ -1,7 +1,11 @@
 import React from "react";
 import CardGeneric from  "../card-Generic";
 
-const CardTicketMedioGeral: React.FC = () => {
+interface CardTicketMedioGeralProps {
+TicketMedio?: number;
+}
+        
+const CardTicketMedioGeral: React.FC<CardTicketMedioGeralProps> = ({ TicketMedio= 0 }) => {
 return (
 <CardGeneric
     // Mudar ICON:
@@ -27,9 +31,8 @@ return (
     }
     color="#18BFFF"
     title="Ticket Médio (Geral)"
-    // tratamento para valores de money
-    value="R$35.57"
-    growthRate={-0.95}
+    value={TicketMedio}
+    format="currency"
 />
 );
 };
