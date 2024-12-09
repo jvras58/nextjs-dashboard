@@ -8,7 +8,6 @@ interface CardCustoFTDProps {
 const CardCustoFTD: React.FC<CardCustoFTDProps> = ({ CustoFTD= 0 }) => {
 return (
 <CardGeneric
-    // Mudar ICON:
     icon={
     <svg
         width="26"
