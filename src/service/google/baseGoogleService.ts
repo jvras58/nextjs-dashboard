@@ -31,10 +31,22 @@ const fetchSheet = async () => {
   return response.json();
 };
 
-export const useSheetData = <T extends BaseRow>(
+
+export interface SheetRow extends BaseRow {
+  "Operação": string;
+  [key: string]: string;
+}
+
+export type ProcessedDataType = number | string | boolean | null;
+
+
+export const useSheetData = <
+  RowType extends SheetRow = SheetRow,
+  ReturnType extends ProcessedDataType = number
+>(
   param: string,
-  columnName: string,
-  valueTransformer: (value: string) => number
+  _columnName: string,
+  processRows: (rows: RowType[], operacaoNome: string) => ReturnType
 ) => {
   // Query para operação
   const operacaoQuery = useQuery({
@@ -50,18 +62,11 @@ export const useSheetData = <T extends BaseRow>(
     staleTime: 5 * 60 * 1000, // 5 minutos
   });
 
-  // Processa os dados
-  const processData = () => {
-    if (!operacaoQuery.data || !sheetQuery.data) return 0;
+  const processData = (): ReturnType | null => {
+    if (!operacaoQuery.data || !sheetQuery.data) return null;
 
-    const rows = sheetQuery.data.rows as T[];
-    return rows
-      .filter(row => row["Operação"]?.trim() === operacaoQuery.data.nome?.trim())
-      .reduce((sum, row) => {
-        const valueStr = row[columnName]?.toString().trim() || "0";
-        const value = valueTransformer(valueStr);
-        return isNaN(value) ? sum : sum + value;
-      }, 0);
+    const rows = sheetQuery.data.rows as RowType[];
+    return processRows(rows, operacaoQuery.data.nome?.trim() || '');
   };
 
   return {
@@ -84,4 +89,9 @@ export const parseCurrencyValue = (valueStr: string): number => {
 // Função helper para transformar valores numéricos
 export const parseNumericValue = (valueStr: string): number => {
   return parseInt(valueStr, 10);
+};
+
+// Helper para processar valores percentuais
+export const parsePercentageValue = (valueStr: string): number => {
+  return parseFloat(valueStr.replace("%", "")) / 100;
 };

@@ -1,13 +1,25 @@
-import { useSheetData, parseCurrencyValue } from '@/service/google/baseGoogleService';
+import { useSheetData, BaseRow, parseCurrencyValue } from '@/service/google/baseGoogleService';
 
 interface DepositoValorResult {
-  data: number;
+  data: number | null;
   isLoading: boolean;
   error: Error | null;
 }
 
 const useDepositoValor = (param: string): DepositoValorResult => {
-  return useSheetData(param, "Depósitos (Valor)", parseCurrencyValue);
+  return useSheetData<BaseRow, number>(
+    param,
+    "Depósitos (Valor)",
+    (rows, operacaoNome) => {
+      return rows
+        .filter(row => row["Operação"]?.trim() === operacaoNome)
+        .reduce((sum, row) => {
+          const valueStr = row["Depósitos (Valor)"]?.toString().trim() || "R$ 0";
+          const value = parseCurrencyValue(valueStr);
+          return isNaN(value) ? sum : sum + value;
+        }, 0);
+    }
+  );
 };
 
 export default useDepositoValor;
