@@ -1,5 +1,8 @@
 import { useSheetData, BaseRow, parseCurrencyValue } from '@/service/google/baseGoogleService';
 
+// Cálculo da média de investimento:
+// AVG(TOTAL INVESTIDO (DIA)) - MÉDIA
+
 interface MediaInvestidaResult {
   data: number | null;
   isLoading: boolean;

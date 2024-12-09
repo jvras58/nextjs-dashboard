@@ -2,6 +2,9 @@ import { useMemo } from 'react';
 import useQuantidadeDeposito from '@/hooks/useDepositoQntd';
 import useQuantidadeFTD from '@/hooks/useFtdQntd';
 
+// Cálculo da Taxa de Re-depósito:
+// quantidadeDeposito(Depósitos (Qtd)) - quantidadeFTD(FTD (Qtd)) / quantidadeDeposito(Depósitos (Qtd))
+
 interface TaxaNaoConversaoResult {
   data: string | null;
   isLoading: boolean;

@@ -1,6 +1,9 @@
 import useGgrValor from '@/hooks/useGgrValor';
 import useDepositoValor from '@/hooks/useDepositoValorQntd';
 
+// Cálculo do TAXA DE RETENÇÃO DE DEPÓSITO:
+// ggrResult(GGR) / depositoResult(Depósitos (Valor))
+
 interface TaxaRetencaoDepositoResult {
   data: string | null;
   isLoading: boolean;

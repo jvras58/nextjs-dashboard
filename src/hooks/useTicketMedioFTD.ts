@@ -2,6 +2,9 @@ import { useMemo } from 'react';
 import useFtdAmount from '@/hooks/useFtdAmount';
 import useQuantidadeFTD from '@/hooks/useFtdQntd';
 
+// Cálculo do Valor Médio por FTD:
+// ftdAmount(FTD (Valor)) / quantidadeFTD(FTD (Qtd))
+
 interface ValorMedioFTDResult {
   data: number | null;
   isLoading: boolean;

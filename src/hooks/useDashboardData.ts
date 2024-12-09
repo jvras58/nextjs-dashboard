@@ -13,7 +13,7 @@ import useTaxaRetencaoDeposito from "@/hooks/useTaxaRetencaoDeposito";
 import useCustoCadastro from "@/hooks/useCustoCadastro";
 import useConversaoCadastroFTD from "@/hooks/useConversaoCadastroFtd";
 import useCustoFTD from "@/hooks/useCustoFTD";
-import useValorMedioFTD from "@/hooks/useValorMedioFTD";
+import useValorMedioFTD from "@/hooks/useTicketMedioFTD";
 import useTaxaRedeposito from "@/hooks/useRedeposito";
 import useTicketMedio from "@/hooks/useTicktetMedio";
 

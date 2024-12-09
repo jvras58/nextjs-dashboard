@@ -1,6 +1,9 @@
 import useTotalInvestido from '@/hooks/useTotalInvestido';
 import useTotalCadastro from '@/hooks/useTotalCadastro';
 
+// Cálculo do CUSTO DE CADASTRO:
+// totalInvestido(Total Investido (Dia)) / totalCadastro(Cadastros)
+
 interface CustoCadastroResult {
   data: number | null;
   isLoading: boolean;

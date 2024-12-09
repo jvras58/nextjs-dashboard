@@ -1,6 +1,9 @@
 import useQuantidadeFTD from '@/hooks/useFtdQntd';
 import useTotalCadastro from '@/hooks/useTotalCadastro';
 
+// Cálculo da Conversão de Cadastro FTD:
+// ftdResult(FTD (Qtd)) / cadastroResult(Cadastros)
+
 interface ConversaoCadastroFTDResult {
   data: string | null;
   isLoading: boolean;

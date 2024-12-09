@@ -2,6 +2,9 @@ import { useMemo } from 'react';
 import useDepositoValor from '@/hooks/useDepositoValorQntd';
 import useQuantidadeFTD from '@/hooks/useFtdQntd';
 
+// Cálculo do Ticket Médio GERAL:
+// depositoValor(Depósitos (Valor)) / quantidadeFTD(FTD (Qtd))
+
 interface TicketMedioResult {
   data: number | null;
   isLoading: boolean;

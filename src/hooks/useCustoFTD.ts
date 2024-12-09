@@ -3,6 +3,9 @@ import useTotalInvestido from '@/hooks/useTotalInvestido';
 import useQuantidadeFTD from '@/hooks/useFtdQntd';
 
 
+// Cálculo do CUSTO POR FTD:
+// totalInvestido(Total Investido (Dia)) / quantidadeFTD(FTD (Qtd))
+
 interface CustoFTDResult {
   data: number | null;
   isLoading: boolean;
