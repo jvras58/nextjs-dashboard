@@ -14,6 +14,7 @@ import useCustoCadastro from "@/hooks/useCustoCadastro";
 import useConversaoCadastroFTD from "@/hooks/useConversaoCadastroFtd";
 import useCustoFTD from "@/hooks/useCustoFTD";
 import useValorMedioFTD from "@/hooks/useValorMedioFTD";
+import useTaxaRedeposito from "@/hooks/useRedeposito";
 
 export default function useDashboardData(param: string) {
 
@@ -43,7 +44,9 @@ export default function useDashboardData(param: string) {
 
     const { data: CustoFTD, isLoading: CustoFTDLoading} = useCustoFTD(param);
     
-    const { data: ValorMedioFTD, isLoading: ValorMedioFTDLoading} = useValorMedioFTD(param);	            
+    const { data: ValorMedioFTD, isLoading: ValorMedioFTDLoading} = useValorMedioFTD(param);
+    
+    const { data: TaxaRedeposito, isLoading: TaxaRedepositoLoading} = useTaxaRedeposito(param);	
 
     const { data: totalGgr, isLoading: ggrLoading} = useGgrValor(param);
     
@@ -64,9 +67,10 @@ export default function useDashboardData(param: string) {
         totalDeposito,
         totalAmountDeposito,
         CustoFTD,
+        TaxaRedeposito,
         ValorMedioFTD,
         totalGgr,
         taxaRetencao,
-        loading: cadastroLoading || totalCustoCadastroLoading || ConversaoCadastroFTDLoading || investidoLoading || MediaInvestidaLoading || roiLoading || apostadoLoading || premiosLoading || ftdLoading || amountFtdLoading || depositoLoading || depositoAmountLoading || CustoFTDLoading || ValorMedioFTDLoading || ggrLoading || taxaRetencaoLoading
+        loading: cadastroLoading || totalCustoCadastroLoading || ConversaoCadastroFTDLoading || investidoLoading || MediaInvestidaLoading || roiLoading || apostadoLoading || premiosLoading || ftdLoading || amountFtdLoading || depositoLoading || depositoAmountLoading || CustoFTDLoading || TaxaRedepositoLoading || ValorMedioFTDLoading || ggrLoading || taxaRetencaoLoading
     };
 }

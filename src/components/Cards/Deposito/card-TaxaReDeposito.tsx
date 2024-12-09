@@ -1,7 +1,12 @@
 import React from "react";
 import CardGeneric from  "../card-Generic";
 
-const CardReDeposito: React.FC = () => {
+
+interface CardReDepositoProps {
+    TaxaRedeposito?: string;
+    }
+    
+export default function CardReDeposito({ TaxaRedeposito= "0%" }: CardReDepositoProps) {
 return (
 <CardGeneric
     // Mudar ICON:
@@ -27,10 +32,9 @@ return (
     }
     color="#18BFFF"
     title="Taxa Re-Depósito"
-    value="48.57%"
-    growthRate={-0.95}
+    value={TaxaRedeposito}
+    format="percent"
 />
 );
 };
 
-export default CardReDeposito;
