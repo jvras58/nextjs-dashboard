@@ -1,7 +1,12 @@
 import React from "react";
 import CardGeneric from "../card-Generic";
 
-const CardRetencaoDeposito: React.FC = () => {
+interface CardRetencaoDepositoProps {
+ taxaRetencao?: string;
+}
+
+const CardRetencaoDeposito: React.FC<CardRetencaoDepositoProps> = ({ taxaRetencao= "0%" }) => {
+
 return (
 <CardGeneric
     // Mudar ICON:
@@ -27,8 +32,8 @@ return (
     }
     color="#18BFFF"
     title="Taxa Retenção Deposito"
-    value="17,5%"
-    growthRate={-0.95}
+    value={taxaRetencao}
+    format="percent"
 />
 );
 };

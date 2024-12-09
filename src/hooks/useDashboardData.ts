@@ -9,6 +9,7 @@ import useDepositoValor from "@/hooks/useDepositoValorQntd";
 import useGgrValor from "@/hooks/useGgrValor";
 import useMediaInvestida from "@/hooks/useMediaInvestida";
 import useRoi from "@/hooks/useRoi";
+import useTaxaRetencaoDeposito from "@/hooks//useTaxaRetencaoDeposito";
 
 export default function useDashboardData(param: string) {
 
@@ -33,6 +34,8 @@ export default function useDashboardData(param: string) {
     const { data: totalAmountDeposito, isLoading: depositoAmountLoading} = useDepositoValor(param);
 
     const { data: totalGgr, isLoading: ggrLoading} = useGgrValor(param);
+    
+    const { data: taxaRetencao, isLoading: taxaRetencaoLoading } = useTaxaRetencaoDeposito(param);
 
 
     return {
@@ -47,6 +50,7 @@ export default function useDashboardData(param: string) {
         totalDeposito,
         totalAmountDeposito,
         totalGgr,
-        loading: cadastroLoading || investidoLoading || MediaInvestidaLoading || roiLoading || apostadoLoading || premiosLoading || ftdLoading || amountFtdLoading || depositoLoading || depositoAmountLoading || ggrLoading
+        taxaRetencao,
+        loading: cadastroLoading || investidoLoading || MediaInvestidaLoading || roiLoading || apostadoLoading || premiosLoading || ftdLoading || amountFtdLoading || depositoLoading || depositoAmountLoading || ggrLoading || taxaRetencaoLoading
     };
 }
