@@ -1,42 +1,33 @@
 import React from "react";
 import CardGeneric from "../card-Generic";
 
-
 interface CardTotalApostaProps {
-    totalApostado?: number;
+  totalApostado?: number;
 }
 
-const TotalApostado: React.FC<CardTotalApostaProps> = ({ totalApostado= 0 }) => {
-return (
-<CardGeneric
-    // Mudar ICON:
-    icon={
-    <svg
-        width="26"
-        height="26"
-        viewBox="0 0 26 26"
-        fill="none"
-        xmlns="http://www.w3.org/2000/svg"
-    >
-        <ellipse cx="9.75106" cy="6.49984" rx="4.33333" ry="4.33333" fill="white" />
-        <ellipse cx="9.75106" cy="18.4178" rx="7.58333" ry="4.33333" fill="white" />
-        <path
-        d="M22.7496 18.4173C22.7496 20.2123 20.5445 21.6673 17.8521 21.6673C18.6453 20.8003 19.1907 19.712 19.1907 18.4189C19.1907 17.1242 18.644 16.0349 17.8493 15.1674C20.5417 15.1674 22.7496 16.6224 22.7496 18.4173Z"
-        fill="white"
-        />
-        <path
-        d="M19.4996 6.50098C19.4996 8.2959 18.0446 9.75098 16.2496 9.75098C15.8582 9.75098 15.483 9.68179 15.1355 9.55498C15.648 8.65355 15.9407 7.61084 15.9407 6.49977C15.9407 5.38952 15.6484 4.34753 15.1366 3.44656C15.4838 3.32001 15.8587 3.25098 16.2496 3.25098C18.0446 3.25098 19.4996 4.70605 19.4996 6.50098Z"
-        fill="white"
-        />
-    </svg>
-    }
-    color="#18BFFF"
-    title="Total Apostado"
-    value={totalApostado}
-    format="currency"
-
-/>
-);
+const TotalApostado: React.FC<CardTotalApostaProps> = ({ totalApostado = 0 }) => {
+  return (
+    <CardGeneric
+      icon={
+        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24">
+          <g fill="none" fillRule="evenodd">
+            <path
+              d="m12.594 23.258l-.012.002l-.071.035l-.02.004l-.014-.004l-.071-.036q-.016-.004-.024.006l-.004.01l-.017.428l.005.02l.01.013l.104.074l.015.004l.012-.004l.104-.074l.012-.016l.004-.017l-.017-.427q-.004-.016-.016-.018m.264-.113l-.014.002l-.184.093l-.01.01l-.003.011l.018.43l.005.012l.008.008l.201.092q.019.005.029-.008l.004-.014l-.034-.614q-.005-.019-.02-.022m-.715.002a.02.02 0 0 0-.027.006l-.006.014l-.034.614q.001.018.017.024l.015-.002l.201-.093l.01-.008l.003-.011l.018-.43l-.003-.012l-.01-.01z"
+              fill="white"
+            />
+            <path
+              fill="white"
+              d="M2 9a5 5 0 0 1 5-5h10a5 5 0 0 1 5 5v6a5 5 0 0 1-5 5H7a5 5 0 0 1-5-5zm2 2v4a3 3 0 0 0 3 3h10a3 3 0 0 0 3-3v-4h-3a2 2 0 0 1-2 2H9a2 2 0 0 1-2-2zm0-2a3 3 0 0 1 3-3h10a3 3 0 0 1 3 3z"
+            />
+          </g>
+        </svg>
+      }
+      color="#9c988b"
+      title="Total Apostado"
+      value={totalApostado}
+      format="currency"
+    />
+  );
 };
 
 export default TotalApostado;
