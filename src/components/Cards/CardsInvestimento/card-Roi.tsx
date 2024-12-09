@@ -1,7 +1,11 @@
 import React from "react";
 import CardGeneric from "../card-Generic";
 
-const CardRoi: React.FC = () => {
+interface CardCardRoiProps {
+    roi?: number;
+}
+
+const CardRoi: React.FC<CardCardRoiProps> = ({ roi= 0 }) => {
 return (
 <CardGeneric
     icon={
@@ -25,8 +29,7 @@ return (
     }
     color="#A020F0"
     title="ROI"
-    value="1,03"
-    growthRate={-0.95}
+    value={roi}
 />
 );
 };
