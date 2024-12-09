@@ -3,10 +3,10 @@ import CardGeneric from "../card-Generic";
 
 
 interface CustoCadastroProps {
-param?: string;
+totalCustoCadastro?: number;
 }
 
-export default function CustoCadastro({ param }: CustoCadastroProps) {
+export default function CustoCadastro({ totalCustoCadastro = 0 }: CustoCadastroProps) {
 return (
 <CardGeneric
     // Mudar ICON:
@@ -32,9 +32,8 @@ return (
     }
     color="#18BFFF"
     title="Custo / Cadastro"
-    // tratamento para valores de money
-    value={param || "R$12.57"}
-    // growthRate={-0.95}
+    value={totalCustoCadastro}
+    format="currency"
 />
 );
 };

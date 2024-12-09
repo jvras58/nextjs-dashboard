@@ -35,6 +35,7 @@ interface DashboardProps {
 export default function Dashboard({ param }: DashboardProps) {
   const { 
     cadastroData,
+    totalCustoCadastro,
     totalInvestido,
     MediaInvestida,
     roi,
@@ -75,7 +76,7 @@ export default function Dashboard({ param }: DashboardProps) {
       title: "Cadastro",
       cards: [
         { component: CardCadastro, props: { userCount: cadastroData.length } },
-        { component: CardCustoCadastro, props: { param: param || "" } },
+        { component: CardCustoCadastro, props: {totalCustoCadastro : totalCustoCadastro ?? 0 } },
         { component: CardConversaocadastroftd, props: { param: param || "" } },
       ],
       tables: [
