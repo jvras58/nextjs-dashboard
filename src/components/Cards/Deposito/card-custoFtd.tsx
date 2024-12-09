@@ -1,7 +1,11 @@
 import React from "react";
 import CardGeneric from "../card-Generic";
 
-const CardCustoFTD: React.FC = () => {
+interface CardCustoFTDProps {
+  CustoFTD?: number;
+}
+    
+const CardCustoFTD: React.FC<CardCustoFTDProps> = ({ CustoFTD= 0 }) => {
 return (
 <CardGeneric
     // Mudar ICON:
@@ -27,9 +31,8 @@ return (
     }
     color="#18BFFF"
     title="Custo FTD"
-    // tratamento para valores de money
-    value="R$12.57"
-    growthRate={-0.95}
+    value={CustoFTD}
+    format="currency"
 />
 );
 };
