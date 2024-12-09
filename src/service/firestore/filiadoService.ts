@@ -8,13 +8,14 @@ interface SheetRow {
 }
 
 export const fetchSheetData = async () => {
+  const sheetsIndex = process.env.NEXT_PUBLIC_GOOGLE_SHEETS_OPERATIONS_SHEET_ID;
   const spreadsheetId = process.env.NEXT_PUBLIC_GOOGLE_SHEETS_SPREADSHEET_ID;
   if (!spreadsheetId) {
     throw new Error("O ID da planilha não está definido");
   }
 
   const response = await fetch(
-    `/api/sheets?spreadsheetId=${spreadsheetId}&sheetIndex=1`
+    `/api/sheets?spreadsheetId=${spreadsheetId}&sheetIndex=${sheetsIndex}`
   );
 
   if (!response.ok) {
