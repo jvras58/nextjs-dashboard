@@ -13,21 +13,12 @@ DropdownMenuLabel,
 DropdownMenuSeparator,
 DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
+import useCampanhaData from "@/hooks/useCampanhaData";
 
 interface Campaign {
 nome_campanha: string;
 quantidade_de_cadastro: number;
 }
-
-const data: Campaign[] = [
-{ nome_campanha: "Campanha A", quantidade_de_cadastro: 120 },
-{ nome_campanha: "Campanha B", quantidade_de_cadastro: 80 },
-{ nome_campanha: "Campanha C", quantidade_de_cadastro: 150 },
-{ nome_campanha: "Campanha D", quantidade_de_cadastro: 250 },
-{ nome_campanha: "Campanha E", quantidade_de_cadastro: 300 },
-{ nome_campanha: "Campanha F", quantidade_de_cadastro: 200 },
-{ nome_campanha: "Campanha G", quantidade_de_cadastro: 100 },
-];
 
 const columns: ColumnDef<Campaign>[] = [
 {
@@ -82,20 +73,45 @@ cell: ({ row }) => {
 },
 ];
 
-const CampaignTable: React.FC = () => {
-return (
-<div className="col-span-12 rounded-[10px] bg-white px-7.5 pt-7.5 shadow-1 dark:bg-gray-dark dark:shadow-card xl:col-span-5  h-150">
-    <div className="mb-4 justify-between gap-4 sm:flex">
-    <div>
-        <h4 className="text-body-2xlg font-bold text-dark dark:text-white">
-        Campanhas
-        </h4>
-    </div>
-    </div>
-    {/* TODO: refazer essa parte do filtro para ser igual ao datastudio é poder filtrar por qualquer coluna */}
-    <DataTable columns={columns} data={data} filterColumn="nome_campanha" />
-</div>
-);
+interface CampaignTableProps {
+  param?: string;
+}
+
+const CampaignTable: React.FC<CampaignTableProps> = ({ param }) => {
+    const { data, isLoading } = useCampanhaData(param || "");        
+
+    if (isLoading || !data) {
+        return (
+            <div className="col-span-12 rounded-[10px] bg-white px-7.5 pt-7.5 shadow-1 dark:bg-gray-dark dark:shadow-card xl:col-span-5 h-150">
+                <div className="mb-4 justify-between gap-4 sm:flex">
+                    <div>
+                        <h4 className="text-body-2xlg font-bold text-dark dark:text-white">
+                            Campanhas
+                        </h4>
+                    </div>
+                </div>
+                <div>Carregando...</div>
+            </div>
+        );
+    }
+
+    return (
+        <div className="col-span-12 rounded-[10px] bg-white px-7.5 pt-7.5 shadow-1 dark:bg-gray-dark dark:shadow-card xl:col-span-5 h-150">
+            <div className="mb-4 justify-between gap-4 sm:flex">
+                <div>
+                    <h4 className="text-body-2xlg font-bold text-dark dark:text-white">
+                        Campanhas
+                    </h4>
+                </div>
+            </div>
+            {/* TODO: refazer essa parte do filtro para ser igual ao datastudio é poder filtrar por qualquer coluna */}
+            <DataTable 
+                columns={columns} 
+                data={data}
+                filterColumn="nome_campanha" 
+            />
+        </div>
+    );
 };
 
 export default CampaignTable;

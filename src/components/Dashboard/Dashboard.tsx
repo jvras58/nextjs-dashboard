@@ -78,7 +78,7 @@ export default function Dashboard({ param }: DashboardProps) {
       tables: [
         { 
           component: CampaignTable, 
-          props: {}, 
+          props: { param }, 
           layout: "col-span-12 xl:col-span-7" // Tabela maior na esquerda
         },
         { 
