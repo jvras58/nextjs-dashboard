@@ -36,6 +36,7 @@ export default function Dashboard({ param }: DashboardProps) {
   const { 
     cadastroData,
     totalCustoCadastro,
+    ConversaoCadastroFTD,
     totalInvestido,
     MediaInvestida,
     roi,
@@ -77,7 +78,7 @@ export default function Dashboard({ param }: DashboardProps) {
       cards: [
         { component: CardCadastro, props: { userCount: cadastroData.length } },
         { component: CardCustoCadastro, props: {totalCustoCadastro : totalCustoCadastro ?? 0 } },
-        { component: CardConversaocadastroftd, props: { param: param || "" } },
+        { component: CardConversaocadastroftd, props: { ConversaoCadastroFTD: ConversaoCadastroFTD ?? "0%" } },
       ],
       tables: [
         { 

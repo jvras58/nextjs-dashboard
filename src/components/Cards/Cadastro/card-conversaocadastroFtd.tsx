@@ -2,10 +2,10 @@ import React from "react";
 import CardGeneric from "../card-Generic";
 
 interface CardConversaoCadastroProps {
-    param?: string;
+    ConversaoCadastroFTD?: string;
     }
     
-export default function CardConversaoCadastro({ param }: CardConversaoCadastroProps) {
+export default function CardConversaoCadastro({ ConversaoCadastroFTD= "0%" }: CardConversaoCadastroProps) {
 return (
 <CardGeneric
     // Mudar ICON:
@@ -31,8 +31,8 @@ return (
     }
     color="#18BFFF"
     title="Conversão Cadastro / FTD"
-    value={param ||"21,83%"}
-    // growthRate={-0.95}
+    value={ConversaoCadastroFTD}
+    format="percent"
 />
 );
 };

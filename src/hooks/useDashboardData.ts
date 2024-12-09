@@ -11,12 +11,15 @@ import useMediaInvestida from "@/hooks/useMediaInvestida";
 import useRoi from "@/hooks/useRoi";
 import useTaxaRetencaoDeposito from "@/hooks/useTaxaRetencaoDeposito";
 import useCustoCadastro from "@/hooks/useCustoCadastro";
+import useConversaoCadastroFTD from "@/hooks/useConversaoCadastroFtd";
 
 export default function useDashboardData(param: string) {
 
     const { data: cadastroData, isLoading: cadastroLoading } = useCadastroData("cadastro", param); // estanos usando o firestore neste mas poderia ser a planilha que seria o hook useTotalCadastro(param)
     
     const { data: totalCustoCadastro, isLoading: totalCustoCadastroLoading } = useCustoCadastro(param);
+
+    const { data: ConversaoCadastroFTD, isLoading: ConversaoCadastroFTDLoading } = useConversaoCadastroFTD(param);
 
     const { data: totalInvestido, isLoading: investidoLoading } = useTotalInvestido(param);
 
@@ -44,6 +47,7 @@ export default function useDashboardData(param: string) {
     return {
         cadastroData: cadastroData ?? [],
         totalCustoCadastro,
+        ConversaoCadastroFTD,
         totalInvestido,
         MediaInvestida,
         roi,
@@ -55,6 +59,6 @@ export default function useDashboardData(param: string) {
         totalAmountDeposito,
         totalGgr,
         taxaRetencao,
-        loading: cadastroLoading || totalCustoCadastroLoading || investidoLoading || MediaInvestidaLoading || roiLoading || apostadoLoading || premiosLoading || ftdLoading || amountFtdLoading || depositoLoading || depositoAmountLoading || ggrLoading || taxaRetencaoLoading
+        loading: cadastroLoading || totalCustoCadastroLoading || ConversaoCadastroFTDLoading || investidoLoading || MediaInvestidaLoading || roiLoading || apostadoLoading || premiosLoading || ftdLoading || amountFtdLoading || depositoLoading || depositoAmountLoading || ggrLoading || taxaRetencaoLoading
     };
 }
