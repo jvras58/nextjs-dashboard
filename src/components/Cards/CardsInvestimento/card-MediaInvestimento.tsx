@@ -1,7 +1,12 @@
 import React from "react";
 import CardGeneric from "../card-Generic";
 
-const CardMedia_dia_investimento: React.FC = () => {
+
+interface CardMediaInvestimentoProps {
+    MediaInvestida?: number;
+}
+
+const CardMedia_dia_investimento: React.FC<CardMediaInvestimentoProps> = ({ MediaInvestida= 0 }) => {
 return (
 <CardGeneric
     icon={
@@ -25,9 +30,8 @@ return (
     }
     color="#18BFFF"
     title="Média / Dia"
-    // tratamento para valores de money
-    value="R$5.330,39"
-    growthRate={-0.95}
+    value={MediaInvestida}
+    format="currency"
 />
 );
 };

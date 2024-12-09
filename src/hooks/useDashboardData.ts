@@ -7,12 +7,15 @@ import useFtdAmount from "@/hooks/useFtdAmount";
 import useQuantidadeDeposito from "@/hooks/useDepositoQntd";
 import useDepositoValor from "@/hooks/useDepositoValorQntd";
 import useGgrValor from "@/hooks/useGgrValor";
+import useMediaInvestida from "./useMediaInvestida";
 
 export default function useDashboardData(param: string) {
 
     const { data: cadastroData, isLoading: cadastroLoading } = useCadastroData("cadastro", param);
     
     const { data: totalInvestido, isLoading: investidoLoading } = useTotalInvestido(param);
+
+    const { data: MediaInvestida, isLoading: MediaInvestidaLoading } = useMediaInvestida(param);
 
     const { data: totalApostado, isLoading: apostadoLoading } = useTotalApostado(param);
 
@@ -32,6 +35,7 @@ export default function useDashboardData(param: string) {
     return {
         cadastroData: cadastroData ?? [],
         totalInvestido,
+        MediaInvestida,
         totalApostado,
         totalPremios,
         totalFtd,
@@ -39,6 +43,6 @@ export default function useDashboardData(param: string) {
         totalDeposito,
         totalAmountDeposito,
         totalGgr,
-        loading: cadastroLoading || investidoLoading || apostadoLoading || premiosLoading || ftdLoading || amountFtdLoading || depositoLoading || depositoAmountLoading || ggrLoading
+        loading: cadastroLoading || investidoLoading || MediaInvestidaLoading || apostadoLoading || premiosLoading || ftdLoading || amountFtdLoading || depositoLoading || depositoAmountLoading || ggrLoading
     };
 }

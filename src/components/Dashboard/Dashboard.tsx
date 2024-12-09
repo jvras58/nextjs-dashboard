@@ -36,6 +36,7 @@ export default function Dashboard({ param }: DashboardProps) {
   const { 
     cadastroData,
     totalInvestido,
+    MediaInvestida,
     totalApostado,
     totalPremios,
     totalFtd,
@@ -53,7 +54,7 @@ export default function Dashboard({ param }: DashboardProps) {
       title: "Investimento",
       cards: [
         { component: CardTotalInvestido, props: { totalInvestido: totalInvestido ?? 0 } },
-        { component: CardMediaDiaInvestimento, props: {} },
+        { component: CardMediaDiaInvestimento, props: { MediaInvestida: MediaInvestida ?? 0 } },
         { component: CardRoi, props: {} },
       ],
       tables: [],
