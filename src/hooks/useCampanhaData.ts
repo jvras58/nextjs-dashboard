@@ -30,7 +30,7 @@ const useCampanhaData = (affiliate: string) => {
     // Configurações de rede
     networkMode: 'online',
     
-    // Ordenação por quantidade de cadastros (opcional)
+    // Ordenação por quantidade de cadastros
     select: (data: CampanhaData[]) => {
       return data.sort((a, b) => b.quantidade_de_cadastro - a.quantidade_de_cadastro);
     }

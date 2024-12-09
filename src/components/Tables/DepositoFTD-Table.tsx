@@ -13,6 +13,7 @@ DropdownMenuLabel,
 DropdownMenuSeparator,
 DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
+import useDepositoData from "@/hooks/useDepositoData";
 
 interface DepositoFTd {
 nome_Campanha_deposito: string;
@@ -21,16 +22,6 @@ ftd_amount: number;
 transaction_value_quantidade: number;
 transaction_value: number;
 }
-
-const data: DepositoFTd[] = [
-{ nome_Campanha_deposito: "Campanha A", ftd: 120, ftd_amount: 100, transaction_value_quantidade: 100, transaction_value: 100 },
-{ nome_Campanha_deposito: "Campanha B", ftd: 80, ftd_amount: 200, transaction_value_quantidade: 150, transaction_value: 200 },
-{ nome_Campanha_deposito: "Campanha C", ftd: 150, ftd_amount: 300, transaction_value_quantidade: 200, transaction_value: 300 },
-{ nome_Campanha_deposito: "Campanha D", ftd: 250, ftd_amount: 400, transaction_value_quantidade: 250, transaction_value: 400 },
-{ nome_Campanha_deposito: "Campanha E", ftd: 300, ftd_amount: 500, transaction_value_quantidade: 300, transaction_value: 500 },
-{ nome_Campanha_deposito: "Campanha F", ftd: 200, ftd_amount: 600, transaction_value_quantidade: 350, transaction_value: 600 },
-{ nome_Campanha_deposito: "Campanha G", ftd: 100, ftd_amount: 700, transaction_value_quantidade: 400, transaction_value: 700 },
-];
 
 const columns: ColumnDef<DepositoFTd>[] = [
 {
@@ -70,7 +61,14 @@ header: ({ column }) => {
     </div>
     );
 },
-cell: ({ row }) => <div className="text-right">{row.getValue("ftd_amount")}</div>,
+cell: ({ row }) => (
+    <div className="text-right">
+      {new Intl.NumberFormat('pt-BR', {
+        style: 'currency',
+        currency: 'BRL'
+      }).format(row.getValue("ftd_amount"))}
+    </div>
+),
 },
 {
 accessorKey: "transaction_value_quantidade",
@@ -104,7 +102,14 @@ header: ({ column }) => {
     </div>
     );
 },
-cell: ({ row }) => <div className="text-right">{row.getValue("transaction_value")}</div>,
+cell: ({ row }) => (
+    <div className="text-right">
+      {new Intl.NumberFormat('pt-BR', {
+        style: 'currency',
+        currency: 'BRL'
+      }).format(row.getValue("transaction_value"))}
+    </div>
+  ),
 },
 {
 id: "actions",
@@ -135,8 +140,16 @@ cell: ({ row }) => {
 },
 },
 ];
-
-const DepositoFTDTable: React.FC = () => {
+interface DepositoFTDTableProps {
+ param?: string;
+}
+  
+const DepositoFTDTable: React.FC<DepositoFTDTableProps> = ({ param }) => {
+    const { data = [], isLoading, error } = useDepositoData(param || "");
+  
+    if (isLoading) return <div>Carregando...</div>;
+    if (error) return <div>Erro ao carregar dados</div>;
+    
 return (
 <div className="col-span-12 rounded-[10px] bg-white px-7.5 pt-7.5 shadow-1 dark:bg-gray-dark dark:shadow-card xl:col-span-5 h-150">
     <div className="mb-4 justify-between gap-4 sm:flex">

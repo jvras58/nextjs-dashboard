@@ -114,7 +114,7 @@ export default function Dashboard({ param }: DashboardProps) {
       tables: [
         { 
           component: DepositoFTDTable, 
-          props: {}, 
+          props: { param }, 
           layout: "col-span-12" // Tabela no final
         },
       ],
