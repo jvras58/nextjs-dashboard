@@ -1,7 +1,12 @@
 import React from "react";
 import CardGeneric from  "../card-Generic";
 
-const CardTicketMedio: React.FC = () => {
+
+interface CardTicketMedioFTDProps {
+ ValorMedioFTD?: number;
+}
+      
+const CardTicketMedio: React.FC<CardTicketMedioFTDProps> = ({ ValorMedioFTD= 0 }) => {
 return (
 <CardGeneric
     // Mudar ICON:
@@ -27,9 +32,8 @@ return (
     }
     color="#18BFFF"
     title="Ticket Médio (FTD)"
-    // tratamento para valores de money
-    value="R$15.57"
-    growthRate={-0.95}
+    value={ValorMedioFTD}
+    format="currency"
 />
 );
 };

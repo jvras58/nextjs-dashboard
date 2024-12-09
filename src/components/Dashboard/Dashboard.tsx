@@ -47,6 +47,7 @@ export default function Dashboard({ param }: DashboardProps) {
     totalDeposito,
     totalAmountDeposito,
     CustoFTD,
+    ValorMedioFTD,
     totalGgr,
     taxaRetencao,
     loading 
@@ -105,7 +106,7 @@ export default function Dashboard({ param }: DashboardProps) {
         { component: CardFtdqntd, props: {totalFtd: totalFtd ?? 0} },
         { component: CardFtdamount, props: {totalAmountFtd: totalAmountFtd ?? 0} },
         { component: CardCustoFTD, props: {CustoFTD: CustoFTD ?? 0 } },
-        { component: CardTicketMedioFTD, props: {} },
+        { component: CardTicketMedioFTD, props: {ValorMedioFTD: ValorMedioFTD ?? 0 } },
       ],
       tables: [],
     },
