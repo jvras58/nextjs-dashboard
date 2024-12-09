@@ -23,7 +23,7 @@ export const fetchSheetData = async () => {
   }
 
   const sheetData = await response.json();
-  return sheetData.rows.map((row: SheetRow) => row["Código"]).filter(Boolean);
+  return sheetData.rows.map((row: SheetRow) => row["Código"]?.trim()).filter(Boolean);
 };
 
 export const fetchFiliadoData = async (collectionName: string, affiliateCodes: string[]) => {
