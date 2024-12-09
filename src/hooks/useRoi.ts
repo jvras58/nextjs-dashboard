@@ -2,7 +2,7 @@ import useTotalInvestido from '@/hooks/useTotalInvestido';
 import useDepositoValor from '@/hooks/useDepositoValorQntd';
 
 // Cálculo do ROI:
-// totalInvestido(Total Investido (Dia)) / depositoValor(Depósitos (Valor)
+//  depositoValor(Depósitos (Valor)) / totalInvestido(Total Investido (Dia))
 
 interface RoiResult {
   data: number | null;
@@ -25,7 +25,7 @@ const useRoi = (param: string): RoiResult => {
     return { data: null, isLoading: false, error: null };
   }
 
-  const roi = totalInvestido.data / depositoValor.data;
+  const roi = depositoValor.data / totalInvestido.data;
   return { data: roi, isLoading: false, error: null };
 };
 
