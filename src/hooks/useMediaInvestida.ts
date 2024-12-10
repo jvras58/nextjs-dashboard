@@ -36,10 +36,23 @@ const filtrarPorOperacao = (rows: BaseRow[], operacaoNome: string): BaseRow[] =>
 
 const calcularTotais = (rows: BaseRow[]) => {
   return rows.reduce((acumulador, row) => {
-    const valorStr = row["Total Investido (Dia)"]?.toString().trim() || "R$ 0";
+    const valorStr = row["Total Investido (Dia)"]?.toString().trim();
+    
+    // Verifica se é um valor válido
+    if (!valorStr || 
+        valorStr === '-' || 
+        valorStr === 'null' || 
+        valorStr === 'undefined' || 
+        valorStr === '0' || 
+        valorStr === '0.00' || 
+        valorStr.includes('R$ -') || 
+        /^R?\$?\s*-$/.test(valorStr)) {
+      return acumulador;
+    }
+
     const valor = parseCurrencyValue(valorStr);
     
-    if (!isNaN(valor)) {
+    if (!isNaN(valor) && valor > 0) {
       return {
         totalInvestido: acumulador.totalInvestido + valor,
         quantidadeRegistros: acumulador.quantidadeRegistros + 1
