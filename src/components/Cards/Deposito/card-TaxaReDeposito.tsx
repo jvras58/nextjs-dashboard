@@ -1,40 +1,27 @@
 import React from "react";
-import CardGeneric from  "../card-Generic";
-
+import CardGeneric from "../card-Generic";
 
 interface CardReDepositoProps {
     TaxaRedeposito?: string;
-    }
-    
-export default function CardReDeposito({ TaxaRedeposito= "0%" }: CardReDepositoProps) {
-return (
-<CardGeneric
-    // Mudar ICON:
-    icon={
-    <svg
-        width="26"
-        height="26"
-        viewBox="0 0 26 26"
-        fill="none"
-        xmlns="http://www.w3.org/2000/svg"
-    >
-        <ellipse cx="9.75106" cy="6.49984" rx="4.33333" ry="4.33333" fill="white" />
-        <ellipse cx="9.75106" cy="18.4178" rx="7.58333" ry="4.33333" fill="white" />
-        <path
-        d="M22.7496 18.4173C22.7496 20.2123 20.5445 21.6673 17.8521 21.6673C18.6453 20.8003 19.1907 19.712 19.1907 18.4189C19.1907 17.1242 18.644 16.0349 17.8493 15.1674C20.5417 15.1674 22.7496 16.6224 22.7496 18.4173Z"
-        fill="white"
+}
+
+const CardReDeposito: React.FC<CardReDepositoProps> = ({ TaxaRedeposito = "0%" }) => {
+    return (
+        <CardGeneric
+            icon={
+                <svg xmlns="http://www.w3.org/2000/svg" width="26" height="26" viewBox="0 0 256 256">
+                    <path
+                        fill="white"
+                        d="M126 30.49V128a6 6 0 0 1-12 0V30.49L92.24 52.24a6 6 0 0 1-8.48-8.48l32-32a6 6 0 0 1 8.48 0l32 32a6 6 0 1 1-8.48 8.48Zm64 94.2V96a14 14 0 0 0-14-14h-16a6 6 0 0 0 0 12h16a2 2 0 0 1 2 2v86.14A26 26 0 0 0 133.49 209c0 .1.11.19.17.29l22.26 34a6 6 0 0 0 10-6.58l-22.12-33.84A14 14 0 0 1 168.13 189a3 3 0 0 0 .17.29l10.7 16.3a6 6 0 0 0 11-3.28v-62.74a76.83 76.83 0 0 1 28 59.08V240a6 6 0 0 0 12 0v-41.35a88.88 88.88 0 0 0-40-73.96M80 82H64a14 14 0 0 0-14 14v104a6 6 0 0 0 12 0V96a2 2 0 0 1 2-2h16a6 6 0 0 0 0-12"
+                    />
+                </svg>
+            }
+            color="#02e8a7"
+            title="Taxa Re-Depósito"
+            value={TaxaRedeposito}
+            format="percent"
         />
-        <path
-        d="M19.4996 6.50098C19.4996 8.2959 18.0446 9.75098 16.2496 9.75098C15.8582 9.75098 15.483 9.68179 15.1355 9.55498C15.648 8.65355 15.9407 7.61084 15.9407 6.49977C15.9407 5.38952 15.6484 4.34753 15.1366 3.44656C15.4838 3.32001 15.8587 3.25098 16.2496 3.25098C18.0446 3.25098 19.4996 4.70605 19.4996 6.50098Z"
-        fill="white"
-        />
-    </svg>
-    }
-    color="#18BFFF"
-    title="Taxa Re-Depósito"
-    value={TaxaRedeposito}
-    format="percent"
-/>
-);
+    );
 };
 
+export default CardReDeposito;
