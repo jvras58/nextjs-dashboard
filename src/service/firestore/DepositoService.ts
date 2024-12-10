@@ -43,27 +43,33 @@ const criarQueryDepositos = (affiliate: string) => {
  * Processa os documentos de depósito retornados pelo Firestore
  */
 const processarDepositos = (querySnapshot: any) => {
-  const primeiroDepositoPorCPF = new Map<string, boolean>();
-  
+  const primeiroDepositoPorCampanha = new Map<string, Set<string>>();
+
   return querySnapshot.docs.reduce((depositosAgrupados: Record<string, DepositoData>, doc: any) => {
     const dadosDeposito = doc.data();
     const campanha = dadosDeposito.campanha || 'Sem Campanha';
-    const cpf = dadosDeposito.cpf;
+    const tags = dadosDeposito.tags?.toLowerCase() || '';
     const valorDeposito = parseFloat(dadosDeposito.transaction_value) || 0;
-    
+
     // Inicializa dados da campanha se não existirem
     if (!depositosAgrupados[campanha]) {
       depositosAgrupados[campanha] = inicializarDadosCampanha(campanha);
+      primeiroDepositoPorCampanha.set(campanha, new Set<string>());
     }
-    
-    // Atualiza estatísticas da campanha
-    atualizarEstatisticasCampanha(
-      depositosAgrupados[campanha],
-      cpf,
-      valorDeposito,
-      primeiroDepositoPorCPF
-    );
-    
+
+    const ftdProcessados = primeiroDepositoPorCampanha.get(campanha)!;
+
+    // Verifica se é "first" e atualiza estatísticas de FTD
+    if (tags === 'first' && !ftdProcessados.has(dadosDeposito.cpf)) {
+      ftdProcessados.add(dadosDeposito.cpf); // Marca CPF como processado para FTD
+      depositosAgrupados[campanha].ftd++;
+      depositosAgrupados[campanha].ftd_amount += valorDeposito;
+    }
+
+    // Atualiza estatísticas gerais da campanha
+    depositosAgrupados[campanha].transaction_value_quantidade++;
+    depositosAgrupados[campanha].transaction_value += valorDeposito;
+
     return depositosAgrupados;
   }, {});
 };
@@ -78,25 +84,6 @@ const inicializarDadosCampanha = (nomeCampanha: string): DepositoData => ({
   transaction_value_quantidade: 0,
   transaction_value: 0
 });
-
-/**
- * Atualiza as estatísticas de uma campanha com um novo depósito
- */
-const atualizarEstatisticasCampanha = (
-  dadosCampanha: DepositoData,
-  cpf: string,
-  valorDeposito: number,
-  primeiroDepositoPorCPF: Map<string, boolean>
-) => {
-  if (cpf && !primeiroDepositoPorCPF.has(cpf)) {
-    primeiroDepositoPorCPF.set(cpf, true); // Marca CPF como primeiro depósito
-    dadosCampanha.ftd++; // Incrementa quantidade de FTDs
-    dadosCampanha.ftd_amount += valorDeposito; // Incrementa valor total dos FTDs
-  }
-  
-  dadosCampanha.transaction_value_quantidade++; // Incrementa quantidade total de transações
-  dadosCampanha.transaction_value += valorDeposito; // Increment valor total das transações
-};
 
 /**
  * Formata os valores numéricos dos depósitos
