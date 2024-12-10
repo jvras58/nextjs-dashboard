@@ -47,7 +47,7 @@ const processarDepositos = (querySnapshot: any) => {
 
   return querySnapshot.docs.reduce((depositosAgrupados: Record<string, DepositoData>, doc: any) => {
     const dadosDeposito = doc.data();
-    const campanha = dadosDeposito.campanha || 'Sem Campanha';
+    const campanha = dadosDeposito.campanha === '{{campanha}}' ? 'Sem Campanha' : (dadosDeposito.campanha || 'Sem Campanha');
     const tags = dadosDeposito.tags?.toLowerCase() || '';
     const valorDeposito = parseFloat(dadosDeposito.transaction_value) || 0;
 
