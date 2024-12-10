@@ -17,8 +17,7 @@ export const fetchCampanhaData = async (affiliate: string) => {
   // Agrupa os cadastros por campanha
   const campanhas = querySnapshot.docs.reduce((acc, doc) => {
     const data = doc.data();
-    const campanha = data.campanha || 'Sem Campanha';
-    
+    const campanha = data.campanha === '{{campanha}}' ? 'Sem Campanha' : (data.campanha || 'Sem Campanha');
     if (!acc[campanha]) {
       acc[campanha] = 0;
     }
