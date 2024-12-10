@@ -59,8 +59,8 @@ const processarDepositos = (querySnapshot: any) => {
 
     const ftdProcessados = primeiroDepositoPorCampanha.get(campanha)!;
 
-    // Verifica se é "first" e atualiza estatísticas de FTD
-    if (tags === 'first' && !ftdProcessados.has(dadosDeposito.cpf)) {
+    // Verifica se é "first-deposit" e atualiza estatísticas de FTD
+    if (tags === 'first-deposit' && !ftdProcessados.has(dadosDeposito.cpf)) { // TODO>: Verificar se é necessario marcar o cpf...
       ftdProcessados.add(dadosDeposito.cpf); // Marca CPF como processado para FTD
       depositosAgrupados[campanha].ftd++;
       depositosAgrupados[campanha].ftd_amount += valorDeposito;
