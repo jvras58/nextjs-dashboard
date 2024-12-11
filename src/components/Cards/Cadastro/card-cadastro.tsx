@@ -6,6 +6,7 @@ userCount?: number;
 }
 
 const CardCadastro: React.FC<CardCadastroProps> = ({ userCount= 0 }) => {
+
 return (
 <CardGeneric
     icon={

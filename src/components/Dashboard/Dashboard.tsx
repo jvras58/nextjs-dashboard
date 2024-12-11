@@ -1,5 +1,5 @@
 "use client";
-import React from "react";
+import React, { useMemo } from "react";
 
 import Loader from "../common/Loader";
 
@@ -34,7 +34,7 @@ export default function Dashboard({ param }: DashboardProps) {
 
   const { loading } = useDashboardData(param || "");
 
-  const sectionsConfig = useSectionConfig(param);
+  const sectionsConfig = useSectionConfig(param, date.from, date.to);
 
   if (loading) {
     return <Loader />;

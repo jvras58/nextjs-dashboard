@@ -23,7 +23,7 @@ import CardTicketMedioGeral from "@/components/Cards/Deposito/card-TicktetmedioG
 import useDashboardData from "@/hooks/useDashboardData";
 import { useMemo } from "react";
 
-export const useSectionConfig = (param: string | undefined) => {
+export const useSectionConfig = (param: string | undefined, startingDate?: Date, endingDate?: Date) => {
   const {
     cadastroData,
     totalCustoCadastro,
@@ -44,6 +44,23 @@ export const useSectionConfig = (param: string | undefined) => {
     totalGgr,
     taxaRetencao,
   } = useDashboardData(param || "");
+
+
+  const filterByDate = useMemo(()=>(data:any[], startingDate?:Date, endingDate?: Date)=> {
+    return data.filter((user:any)=> {
+      if(startingDate && endingDate) {
+
+        const userDate = new Date(user.registration_date)
+
+        const isOnDate = userDate.getTime() > startingDate.getTime() && userDate.getTime() < endingDate.getTime()
+
+        if(isOnDate){
+          return user
+        }
+      }
+
+    })
+  }, [])
   return useMemo(
     () => [
       {
@@ -85,7 +102,7 @@ export const useSectionConfig = (param: string | undefined) => {
         cards: [
           {
             component: CardCadastro,
-            props: { userCount: cadastroData.length },
+            props: { userCount: filterByDate(cadastroData, startingDate, endingDate).length },
           },
           {
             component: CardCustoCadastro,
@@ -160,26 +177,6 @@ export const useSectionConfig = (param: string | undefined) => {
         ],
       },
     ],
-    [
-      totalInvestido,
-      MediaInvestida,
-      roi,
-      totalApostado,
-      totalPremios,
-      totalGgr,
-      taxaRetencao,
-      cadastroData.length,
-      totalCustoCadastro,
-      ConversaoCadastroFTD,
-      param,
-      totalFtd,
-      totalAmountFtd,
-      CustoFTD,
-      ValorMedioFTD,
-      totalDeposito,
-      totalAmountDeposito,
-      TaxaRedeposito,
-      TicketMedio,
-    ],
+    [totalInvestido, MediaInvestida, roi, totalApostado, totalPremios, totalGgr, taxaRetencao, filterByDate, cadastroData, startingDate, endingDate, totalCustoCadastro, ConversaoCadastroFTD, param, totalFtd, totalAmountFtd, CustoFTD, ValorMedioFTD, totalDeposito, totalAmountDeposito, TaxaRedeposito, TicketMedio],
   );
 };
