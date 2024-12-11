@@ -11,32 +11,32 @@ interface TicketMedioResult {
   error: Error | null;
 }
 
-const useTicketMedio = (param: string): TicketMedioResult => {
-  const depositoValor = useDepositoValor(param);
-  const quantidadeFTD = useQuantidadeFTD(param);
+const useTicketMedio = (param: string, startingDate: Date | undefined, endingDate: Date | undefined) => {
+  const [depositoValor, depositoIsLoading, depositoError] = useDepositoValor(param, startingDate, endingDate);
+  const [quantidadeFTD, FTDIsLoading, FTDError] = useQuantidadeFTD(param, startingDate, endingDate);
 
   return useMemo(() => {
     // Se estiver carregando qualquer um dos dados
-    if (depositoValor.isLoading || quantidadeFTD.isLoading) {
+    if (depositoIsLoading || FTDIsLoading) {
       return { data: null, isLoading: true, error: null };
     }
 
     // Se houver erro em qualquer um dos hooks
-    if (depositoValor.error || quantidadeFTD.error) {
+    if (depositoError || FTDError) {
       return {
         data: null,
         isLoading: false,
-        error: depositoValor.error || quantidadeFTD.error
+        error: depositoError || FTDError
       };
     }
 
     // Se não houver dados ou quantidade de FTDs for zero
-    if (!depositoValor.data || !quantidadeFTD.data || quantidadeFTD.data === 0) {
+    if (!depositoValor || !quantidadeFTD || quantidadeFTD === 0) {
       return { data: null, isLoading: false, error: null };
     }
 
     // Calcula o ticket médio por FTD
-    const ticketMedio = depositoValor.data / quantidadeFTD.data;
+    const ticketMedio = depositoValor / quantidadeFTD;
 
     return {
       data: ticketMedio,

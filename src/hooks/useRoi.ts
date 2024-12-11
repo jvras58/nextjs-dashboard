@@ -10,22 +10,22 @@ interface RoiResult {
   error: Error | null;
 }
 
-const useRoi = (param: string): RoiResult => {
-  const totalInvestido = useTotalInvestido(param);
-  const depositoValor = useDepositoValor(param);
+const useRoi = (param: string, startingData: Date | undefined, endingData: Date | undefined): RoiResult => {
+  const [totalInvestido, totalIsLoading, totalError] = useTotalInvestido(param, startingData, endingData);
+  const [depositoValor, depositoIsLoading, depositoError] = useDepositoValor(param, startingData, endingData);
 
-  if (totalInvestido.error) return { data: null, isLoading: false, error: totalInvestido.error };
-  if (depositoValor.error) return { data: null, isLoading: false, error: depositoValor.error };
+  if (totalError) return { data: null, isLoading: false, error: totalError };
+  if (depositoError) return { data: null, isLoading: false, error: depositoError };
   
-  if (totalInvestido.isLoading || depositoValor.isLoading) {
+  if (totalIsLoading || depositoIsLoading) {
     return { data: null, isLoading: true, error: null };
   }
 
-  if (!totalInvestido.data || !depositoValor.data || depositoValor.data === 0) {
+  if (!totalInvestido || !depositoValor || depositoValor === 0) {
     return { data: null, isLoading: false, error: null };
   }
 
-  const roi = depositoValor.data / totalInvestido.data;
+  const roi = depositoValor / totalInvestido;
   return { data: roi, isLoading: false, error: null };
 };
 

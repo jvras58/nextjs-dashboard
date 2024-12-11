@@ -3,7 +3,6 @@ import React, { useMemo } from "react";
 
 import Loader from "../common/Loader";
 
-import useDashboardData from "@/hooks/useDashboardData";
 import DateRangePicker from "@/components/Dashboard/DateRangePicker";
 import { addDays } from "date-fns";
 import { useSectionConfig } from "@/hooks/useSectionConfig";
@@ -21,20 +20,18 @@ export default function Dashboard({ param }: DashboardProps) {
     to: addDays(new Date(), 7),
   });
 
-  function changeDateStart(newDate: Date | undefined) {
+  function changeDateStart(newDate: Date | undefined ) {
     setDate((prev) => ({ ...prev, from: newDate }));
   }
 
-  function changeDateEnd(newDate: Date | undefined) {
+  function changeDateEnd(newDate: Date | undefined ) {
     setDate((prev) => ({
       ...prev,
       to: newDate && prev.from && newDate < prev.from ? prev.from : newDate,
     }));
   }
 
-  const { loading } = useDashboardData(param || "");
-
-  const sectionsConfig = useSectionConfig(param, date.from, date.to);
+  const [ sectionsConfig, loading ] = useSectionConfig(param, date.from, date.to);
 
   if (loading) {
     return <Loader />;

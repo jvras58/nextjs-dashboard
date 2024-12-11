@@ -1,5 +1,6 @@
 import useTotalInvestido from '@/hooks/useTotalInvestido';
 import useTotalCadastro from '@/hooks/useTotalCadastro';
+import { useState } from "react";
 
 // Cálculo do CUSTO DE CADASTRO:
 // totalInvestido(Total Investido (Dia)) / totalCadastro(Cadastros)
@@ -10,19 +11,19 @@ interface CustoCadastroResult {
   error: Error | null;
 }
 
-const useCustoCadastro = (param: string): CustoCadastroResult => {
-  const totalInvestido = useTotalInvestido(param);
-  const totalCadastro = useTotalCadastro(param);
+const useCustoCadastro = (param: string, startingDate: Date | undefined, endingDate: Date | undefined): CustoCadastroResult => {
+  const [totalInestidoData, totalInvestidoIsLoading, totalInvestidoError] = useTotalInvestido(param, startingDate, endingDate);
+  const [totalCadastroData, totalCadastroIsLoading, totalCadastroError ] = useTotalCadastro(param, startingDate, endingDate);
 
-  if (totalInvestido.error || totalCadastro.error) {
+  if (totalInvestidoError || totalCadastroError) {
     return {
       data: null,
       isLoading: false,
-      error: totalInvestido.error || totalCadastro.error
+      error: totalInvestidoError || totalCadastroError
     };
   }
 
-  if (totalInvestido.isLoading || totalCadastro.isLoading) {
+  if (totalInvestidoIsLoading || totalCadastroIsLoading) {
     return {
       data: null,
       isLoading: true,
@@ -30,7 +31,7 @@ const useCustoCadastro = (param: string): CustoCadastroResult => {
     };
   }
 
-  if (!totalInvestido.data || !totalCadastro.data || totalCadastro.data === 0) {
+  if (!totalInestidoData || !totalCadastroData || totalCadastroData === 0) {
     return {
       data: null,
       isLoading: false,
@@ -39,7 +40,7 @@ const useCustoCadastro = (param: string): CustoCadastroResult => {
   }
 
   return {
-    data: totalInvestido.data / totalCadastro.data,
+    data: totalInestidoData / totalCadastroData,
     isLoading: false,
     error: null
   };

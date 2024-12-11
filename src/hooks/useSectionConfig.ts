@@ -29,7 +29,7 @@ export const useSectionConfig = (param: string | undefined, startingDate?: Date,
     totalCustoCadastro,
     ConversaoCadastroFTD,
     totalInvestido,
-    MediaInvestida,
+    // MediaInvestida,
     roi,
     totalApostado,
     totalPremios,
@@ -43,25 +43,10 @@ export const useSectionConfig = (param: string | undefined, startingDate?: Date,
     TicketMedio,
     totalGgr,
     taxaRetencao,
-  } = useDashboardData(param || "");
+    loading
+  } = useDashboardData(param || "", startingDate, endingDate);
 
-
-  const filterByDate = useMemo(()=>(data:any[], startingDate?:Date, endingDate?: Date)=> {
-    return data.filter((user:any)=> {
-      if(startingDate && endingDate) {
-
-        const userDate = new Date(user.registration_date)
-
-        const isOnDate = userDate.getTime() > startingDate.getTime() && userDate.getTime() < endingDate.getTime()
-
-        if(isOnDate){
-          return user
-        }
-      }
-
-    })
-  }, [])
-  return useMemo(
+  return [useMemo(
     () => [
       {
         title: "Investimento",
@@ -70,10 +55,10 @@ export const useSectionConfig = (param: string | undefined, startingDate?: Date,
             component: CardTotalInvestido,
             props: { totalInvestido: totalInvestido ?? 0 },
           },
-          {
-            component: CardMediaDiaInvestimento,
-            props: { MediaInvestida: MediaInvestida ?? 0 },
-          },
+          // {
+          //   component: CardMediaDiaInvestimento,
+          //   props: { MediaInvestida: MediaInvestida ?? 0 },
+          // },
           { component: CardRoi, props: { roi: roi ?? 0 } },
         ],
         tables: [],
@@ -102,7 +87,7 @@ export const useSectionConfig = (param: string | undefined, startingDate?: Date,
         cards: [
           {
             component: CardCadastro,
-            props: { userCount: filterByDate(cadastroData, startingDate, endingDate).length },
+            props: { userCount: cadastroData.length },
           },
           {
             component: CardCustoCadastro,
@@ -177,6 +162,6 @@ export const useSectionConfig = (param: string | undefined, startingDate?: Date,
         ],
       },
     ],
-    [totalInvestido, MediaInvestida, roi, totalApostado, totalPremios, totalGgr, taxaRetencao, filterByDate, cadastroData, startingDate, endingDate, totalCustoCadastro, ConversaoCadastroFTD, param, totalFtd, totalAmountFtd, CustoFTD, ValorMedioFTD, totalDeposito, totalAmountDeposito, TaxaRedeposito, TicketMedio],
-  );
+    [totalInvestido, roi, totalApostado, totalPremios, totalGgr, taxaRetencao, cadastroData, totalCustoCadastro, ConversaoCadastroFTD, param, totalFtd, totalAmountFtd, CustoFTD, ValorMedioFTD, totalDeposito, totalAmountDeposito, TaxaRedeposito, TicketMedio],
+  ), loading] as const
 };

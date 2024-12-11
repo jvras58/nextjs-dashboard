@@ -11,33 +11,33 @@ interface TaxaNaoConversaoResult {
   error: Error | null;
 }
 //Taxa de Re-depósito
-const useTaxaRedeposito = (param: string): TaxaNaoConversaoResult => {
-  const quantidadeDeposito = useQuantidadeDeposito(param);
-  const quantidadeFTD = useQuantidadeFTD(param);
+const useTaxaRedeposito = (param: string, startingDate: Date | undefined, endingDate: Date | undefined) => {
+  const [quantidadeDeposito, depositoIsLoading, depositoError] = useQuantidadeDeposito(param, startingDate, endingDate);
+  const [quantidadeFTD, FTDIsLoading, FTDError] = useQuantidadeFTD(param, startingDate, endingDate);
 
   return useMemo(() => {
     // Se estiver carregando qualquer um dos dados
-    if (quantidadeDeposito.isLoading || quantidadeFTD.isLoading) {
+    if (depositoIsLoading || FTDIsLoading) {
       return { data: null, isLoading: true, error: null };
     }
 
     // Se houver erro em qualquer um dos hooks
-    if (quantidadeDeposito.error || quantidadeFTD.error) {
+    if (depositoError || FTDError) {
       return {
         data: null,
         isLoading: false,
-        error: quantidadeDeposito.error || quantidadeFTD.error
+        error: depositoError || FTDError
       };
     }
 
     // Se não houver dados ou quantidade de depósitos for zero
-    if (!quantidadeDeposito.data || !quantidadeFTD.data || quantidadeDeposito.data === 0) {
+    if (!quantidadeDeposito || !quantidadeFTD || quantidadeDeposito === 0) {
       return { data: null, isLoading: false, error: null };
     }
 
     // Calcula a taxa de re-depósito
-    const Convertidos = quantidadeDeposito.data - quantidadeFTD.data;
-    const taxa = Convertidos / quantidadeDeposito.data;
+    const Convertidos = quantidadeDeposito - quantidadeFTD;
+    const taxa = Convertidos / quantidadeDeposito;
     const taxaFormatada = `${(taxa * 100).toFixed(1)}%`;
 
     return {
@@ -45,7 +45,7 @@ const useTaxaRedeposito = (param: string): TaxaNaoConversaoResult => {
       isLoading: false,
       error: null
     };
-  }, [quantidadeDeposito, quantidadeFTD]);
+  }, [FTDError, FTDIsLoading, depositoError, depositoIsLoading, quantidadeDeposito, quantidadeFTD]);
 };
 
 export default useTaxaRedeposito;

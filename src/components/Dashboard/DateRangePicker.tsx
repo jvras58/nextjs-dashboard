@@ -16,11 +16,11 @@ import {
 
 interface Props {
   date: {
-    from: Date | undefined;
+    from: Date | undefined ;
     to: Date | undefined;
   };
-  changeStartDate: (newDate: Date | undefined) => void;
-  changeEndDate: (newDate: Date | undefined) => void;
+  changeStartDate: (newDate: Date| undefined ) => void;
+  changeEndDate: (newDate: Date|undefined ) => void;
 }
 
 export default function DateRangePicker({
@@ -34,7 +34,7 @@ export default function DateRangePicker({
         <Button
           variant={"outline"}
           className={cn(
-            "w-[280px] justify-start text-left font-normal",
+            "w-[280px] justify-start text-left font-normal ",
             !date && "text-muted-foreground",
           )}
         >

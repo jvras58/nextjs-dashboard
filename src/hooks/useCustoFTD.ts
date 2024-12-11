@@ -12,32 +12,32 @@ interface CustoFTDResult {
   error: Error | null;
 }
 
-const useCustoFTD = (param: string): CustoFTDResult => {
-  const totalInvestido = useTotalInvestido(param);
-  const quantidadeFTD = useQuantidadeFTD(param);
+const useCustoFTD = (param: string, startingDate: Date | undefined, endingDate: Date | undefined) => {
+  const [totalInvestido, totalIsLoading, totalError] = useTotalInvestido(param, startingDate, endingDate);
+  const [quantidadeFTD, FTDIsLoading, FTDError] = useQuantidadeFTD(param, startingDate, endingDate);
 
   return useMemo(() => {
     // Se estiver carregando qualquer um dos dados
-    if (totalInvestido.isLoading || quantidadeFTD.isLoading) {
+    if (totalIsLoading || FTDIsLoading) {
       return { data: null, isLoading: true, error: null };
     }
 
     // Se houver erro em qualquer um dos hooks
-    if (totalInvestido.error || quantidadeFTD.error) {
+    if (totalError || FTDError) {
       return {
         data: null,
         isLoading: false,
-        error: totalInvestido.error || quantidadeFTD.error
+        error: totalError || FTDError
       };
     }
 
     // Se não houver dados ou quantidade for zero
-    if (!totalInvestido.data || !quantidadeFTD.data || quantidadeFTD.data === 0) {
+    if (!totalInvestido || !quantidadeFTD || quantidadeFTD === 0) {
       return { data: null, isLoading: false, error: null };
     }
 
     // Calcula o custo por FTD
-    const custoFTD = totalInvestido.data / quantidadeFTD.data;
+    const custoFTD = totalInvestido / quantidadeFTD;
 
     return {
       data: custoFTD,
