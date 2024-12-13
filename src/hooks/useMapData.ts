@@ -15,11 +15,11 @@ export const useMapData = (cadastrosPorEstado: CadastroPorEstado) => {
 
     const counts = processedData.map((d) => d.count);
     const minCount = Math.min(...counts, 1);
-    const maxCount = Math.max(...counts, 10);
+    const maxCount = Math.max(...counts, 100);
 
     const scale = scaleQuantize<string>()
       .domain([minCount, maxCount])
-      .range(["#e0f3db", "#ccebc5", "#a8ddb5", "#7bccc4", "#43a2ca", "#0868ac"]);
+      .range(["#e0f3db", "#ccebc5", "#a8ddb5", "#7bccc4", "#43a2ca", "#0868ac", "#00441b"]);
 
     return { mapData: processedData, colorScale: scale };
   }, [cadastrosPorEstado]);
