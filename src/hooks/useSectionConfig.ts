@@ -1,10 +1,6 @@
 import CardTotalInvestido from "@/components/Cards/CardsInvestimento/card-TotalInvestimento";
 import CardMediaDiaInvestimento from "@/components/Cards/CardsInvestimento/card-MediaInvestimento";
 import CardRoi from "@/components/Cards/CardsInvestimento/card-Roi";
-import MapOne from "@/components/Maps/MapOne";
-import CampaignTable from "@/components/Tables/Campanha-Table";
-import EstadoTable from "@/components/Tables/Estado-Table";
-import DepositoFTDTable from "@/components/Tables/DepositoFTD-Table";
 import TotalApostado from "@/components/Cards/CardGGr/card-TotalApostado";
 import CardTotalPremios from "@/components/Cards/CardGGr/card-TotalPremios";
 import CardGGR from "@/components/Cards/CardGGr/card-Ggr";
@@ -59,7 +55,6 @@ export const useSectionConfig = (param: string | undefined) => {
           },
           { component: CardRoi, props: { roi: roi ?? 0 } },
         ],
-        tables: [],
       },
       {
         title: "GGR",
@@ -78,7 +73,6 @@ export const useSectionConfig = (param: string | undefined) => {
             props: { taxaRetencao: taxaRetencao ?? "0%" },
           },
         ],
-        tables: [],
       },
       {
         title: "Cadastro",
@@ -96,24 +90,6 @@ export const useSectionConfig = (param: string | undefined) => {
             props: { ConversaoCadastroFTD: ConversaoCadastroFTD ?? "0%" },
           },
         ],
-        tables: [
-          {
-            component: CampaignTable,
-            props: { param },
-            layout: "col-span-12 xl:col-span-7", // Tabela maior na esquerda
-          },
-          {
-            component: EstadoTable,
-            props: { param },
-            layout: "col-span-12 xl:col-span-5", // Tabela menor na direita
-          },
-          {
-            component: MapOne,
-            props: {},
-            layout:
-              "col-span-12 flex justify-center items-center min-h-[400px]", // Mapa ocupa toda a largura
-          },
-        ],
       },
       {
         title: "Depósito",
@@ -129,7 +105,6 @@ export const useSectionConfig = (param: string | undefined) => {
             props: { ValorMedioFTD: ValorMedioFTD ?? 0 },
           },
         ],
-        tables: [],
       },
       {
         title: "",
@@ -149,13 +124,6 @@ export const useSectionConfig = (param: string | undefined) => {
           {
             component: CardTicketMedioGeral,
             props: { TicketMedio: TicketMedio ?? 0 },
-          },
-        ],
-        tables: [
-          {
-            component: DepositoFTDTable,
-            props: { param },
-            layout: "col-span-12", // Tabela no final
           },
         ],
       },
