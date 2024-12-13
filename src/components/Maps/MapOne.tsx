@@ -1,11 +1,12 @@
 "use client";
 
-import React, { useState, useMemo, useRef } from "react";
+import React, { useState, useRef } from "react";
 import { ComposableMap, Geographies, Geography } from "react-simple-maps";
-import { scaleQuantize } from "d3-scale";
 import brasil from "@/geodata/brasil.json";
 import useCadastroPorEstado from "@/hooks/usePhoneEstadoCount";
-import { getStateAbbreviation } from "@/utils/EstadoHelpers"; 
+import { useMapData } from "@/hooks/useMapData";
+import Tooltip from "@/components/Maps/Tooltip";
+import { getStateAbbreviation } from "@/utils/EstadoHelpers";
 
 interface EstadoMapOneProps {
   param?: string;
@@ -17,23 +18,7 @@ const MapOne: React.FC<EstadoMapOneProps> = ({ param }) => {
   const mapContainerRef = useRef<HTMLDivElement>(null);
 
   const { cadastrosPorEstado, isLoading, isError } = useCadastroPorEstado(param || "");
-
-  const { mapData, colorScale } = useMemo(() => {
-    const processedData = Object.entries(cadastrosPorEstado).map(([estado, registros]) => ({
-      Estado: getStateAbbreviation(estado) || "Desconhecido",
-      count: registros.length,
-    }));
-
-    const counts = processedData.map((d) => d.count);
-    const minCount = Math.min(...counts, 1); 
-    const maxCount = Math.max(...counts, 10);
-
-    const scale = scaleQuantize<string>()
-      .domain([minCount, maxCount])
-      .range(["#e0f3db", "#ccebc5", "#a8ddb5", "#7bccc4", "#43a2ca", "#0868ac"]);
-
-    return { mapData: processedData, colorScale: scale };
-  }, [cadastrosPorEstado]);
+  const { mapData, colorScale } = useMapData(cadastrosPorEstado);
 
   if (isLoading) {
     return <div>Carregando dados...</div>;
@@ -110,17 +95,10 @@ const MapOne: React.FC<EstadoMapOneProps> = ({ param }) => {
           </Geographies>
         </ComposableMap>
         {hoveredState && tooltipPosition && (
-          <div
-            className="absolute bg-black text-white rounded px-2 py-1 text-sm"
-            style={{
-              top: tooltipPosition.y,
-              left: tooltipPosition.x,
-              transform: "translate(-50%, -100%)",
-              pointerEvents: "none",
-            }}
-          >
-            {hoveredState.name}: {hoveredState.count}
-          </div>
+          <Tooltip
+            position={tooltipPosition}
+            content={`${hoveredState.name}: ${hoveredState.count}`}
+          />
         )}
       </div>
     </div>
