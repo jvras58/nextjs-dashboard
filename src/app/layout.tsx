@@ -4,10 +4,27 @@ import "flatpickr/dist/flatpickr.min.css";
 import "@/css/satoshi.css";
 import "@/css/style.css";
 import React, { useEffect, useState } from "react";
-import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
+import { QueryClient } from "@tanstack/react-query";
 import Loader from "@/components/common/Loader";
 
-const queryClient = new QueryClient();
+import { PersistQueryClientProvider } from '@tanstack/react-query-persist-client'
+import { createSyncStoragePersister } from '@tanstack/query-sync-storage-persister'
+
+const persister = createSyncStoragePersister({
+  storage: typeof window !== 'undefined' ? window.localStorage : undefined
+})
+
+const queryClient = new QueryClient({
+  defaultOptions: {
+    queries: {
+      staleTime: 2 * 60 * 60 * 1000,
+      gcTime: 3 * 60 * 60 * 1000,
+      refetchOnWindowFocus: false,
+      refetchOnMount: false,
+      refetchOnReconnect: false
+    },
+  },
+})
 
 export default function RootLayout({
   children,
@@ -24,10 +41,13 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body suppressHydrationWarning={true}>
-        <QueryClientProvider client={queryClient}>
+        <PersistQueryClientProvider 
+          client={queryClient}
+          persistOptions={{ persister }}
+        >
           {loading ? <Loader /> : children}
-        </QueryClientProvider>
+        </PersistQueryClientProvider>
       </body>
     </html>
-  );
+  )
 }
