@@ -51,8 +51,8 @@ As tecnologias utilizadas são:
 | | |  | 
 │ │ |  ├─⚛ page.tsx -> [Router base com os cards dos afiliados]
 | | |  
-│ │ ├─📁 relatoria 
-│ │ |  ├─⚛ page.tsx -> [router basica com upload de arquivos para testes]
+│ │ ├─📁 campanha 
+│ │ |  ├─⚛ page.tsx -> [page com sistema de geração de links]
 | | |  
 │ │ ✨ favicon.ico
 │ │ ⚛  page.tsx         ->  [Páginas de entrada [que chama o component de dashboard]] 
