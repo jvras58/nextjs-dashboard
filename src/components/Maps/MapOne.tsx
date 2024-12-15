@@ -1,84 +1,88 @@
 "use client";
 
-import React, { useState } from "react";
+import React, { useState, useRef } from "react";
 import { ComposableMap, Geographies, Geography } from "react-simple-maps";
-import { scaleQuantize } from "d3-scale";
-import brasil from "@/geodata/brasil.json"; // TODO: Procurar um online seria melhor
+import brasil from "@/geodata/brasil.json";
+import useCadastroPorEstado from "@/hooks/usePhoneEstadoCount";
+import { useMapData } from "@/hooks/useMapData";
+import Tooltip from "@/components/Maps/Tooltip";
+import { getStateAbbreviation } from "@/utils/EstadoHelpers";
 
+interface EstadoMapOneProps {
+  param?: string;
+}
 
-const colorScale = scaleQuantize<string>()
-  .domain([1, 10])
-  .range([
-    "#ffedea",
-    "#ffcec5",
-    "#ffad9f",
-    "#ff8a75",
-    "#ff5533",
-    "#e2492d",
-    "#be3d26",
-    "#9a311f",
-    "#782618",
-  ]);
+const MapOne: React.FC<EstadoMapOneProps> = ({ param }) => {
+  const [hoveredState, setHoveredState] = useState<{ name: string; count: number } | null>(null);
+  const [tooltipPosition, setTooltipPosition] = useState<{ x: number; y: number } | null>(null);
+  const mapContainerRef = useRef<HTMLDivElement>(null);
 
+  const { cadastrosPorEstado, isLoading, isError } = useCadastroPorEstado(param || "");
+  const { mapData, colorScale } = useMapData(cadastrosPorEstado);
 
-const mockData = [
-  { Estado: "AC", count: 5 },
-  { Estado: "AL", count: 7 },
-  { Estado: "AM", count: 6 },
-  { Estado: "AP", count: 3 },
-  { Estado: "BA", count: 8 },
-  { Estado: "CE", count: 4 },
-  { Estado: "DF", count: 9 },
-  { Estado: "ES", count: 2 },
-  { Estado: "GO", count: 100 },
-  { Estado: "MA", count: 1 },
-  { Estado: "MT", count: 7 },
-  { Estado: "MS", count: 4 },
-  { Estado: "MG", count: 6 },
-  { Estado: "PA", count: 8 },
-  { Estado: "PB", count: 5 },
-  { Estado: "PR", count: 9 },
-  { Estado: "PE", count: 7 },
-  { Estado: "PI", count: 3 },
-  { Estado: "RJ", count: 10 },
-  { Estado: "RN", count: 2 },
-  { Estado: "RS", count: 4 },
-  { Estado: "RO", count: 6 },
-  { Estado: "RR", count: 5 },
-  { Estado: "SC", count: 7 },
-  { Estado: "SP", count: 9 },
-  { Estado: "SE", count: 2 },
-  { Estado: "TO", count: 1 },
-];
+  if (isLoading) {
+    return <div>Carregando dados...</div>;
+  }
 
-const MapOne: React.FC = () => {
-  const [hoveredState, setHoveredState] = useState<string | null>(null);
+  if (isError) {
+    return <div>Erro ao carregar dados!</div>;
+  }
 
   return (
-    <div className="col-span-12 rounded-[10px] bg-white p-7.5 shadow-1 dark:bg-gray-dark dark:shadow-card xl:col-span-7">
+    <div ref={mapContainerRef} className="relative col-span-12 rounded-[10px] bg-white p-7.5 shadow-1 dark:bg-gray-dark dark:shadow-card xl:col-span-7">
       <h4 className="mb-7 text-body-2xlg font-bold text-dark dark:text-white">
         Quantidades por região
       </h4>
-      <div className="h-[300px] w-full">
+      <div className="relative">
         <ComposableMap
           projection="geoMercator"
           projectionConfig={{
-            scale: 900, // Ajuste o zoom do mapa
-            center: [-55, -15], // Centraliza o mapa no Brasil
+            scale: 500,
+            center: [-55, -15],
           }}
         >
           <Geographies geography={brasil}>
             {({ geographies }) =>
               geographies.map((geo) => {
-                const cur = mockData.find((d) => d.Estado === geo.id);
+                const cur = mapData.find((d) => {
+                  const stateName = geo.properties.name;
+                  const stateAbbreviation = getStateAbbreviation(stateName);
+                  if (stateAbbreviation) {
+                    return d.Estado === stateAbbreviation;
+                  }
+                  return false;
+                });
                 const fillColor = cur ? colorScale(cur.count) : "#EEE";
                 return (
                   <Geography
                     key={geo.rsmKey}
                     geography={geo}
                     fill={fillColor}
-                    onMouseEnter={() => setHoveredState(geo.properties.name)}
-                    onMouseLeave={() => setHoveredState(null)}
+                    onMouseEnter={(event) => {
+                      const mapContainer = mapContainerRef.current;
+                      if (mapContainer) {
+                        const rect = mapContainer.getBoundingClientRect();
+                        setTooltipPosition({
+                          x: event.clientX - rect.left,
+                          y: event.clientY - rect.top,
+                        });
+                      }
+                      setHoveredState({ name: geo.properties.name, count: cur ? cur.count : 0 });
+                    }}
+                    onMouseMove={(event) => {
+                      const mapContainer = mapContainerRef.current;
+                      if (mapContainer) {
+                        const rect = mapContainer.getBoundingClientRect();
+                        setTooltipPosition({
+                          x: event.clientX - rect.left,
+                          y: event.clientY - rect.top,
+                        });
+                      }
+                    }}
+                    onMouseLeave={() => {
+                      setHoveredState(null);
+                      setTooltipPosition(null);
+                    }}
                     style={{
                       default: { outline: "none" },
                       hover: { outline: "none" },
@@ -90,10 +94,11 @@ const MapOne: React.FC = () => {
             }
           </Geographies>
         </ComposableMap>
-        {hoveredState && (
-          <div className="absolute bg-black text-white rounded px-2 py-1 text-sm">
-            {hoveredState}
-          </div>
+        {hoveredState && tooltipPosition && (
+          <Tooltip
+            position={tooltipPosition}
+            content={`${hoveredState.name}: ${hoveredState.count}`}
+          />
         )}
       </div>
     </div>
