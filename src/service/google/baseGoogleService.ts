@@ -52,14 +52,12 @@ export const useSheetData = <
   const operacaoQuery = useQuery({
     queryKey: [OPERACAO_CACHE_KEY, param],
     queryFn: () => fetchOperacao(param),
-    staleTime: 5 * 60 * 1000, // 5 minutos
   });
 
   // Query para dados da planilha
   const sheetQuery = useQuery({
     queryKey: [SHEETS_CACHE_KEY],
     queryFn: fetchSheet,
-    staleTime: 5 * 60 * 1000, // 5 minutos
   });
 
   const processData = (): ReturnType | null => {
