@@ -69,19 +69,6 @@ export default function Dashboard({ param }: DashboardProps) {
               </div>
             </div>
           )}
-          {section.tables.length > 0 && (
-            <div className="mb-12 grid grid-cols-12 gap-4 md:gap-6 2xl:gap-7.5">
-              {section.tables.map((tableConfig, tableIndex) => {
-                const TableComponent = tableConfig.component;
-                const layoutClass = tableConfig.layout || "col-span-12";
-                return (
-                  <div key={tableIndex} className={layoutClass}>
-                    <TableComponent {...tableConfig.props} />
-                  </div>
-                );
-              })}
-            </div>
-          )}
         </div>
       ))}
     </>

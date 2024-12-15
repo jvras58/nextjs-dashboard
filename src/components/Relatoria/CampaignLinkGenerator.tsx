@@ -21,7 +21,7 @@ const CampaignLinkGenerator: React.FC = () => {
       }
 
       // Mock da geração do link
-      const link = `https://betinha.com/campanha?afiliado=${affiliate}&campanha=${encodeURIComponent(nomeCampanha)}`;
+      const link = `https://betinha.com/cadastro?afiliado=${affiliate}&campanha=${encodeURIComponent(nomeCampanha)}`;
       setGeneratedLink(link);
     } catch (error) {
       setError(error instanceof Error ? error.message : "Erro ao gerar link de campanha");
