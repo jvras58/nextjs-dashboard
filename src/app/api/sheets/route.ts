@@ -20,6 +20,7 @@ export async function GET(request: Request) {
     );
     return NextResponse.json(data);
   } catch (error) {
+    console.error('Erro detalhado:', error);
     return NextResponse.json(
       { error: 'Falha ao buscar dados da planilha' },
       { status: 500 }
