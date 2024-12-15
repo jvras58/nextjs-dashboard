@@ -9,13 +9,13 @@ interface Cadastro {
 
 // Configurações base para query do Firestore
 const baseQueryConfig = {
-  staleTime: 5 * 60 * 1000,
-  gcTime: 30 * 60 * 1000,
+  staleTime: 2 * 60 * 60 * 1000, // 2 horas
+  gcTime: 3 * 60 * 60 * 1000, // 3 horas
   retry: 3,
   retryDelay: (attemptIndex: number) => Math.min(1000 * 2 ** attemptIndex, 30000),
-  refetchOnMount: true,
+  refetchOnMount: false,
   refetchOnWindowFocus: false,
-  refetchOnReconnect: true,
+  refetchOnReconnect: false,
   structuralSharing: true,
   networkMode: 'online' as const
 };

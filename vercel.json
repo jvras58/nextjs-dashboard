@@ -1,0 +1,32 @@
+{
+    "headers": [
+      {
+        "source": "/dashboard",
+        "headers": [
+          {
+            "key": "Cache-Control",
+            "value": "public, max-age=31536000, s-maxage=31536000, stale-while-revalidate=60"
+          }
+        ]
+      },
+      {
+        "source": "/campanhas",
+        "headers": [
+          {
+            "key": "Cache-Control",
+            "value": "public, max-age=31536000, s-maxage=31536000, stale-while-revalidate=60"
+          }
+        ]
+      },
+      {
+        "source": "/api/(.*)",
+        "headers": [
+          {
+            "key": "Cache-Control",
+            "value": "public, s-maxage=300, stale-while-revalidate=60"
+          }
+        ]
+      }
+    ]
+  }
+  

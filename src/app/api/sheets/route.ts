@@ -18,11 +18,30 @@ export async function GET(request: Request) {
       spreadsheetId,
       parseInt(sheetIndex)
     );
-    return NextResponse.json(data);
+
+    // Retornar os dados com cabeçalhos de Cache-Control
+    const response = NextResponse.json(data);
+
+    response.headers.set(
+      'Cache-Control',
+      'public, max-age=31536000, s-maxage=31536000, stale-while-revalidate=60'
+    );
+
+    return response;
   } catch (error) {
-    return NextResponse.json(
+    console.error('Erro detalhado:', error);
+
+    // Resposta de erro com cache control
+    const errorResponse = NextResponse.json(
       { error: 'Falha ao buscar dados da planilha' },
       { status: 500 }
     );
+
+    errorResponse.headers.set(
+      'Cache-Control',
+      'no-store'
+    );
+
+    return errorResponse;
   }
 }

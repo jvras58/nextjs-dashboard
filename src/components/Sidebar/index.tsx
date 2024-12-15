@@ -76,8 +76,8 @@ const menuGroups = [
             />
           </svg>
         ),
-        label: "Relatoria Betinha",
-        route: "/relatoria",
+        label: "Gerador de Campanhas",
+        route: "/campanhas",
       },
       {
         icon: (
