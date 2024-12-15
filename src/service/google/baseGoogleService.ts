@@ -51,13 +51,17 @@ export const useSheetData = <
   // Query para operação
   const operacaoQuery = useQuery({
     queryKey: [OPERACAO_CACHE_KEY, param],
-    queryFn: () => fetchOperacao(param),
+    queryFn: async () => {
+      return fetchOperacao(param);
+    },
   });
 
   // Query para dados da planilha
   const sheetQuery = useQuery({
     queryKey: [SHEETS_CACHE_KEY],
-    queryFn: fetchSheet,
+    queryFn: async () => {
+      return fetchSheet();
+    },
   });
 
   const processData = (): ReturnType | null => {
