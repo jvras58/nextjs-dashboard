@@ -6,6 +6,7 @@ import "@/css/style.css";
 import React, { useEffect, useState } from "react";
 import { QueryClient } from "@tanstack/react-query";
 import Loader from "@/components/common/Loader";
+import NextAuthSessionProvider from '@/providers/sessionProvider';
 
 import { PersistQueryClientProvider } from '@tanstack/react-query-persist-client'
 import { createSyncStoragePersister } from '@tanstack/query-sync-storage-persister'
@@ -41,12 +42,14 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body suppressHydrationWarning={true}>
+        <NextAuthSessionProvider>
         <PersistQueryClientProvider 
           client={queryClient}
           persistOptions={{ persister }}
         >
           {loading ? <Loader /> : children}
         </PersistQueryClientProvider>
+        </NextAuthSessionProvider>
       </body>
     </html>
   )
