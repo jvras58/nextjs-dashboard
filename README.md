@@ -148,19 +148,64 @@ Para rodar o projeto localmente, siga os passos abaixo:
       NEXT_PUBLIC_GOOGLE_SHEETS_TOKEN_URI="https://oauth2.googleapis.com/token"
       NEXT_PUBLIC_GOOGLE_SHEETS_AUTH_PROVIDER_CERT_URL="https://www.googleapis.com/oauth2/v1/certs"
       NEXT_PUBLIC_GOOGLE_SHEETS_CLIENT_CERT_URL="https://www.googleapis.com/robot/v1/metadata/x509/testing-spreadsheets%40betinha-testing.iam.gserviceaccount.com"
+
+      <!-- Google Planilha code -->
+      <!--  id da planilha: -->
+      NEXT_PUBLIC_GOOGLE_SHEETS_SPREADSHEET_ID="xxxxxxxxxxxxxxxxxx"
+      <!--  id da pagina operações: -->
+      NEXT_PUBLIC_GOOGLE_SHEETS_OPERATIONS_SHEET_ID="x"
+      <!--  id da pagina de Estados: -->
+      NEXT_PUBLIC_GOOGLE_SHEETS_STATES_SHEET_ID="x"
+
+      <!--  NEXTAUTH CONFIG -->
+      NEXTAUTH_URL=http://localhost:3000
+      NEXTAUTH_SECRET=xxxxx
+
+      <!-- Password Seed -->
+      NAME_STRING="xxxxxxx"
+      EMAIL_STRING="xxxx@exemple.com"  
+      ADMIN_PASSWORD="xxxx@"
       ```
 
-4. Inicie o servidor de desenvolvimento:
+4. Execute as migrações do banco de dados utilizando o Prisma:
+   ```bash
+   npm run migrate
+   ```
+   > Isso aplicará todas as alterações definidas no arquivo `schema.prisma`
 
+5. Popule o banco de dados com dados iniciais:
+   ```bash
+   npm run seed
+   ```
+   > Esta etapa criará registros básicos necessários para testar a aplicação
+
+6. Inicie o ambiente de desenvolvimento:
    ```bash
    npm run dev
    ```
+   > O servidor será iniciado em modo de desenvolvimento com hot-reload
 
-5. Acesse o dashboard em:
-
+7. Visualize o dashboard:
    ```
    http://localhost:3000
    ```
+   > A página principal do dashboard será carregada
+
+8. Para acessar a área restrita:
+   ```
+   http://localhost:3000/login
+   ```
+   > Utilize as credenciais definidas no arquivo 
+
+.env
+
+:
+   > - Email: user@nextmail.com
+   > - Senha: 123456
+
+📝 **Observação**: Certifique-se de que todas as variáveis de ambiente estejam configuradas corretamente no arquivo 
+.env antes de iniciar a aplicação.
+
 
 ## Configurações do Firebase
 
@@ -173,9 +218,6 @@ Usando as configurações do Firebase da Betinha, tanto o Data Studio quanto o p
 
 ## 💻 Funcionalidades Principais
 
-- **Home**: Tela inicial com visão geral e informações rápidas.
-- **Dashboard Afiliados**: Exibe dados de afiliados com a capacidade de clicar em um card e acessar um dashboard detalhado.
-- **Relatórios**: Seção dedicada para visualização e geração de relatórios sobre o desempenho dos afiliados(em construção).
 
 ## 🔧 Como Contribuir
 
