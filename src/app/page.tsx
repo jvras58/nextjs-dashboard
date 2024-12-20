@@ -13,8 +13,7 @@ import {
   BreadcrumbSeparator,
 } from "@/components/ui/breadcrumb";
 import { Separator } from "@/components/ui/separator";
-import { signOut } from "next-auth/react";
-import { Button } from "react-day-picker";
+import LogoutButton from "@/components/button-auth/LogoutButton";
 
 export const metadata: Metadata = {
   title: "Betinha - WEB",
@@ -59,8 +58,9 @@ export default async function Home() {
               <p className="text-zinc-900 dark:text-white text-xl">
                 Bem vindo, {session.user?.name}
               </p>
+              <LogoutButton />
             </div>
-            <Button onClick={() => signOut()}>Sair</Button>
+            
 
             {/* Imagem de destaque */}
             <div className="order-1 xl:order-none mb-8 xl:mb-0">
