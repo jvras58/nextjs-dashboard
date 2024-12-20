@@ -1,32 +1,21 @@
 import { Metadata } from "next";
 import DefaultLayout from "@/components/Layouts/DefaultLayout";
 import Dashboard from "@/components/Dashboard/Dashboard";
+import { getServerSession } from "next-auth";
 import React from "react";
 
-// TODO: Estou aqui:
-export async function generateMetadata({
-params,
-}: {
-params: { slug: string };
-}): Promise<Metadata> {
-return {
-title: `Dashboard Afiliado: ${params.slug}`,
-description: "Dashboard de afiliados da Betinha",
+export const metadata: Metadata = {
+  title: 'Dashboard Afiliado',
+  description: "Dashboard do Afiliado",
 };
-}
 
-interface Props {
-params: Promise<{ slug: string }>;
-}
-
-const userParams = async () => {
-    return { slug: "DKC" };
-  };
-
-export default async function Page({ params = userParams() }: Props) {
-return (
-<DefaultLayout HeaderTitle={(await params).slug}>
-    <Dashboard param={(await params).slug}></Dashboard>
-</DefaultLayout>
-);
+export default async function Page() {
+  //TODO: COM O SESSION TEMOS EXATAMENTE OQ É PASSADA PARA A SESSÃO DO USUARIO AGORA É CRIAR UM MODEL NOVO COM A AFILIAÇÃO E PAPEL DO USUARIO
+  const session = await getServerSession();
+  console.log(session?.user?.name)
+  return (
+    <DefaultLayout HeaderTitle="DKC">
+      <Dashboard param="DKC"></Dashboard>
+    </DefaultLayout>
+  );
 }
