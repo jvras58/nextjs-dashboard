@@ -4,15 +4,6 @@ import Image from "next/image";
 import React from "react";
 import { getServerSession } from "next-auth";
 import { redirect } from "next/navigation";
-import {
-  Breadcrumb,
-  BreadcrumbItem,
-  BreadcrumbLink,
-  BreadcrumbList,
-  BreadcrumbPage,
-  BreadcrumbSeparator,
-} from "@/components/ui/breadcrumb";
-import { Separator } from "@/components/ui/separator";
 import LogoutButton from "@/components/button-auth/LogoutButton";
 
 export const metadata: Metadata = {
@@ -30,18 +21,6 @@ export default async function Home() {
   return (
     <DefaultLayout>
       <header className="flex h-16 shrink-0 items-center gap-2 border-b px-4">
-        <Separator orientation="vertical" className="h-6" />
-        <Breadcrumb>
-          <BreadcrumbList>
-            <BreadcrumbItem>
-              <BreadcrumbLink href="/dashboard">Dashboard</BreadcrumbLink>
-            </BreadcrumbItem>
-            <BreadcrumbSeparator />
-            <BreadcrumbItem>
-              <BreadcrumbPage>Home</BreadcrumbPage>
-            </BreadcrumbItem>
-          </BreadcrumbList>
-        </Breadcrumb>
       </header>
       <section className="h-full from-gray-900 via-gray-800 to-gray-900 text-white">
         <div className="container mx-auto h-full">
