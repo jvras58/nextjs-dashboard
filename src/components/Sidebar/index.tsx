@@ -48,7 +48,7 @@ const menuGroups = [
         </svg>
         ),
         label: "Dashboard",
-        route: "/dashboard",
+        route: "/dash",
       },
       {
         icon: (

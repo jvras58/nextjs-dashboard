@@ -7,7 +7,8 @@ export const metadata: Metadata = {
     description: "Dashboard da Betinha",
 };
 
-const Home = () => {
+
+const afiliadosDashAdmin = () => {
 return (
 <DefaultLayout HeaderTitle="Afiliados">
     <AfiliadosList />
@@ -15,4 +16,4 @@ return (
 );
 };
 
-export default Home;
+export default afiliadosDashAdmin;
