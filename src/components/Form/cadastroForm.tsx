@@ -11,6 +11,7 @@ import {
   FormLabel,
   FormMessage
 } from '@/components/ui/form';
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 import { Input } from '@/components/ui/input';
 
 import { zodResolver } from '@hookform/resolvers/zod';
@@ -31,6 +32,8 @@ const CadastroForm = ({}: CadastroFormProps) => {
       nome: '',
       email: '',
       password: '',
+      afilliate: '',
+      role: 'user',
     },
   });
 
@@ -38,10 +41,9 @@ const CadastroForm = ({}: CadastroFormProps) => {
       try {
           const result = await saveCadastroForm(data);
           console.log('Cadastro realizado com sucesso:', result);
-          router.push('/login'); 
+          router.push('/'); 
       } catch (error) {
           console.error('Erro ao enviar o formulário:', error);
-          // Lógica de tratamento de erro, como exibir uma mensagem ao usuário
       }
   };
 
@@ -61,7 +63,7 @@ const CadastroForm = ({}: CadastroFormProps) => {
                   className="border-green-300 focus:border-green-500"
                 />
               </FormControl>
-              <FormDescription className="text-green-600">Digite seu nome de usuário</FormDescription>
+              <FormDescription className="text-green-600">Digite o nome do afiliado ou admin</FormDescription>
               <FormMessage />
             </FormItem>
           )}
@@ -80,7 +82,7 @@ const CadastroForm = ({}: CadastroFormProps) => {
                   className="border-green-300 focus:border-green-500"
                 />
               </FormControl>
-              <FormDescription className="text-green-600">Digite seu email</FormDescription>
+              <FormDescription className="text-green-600">Digite o email</FormDescription>
               <FormMessage />
             </FormItem>
           )}
@@ -100,6 +102,48 @@ const CadastroForm = ({}: CadastroFormProps) => {
                 />
               </FormControl>
               <FormDescription className="text-green-600">Digite uma senha segura</FormDescription>
+              <FormMessage />
+            </FormItem>
+          )}
+        />
+          <FormField
+          control={form.control}
+          name="role"
+          render={({ field }) => (
+            <FormItem>
+              <FormLabel className="text-green-700">Função:</FormLabel>
+              <Select onValueChange={field.onChange} defaultValue={field.value}>
+                <FormControl>
+                  <SelectTrigger className="border-green-300 focus:border-green-500">
+                    <SelectValue placeholder="Selecione uma função" />
+                  </SelectTrigger>
+                </FormControl>
+                <SelectContent>
+                  <SelectItem value="user">Afiliado</SelectItem>
+                  <SelectItem value="admin">Administrador</SelectItem>
+                </SelectContent>
+              </Select>
+              <FormDescription className="text-green-600">
+                Selecione a função no sistema
+              </FormDescription>
+              <FormMessage />
+            </FormItem>
+          )}
+        />
+          <FormField
+          control={form.control}
+          name="afilliate"
+          render={({ field }) => (
+            <FormItem>
+              <FormLabel className="text-green-700">Afiliado:</FormLabel>
+              <FormControl>
+                <Input
+                  placeholder="Afiliação"
+                  {...field}
+                  className="border-green-300 focus:border-green-500"
+                />
+              </FormControl>
+              <FormDescription className="text-green-600">Digite a afiliação deste usuario</FormDescription>
               <FormMessage />
             </FormItem>
           )}
