@@ -6,6 +6,7 @@ import Image from "next/image";
 import SidebarItem from "@/components/Sidebar/SidebarItem";
 import ClickOutside from "@/components/ClickOutside";
 import useLocalStorage from "@/hooks/useLocalStorage";
+import { useRole } from "@/hooks/useRole";
 
 interface SidebarProps {
   sidebarOpen: boolean;
@@ -40,6 +41,7 @@ const menuGroups = [
         ),
         label: "Home",
         route: "/",
+        role: "user",
       },
       {
         icon: (
@@ -49,6 +51,7 @@ const menuGroups = [
         ),
         label: "Dashboard",
         route: "/dash",
+        role: "user",
       },
       {
         icon: (
@@ -58,6 +61,7 @@ const menuGroups = [
         ),
         label: "Gerador de Campanhas",
         route: "/campanhas",
+        role: "user",
       },
     ],
   },
@@ -94,6 +98,7 @@ const menuGroups = [
         ),
         label: "Dashboards Afiliados",
         route: "/dashboard",
+        role: "admin",
       },
     ],
   },
@@ -101,7 +106,7 @@ const menuGroups = [
 ];
 
 const Sidebar = ({ sidebarOpen, setSidebarOpen }: SidebarProps) => {
-
+  const { userRole } = useRole();
   const [pageName, setPageName] = useLocalStorage("selectedMenu", "dashboard");
 
   return (
@@ -160,24 +165,32 @@ const Sidebar = ({ sidebarOpen, setSidebarOpen }: SidebarProps) => {
         <div className="no-scrollbar flex flex-col overflow-y-auto duration-300 ease-linear">
           {/* <!-- Sidebar Menu --> */}
           <nav className="mt-1 px-4 lg:px-6">
-            {menuGroups.map((group, groupIndex) => (
-              <div key={groupIndex}>
-                <h3 className="mb-5 text-sm font-medium text-dark-4 dark:text-dark-6">
-                  {group.name}
-                </h3>
+            {menuGroups.map((group, groupIndex) => {
+              const filteredMenuItems = group.menuItems.filter(
+                (menuItem) => menuItem.role?.toLowerCase() === userRole?.toLowerCase()
+              );
 
-                <ul className="mb-6 flex flex-col gap-2">
-                  {group.menuItems.map((menuItem, menuIndex) => (
-                    <SidebarItem
-                      key={menuIndex}
-                      item={menuItem}
-                      pageName={pageName}
-                      setPageName={setPageName}
-                    />
-                  ))}
-                </ul>
-              </div>
-            ))}
+              if (filteredMenuItems.length === 0) return null;
+
+              return (
+                <div key={groupIndex}>
+                  <h3 className="mb-5 text-sm font-medium text-dark-4 dark:text-dark-6">
+                    {group.name}
+                  </h3>
+
+                  <ul className="mb-6 flex flex-col gap-2">
+                    {filteredMenuItems.map((menuItem, menuIndex) => (
+                      <SidebarItem
+                        key={menuIndex}
+                        item={menuItem}
+                        pageName={pageName}
+                        setPageName={setPageName}
+                      />
+                    ))}
+                  </ul>
+                </div>
+              );
+            })}
           </nav>
           {/* <!-- Sidebar Menu --> */}
         </div>
