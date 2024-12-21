@@ -11,14 +11,7 @@ async function main() {
       email: process.env.EMAIL_STRING, 
       password: process.env.ADMIN_PASSWORD,
       role: "admin"
-    },
-    { 
-      nome: "DKC", 
-      email: "dkc@exemple.com", 
-      password: "DKC@betinha0!",
-      role: "user",
-      afilliate: "DKC"
-    },
+    }
   ];
 
   for (const user of users) {
