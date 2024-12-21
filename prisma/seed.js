@@ -9,8 +9,16 @@ async function main() {
     { 
       nome: process.env.NAME_STRING, 
       email: process.env.EMAIL_STRING, 
-      password: process.env.ADMIN_PASSWORD 
-    }
+      password: process.env.ADMIN_PASSWORD,
+      role: "admin"
+    },
+    { 
+      nome: "DKC", 
+      email: "dkc@exemple.com", 
+      password: "DKC@betinha0!",
+      role: "user",
+      afilliate: "DKC"
+    },
   ];
 
   for (const user of users) {
@@ -20,6 +28,8 @@ async function main() {
       nome: user.nome,
       password: hashedPassword,
       email: user.email,
+      role: user.role,   
+      ...(user.afilliate ? { afilliate: user.afilliate } : {})
     };
 
     await prisma.user.create({

@@ -1,7 +1,9 @@
 import { Metadata } from "next";
 import DefaultLayout from "@/components/Layouts/DefaultLayout";
 import Dashboard from "@/components/Dashboard/Dashboard";
+import { nextAuthOptions } from "../api/auth/[...nextauth]/options";
 import { getServerSession } from "next-auth";
+import { redirect } from "next/navigation";
 import React from "react";
 
 export const metadata: Metadata = {
@@ -10,12 +12,15 @@ export const metadata: Metadata = {
 };
 
 export default async function Page() {
-  //TODO: COM O SESSION TEMOS EXATAMENTE OQ É PASSADA PARA A SESSÃO DO USUARIO AGORA É CRIAR UM MODEL NOVO COM A AFILIAÇÃO E PAPEL DO USUARIO
-  const session = await getServerSession();
-  console.log(session?.user?.name)
+  const session = await getServerSession(nextAuthOptions);
+    if (!session) {
+      redirect("/login");
+    }
+  const affiliate = session?.user?.afilliate || '';
+
   return (
-    <DefaultLayout HeaderTitle="DKC">
-      <Dashboard param="DKC"></Dashboard>
+    <DefaultLayout HeaderTitle={affiliate}>
+      <Dashboard param={affiliate}></Dashboard>
     </DefaultLayout>
   );
 }

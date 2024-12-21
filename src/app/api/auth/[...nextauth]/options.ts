@@ -13,10 +13,10 @@ export const nextAuthOptions: NextAuthOptions = {
       },
 
       async authorize(credentials, req) {
-        console.log('Credenciais recebidas:', credentials);
+        console.info('Credenciais recebidas:', credentials);
 
         if (!credentials?.email || !credentials?.password) {
-          console.log('Credenciais inválidas');
+          console.info('Credenciais inválidas');
           return null;
         }
 
@@ -44,6 +44,8 @@ export const nextAuthOptions: NextAuthOptions = {
           id: String(user.id),
           name: user.nome,
           email: user.email,
+          role: user.role,
+          afilliate: user.afilliate || null,
         };
       },
     }),
@@ -53,12 +55,28 @@ export const nextAuthOptions: NextAuthOptions = {
   },
   callbacks: {
     async jwt({ token, user }) {
-      user && (token.user = user);
+      if (user) {
+        token.user = {
+          id: user.id,
+          name: user.name,
+          email: user.email,
+          role: user.role,
+          afilliate: user.afilliate || null,
+        };
+      }
       return token;
     },
 
     async session({ session, token }) {
-      session.user = token.user as any;
+      if (token.user) {
+        session.user = token.user as {
+          id: string;
+          name: string;
+          email: string;
+          role: string;
+          afilliate: string | null;
+        };
+      }
       return session;
     },
   },
