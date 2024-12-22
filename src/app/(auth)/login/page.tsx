@@ -1,5 +1,3 @@
-'use client';
-
 import { Logo } from '@/assets';
 import Image from 'next/image';
 import { redirect } from 'next/navigation';
@@ -11,16 +9,17 @@ import {
   CardTitle
 } from '@/components/ui/card';
 import LoginForm from '@/components/Form/loginForm';
-import { useSession } from 'next-auth/react';
+import { getServerSession } from "next-auth";
 import { ThemeToggle } from '@/components/ui/theme-toggle';
+import { nextAuthOptions } from '@/app/api/auth/[...nextauth]/options';
 
-export default function Login() {
-  const session = useSession();
+// FIXME: so redireciona se recarregar a pagina e esse problema se extende para o sidebar tbm na vercel as opções não aparecem
 
-  if (session.status === 'authenticated') {
-    redirect('/');
-  }
-
+export default async function Login() {
+  const session = await getServerSession(nextAuthOptions);
+    if (session) {
+      redirect("/");
+}
   return (
     <Card className="w-full bg-white dark:bg-gray-800">
     <ThemeToggle />
