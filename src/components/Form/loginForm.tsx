@@ -2,6 +2,7 @@
 
 import { useState } from 'react';
 import { signIn } from 'next-auth/react';
+import { useRouter } from 'next/navigation';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { Button } from '@/components/ui/button';
@@ -9,22 +10,33 @@ import { Button } from '@/components/ui/button';
 export interface LoginFormProps {}
 
 const LoginForm = ({}: LoginFormProps) => {
+  const router = useRouter();
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [error, setError] = useState('');
+  const [isLoading, setIsLoading] = useState(false);
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    const result = await signIn('credentials', {
-      redirect: false,
-      email: email,
-      password: password,
-    });
+    setIsLoading(true);
+    setError('');
 
-    if (result?.error) {
-      setError('Credenciais inválidas. Por favor, tente novamente.');
-    } else {
-      setError('');
+    try {
+      const result = await signIn('credentials', {
+        redirect: false,
+        email,
+        password,
+      });
+
+      if (result?.error) {
+        setError('Credenciais inválidas. Por favor, tente novamente.');
+      } else {
+        router.replace('/');
+      }
+    } catch (err) {
+      setError('Ocorreu um erro ao tentar fazer login.');
+    } finally {
+      setIsLoading(false);
     }
   };
 
@@ -39,6 +51,7 @@ const LoginForm = ({}: LoginFormProps) => {
           placeholder="example@example.com"
           value={email}
           onChange={(e) => setEmail(e.target.value)}
+          disabled={isLoading}
           required
         />
       </div>
@@ -50,11 +63,12 @@ const LoginForm = ({}: LoginFormProps) => {
           placeholder="••••••••"
           value={password}
           onChange={(e) => setPassword(e.target.value)}
+          disabled={isLoading}
           required
         />
       </div>
-      <Button type="submit" className="w-full">
-        Entrar
+      <Button type="submit" className="w-full" disabled={isLoading}>
+        {isLoading ? 'Entrando...' : 'Entrar'}
       </Button>
     </form>
   );
