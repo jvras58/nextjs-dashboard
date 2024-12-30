@@ -5,6 +5,8 @@ import MapOne from "@/components/Maps/MapOne";
 import CampaignTable from "@/components/Tables/Campanha-Table";
 import EstadoTable from "@/components/Tables/Estado-Table";
 import DepositoFTDTable from "@/components/Tables/DepositoFTD-Table";
+import { getServerSession } from "next-auth";
+import { nextAuthOptions } from "../api/auth/[...nextauth]/options";
 
 export const metadata: Metadata = {
   title: "Gerador de Campanha - Betinha",
@@ -15,7 +17,10 @@ const LayoutWrapper = ({ children, layoutClass }: { children: React.ReactNode; l
   return <div className={layoutClass}>{children}</div>;
 };
 
-const GeradorDeLinks = () => {
+async function GeradorDeLinks () {
+  const session = await getServerSession(nextAuthOptions);
+  if (!session) return null;
+
   return (
     <DefaultLayout HeaderTitle="Gerador de Links">
       {/* Seção Gerador de Links */}
@@ -34,16 +39,14 @@ const GeradorDeLinks = () => {
         <h2 className="text-2xl font-bold mb-6">Cadastro</h2>
         <div className="grid grid-cols-12 gap-6 mt-6">
           <LayoutWrapper layoutClass="col-span-12 xl:col-span-7">
-            {/* TODO: Vai pegar esse parametro do Usuario Autenticado */}
-            <CampaignTable param="affbr" />
+            <CampaignTable param={session.user.afilliate ?? ""} />
           </LayoutWrapper>
           <LayoutWrapper layoutClass="col-span-12 xl:col-span-5">
-            {/* TODO: Vai pegar esse parametro do Usuario Autenticado */}
-            <EstadoTable param="affbr" />
+            <EstadoTable param={session.user.afilliate ?? ""} />
           </LayoutWrapper>
           <LayoutWrapper layoutClass="col-span-12">
           <div className="map-container">
-            <MapOne param="affbr"/>
+            <MapOne param={session.user.afilliate ?? ""}/>
           </div>
           </LayoutWrapper>
         </div>
@@ -54,8 +57,7 @@ const GeradorDeLinks = () => {
         <h2 className="text-2xl font-bold mb-6">Depósito</h2>
         <div className="grid grid-cols-12">
           <LayoutWrapper layoutClass="col-span-12">
-            {/* TODO: Vai pegar esse parametro do Usuario Autenticado */}
-            <DepositoFTDTable param="affbr" />
+            <DepositoFTDTable param={session.user.afilliate ?? ""} />
           </LayoutWrapper>
         </div>
       </div>
