@@ -27,7 +27,7 @@ export default function useDashboardData(param: string, startingDate?: Date, end
 
     const [ totalInvestido,  investidoLoading ] = useTotalInvestido(param, startingDate, endingDate);
 
-    // const { data: MediaInvestida, isLoading: MediaInvestidaLoading } = useMediaInvestida(param, startingDate, endingDate);
+    const { data: MediaInvestida, isLoading: MediaInvestidaLoading } = useMediaInvestida(param, startingDate, endingDate);
 
     const { data: roi, isLoading: roiLoading } = useRoi(param, startingDate, endingDate);
 
@@ -61,7 +61,7 @@ export default function useDashboardData(param: string, startingDate?: Date, end
         totalCustoCadastro,
         ConversaoCadastroFTD,
         totalInvestido,
-        // MediaInvestida,
+        MediaInvestida,
         roi,
         totalApostado,
         totalPremios,
@@ -75,6 +75,6 @@ export default function useDashboardData(param: string, startingDate?: Date, end
         TicketMedio,
         totalGgr,
         taxaRetencao,
-        loading: cadastroLoading || totalCustoCadastroLoading || ConversaoCadastroFTDLoading || investidoLoading || roiLoading || apostadoLoading || premiosLoading || ftdLoading || amountFtdLoading || depositoLoading || depositoAmountLoading || CustoFTDLoading || TaxaRedepositoLoading || TicketMedioLoading || ValorMedioFTDLoading || ggrLoading || taxaRetencaoLoading
+        loading: cadastroLoading || totalCustoCadastroLoading || ConversaoCadastroFTDLoading || investidoLoading || roiLoading || apostadoLoading || premiosLoading || ftdLoading || amountFtdLoading || depositoLoading || depositoAmountLoading || CustoFTDLoading || TaxaRedepositoLoading || TicketMedioLoading || ValorMedioFTDLoading || ggrLoading || taxaRetencaoLoading || MediaInvestidaLoading
     };
 }
