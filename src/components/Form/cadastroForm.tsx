@@ -1,6 +1,6 @@
 'use client';
 
-import React from 'react';
+import React, { useState } from 'react';
 import { Button } from '@/components/ui/button';
 import {
   Form,
@@ -13,7 +13,8 @@ import {
 } from '@/components/ui/form';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 import { Input } from '@/components/ui/input';
-
+import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert";
+import { CheckCircle2, XCircle } from "lucide-react";
 import { zodResolver } from '@hookform/resolvers/zod';
 import { useForm } from 'react-hook-form';
 import z from 'zod';
@@ -25,6 +26,10 @@ export interface CadastroFormProps {}
 
 const CadastroForm = ({}: CadastroFormProps) => {
   const router = useRouter();
+  const [showAlert, setShowAlert] = useState<{
+    type: 'success' | 'destructive' | null;
+    message: string;
+  }>({ type: null, message: '' });
 
   const form = useForm<z.infer<typeof cadastroFormSchema>>({
     resolver: zodResolver(cadastroFormSchema),
@@ -39,15 +44,27 @@ const CadastroForm = ({}: CadastroFormProps) => {
 
     const handleForm = async (data: z.infer<typeof cadastroFormSchema>) => {
       try {
-          const result = await saveCadastroForm(data);
-          console.log('Cadastro realizado com sucesso:', result);
-          router.push('/'); 
+        const result = await saveCadastroForm(data);
+        console.info(result);
+        setShowAlert({
+          type: 'success',
+          message: 'Usuário cadastrado com sucesso!'
+        });
+        
+        // Redireciona após 3 segundos
+        setTimeout(() => {
+          router.push('/');
+        }, 3000);
       } catch (error) {
-          console.error('Erro ao enviar o formulário:', error);
+        setShowAlert({
+          type: 'destructive',
+          message: 'Erro ao cadastrar usuário. Por favor, tente novamente.'
+        });
       }
-  };
+    };
 
   return (
+    <>
     <Form {...form}>
       <form onSubmit={form.handleSubmit(handleForm)} className="space-y-6">
         <FormField
@@ -153,6 +170,22 @@ const CadastroForm = ({}: CadastroFormProps) => {
         </Button>
       </form>
     </Form>
+    {showAlert.type && (
+      <Alert variant={showAlert.type} className="mt-4 mb-4">
+        {showAlert.type === 'success' ? (
+          <CheckCircle2 className="h-4 w-4" />
+        ) : (
+          <XCircle className="h-4 w-4" />
+        )}
+        <AlertTitle>
+          {showAlert.type === 'success' ? 'Sucesso!' : 'Erro!'}
+        </AlertTitle>
+        <AlertDescription>
+          {showAlert.message}
+        </AlertDescription>
+      </Alert>
+    )}
+    </>
   );
 };
 
