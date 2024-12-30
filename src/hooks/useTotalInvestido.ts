@@ -12,10 +12,10 @@ const useTotalInvestido = (param: string, startingDate: Date | undefined, ending
     param,
     "Total Investido (Dia)",
     (rows, operacaoNome) => {
-      return rows
-        .filter(row => row["Operação"]?.trim() === operacaoNome)
-    }
+      return rows.filter((row) => row["Operação"]?.trim() === operacaoNome);
+    },
   );
+  
   const filteredData = useDateFilter(rowsData.data, startingDate, endingDate)?.reduce((sum, row)=> {
       const valueStr = row["Total Investido (Dia)"]?.toString().trim() || "R$ 0";
       const value = parseCurrencyValue(valueStr);

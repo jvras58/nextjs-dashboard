@@ -16,9 +16,10 @@ export default function Dashboard({ param }: DashboardProps) {
     from: Date | undefined;
     to: Date | undefined;
   }>({
-    from: new Date(),
-    to: addDays(new Date(), 7),
+    from: undefined,
+    to: undefined,
   });
+  const hasDates: boolean = date.to !== undefined || date.from !==undefined
 
   function changeDateStart(newDate: Date | undefined ) {
     setDate((prev) => ({ ...prev, from: newDate }));
@@ -31,6 +32,10 @@ export default function Dashboard({ param }: DashboardProps) {
     }));
   }
 
+  function resetDatePicker() {
+    setDate({from: undefined, to: undefined})
+  }
+
   const [ sectionsConfig, loading ] = useSectionConfig(param, date.from, date.to);
 
   if (loading) {
@@ -40,6 +45,16 @@ export default function Dashboard({ param }: DashboardProps) {
   return (
     <>
       <div className="mb-6 flex justify-end px-7.5">
+        {hasDates && (
+          <button
+            className="mr-4 transition-colors duration-300 dark:hover:text-white"
+            type="button"
+            onClick={() => resetDatePicker()}
+          >
+            X
+          </button>
+        )}
+
         <DateRangePicker
           date={date}
           changeStartDate={changeDateStart}
