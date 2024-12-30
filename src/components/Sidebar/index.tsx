@@ -117,12 +117,8 @@ const menuGroups = [
 ];
 
 const Sidebar = ({ sidebarOpen, setSidebarOpen }: SidebarProps) => {
-  const { userRole, isLoading } = useRole();
+  const { userRole } = useRole();
   const [pageName, setPageName] = useLocalStorage("selectedMenu", "dashboard");
-
-  if (isLoading) {
-    return <Loader/>;    
-  }
 
   return (
     <ClickOutside onClick={() => setSidebarOpen(false)}>
