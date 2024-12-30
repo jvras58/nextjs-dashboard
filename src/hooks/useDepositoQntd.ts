@@ -1,4 +1,5 @@
-import { useSheetData, BaseRow, parseNumericValue } from '@/service/google/baseGoogleService';
+import { useSheetData, BaseRow, parseNumericValue, parseCurrencyValue } from "@/service/google/baseGoogleService";
+import useDateFilter from "@/hooks/useDateFilter";
 
 interface DepositoQuantidadeResult {
   data: number | null;
@@ -6,20 +7,21 @@ interface DepositoQuantidadeResult {
   error: Error | null;
 }
 
-const useQuantidadeDeposito = (param: string): DepositoQuantidadeResult => {
-  return useSheetData<BaseRow, number>(
+const useQuantidadeDeposito = (param: string, startingDate: Date | undefined, endingDate: Date | undefined) => {
+  const rowsData = useSheetData<BaseRow, number>(
     param,
     "Depósitos (Qtd)",
     (rows, operacaoNome) => {
       return rows
         .filter(row => row["Operação"]?.trim() === operacaoNome)
-        .reduce((sum, row) => {
-          const valueStr = row["Depósitos (Qtd)"]?.toString().trim() || "0";
-          const value = parseNumericValue(valueStr);
-          return isNaN(value) ? sum : sum + value;
-        }, 0);
     }
   );
+  const filteredData = useDateFilter(rowsData.data, startingDate, endingDate)?.reduce((sum, row)=> {
+    const valueStr = row["Depósitos (Qtd)"]?.toString().trim() || "0";
+    const value = parseCurrencyValue(valueStr);
+    return isNaN(value) ? sum : sum + value
+  }, 0)
+  return [filteredData, rowsData.isLoading, rowsData.error] as const
 };
 
 export default useQuantidadeDeposito;

@@ -46,7 +46,7 @@ export const useSheetData = <
 >(
   param: string,
   _columnName: string,
-  processRows: (rows: RowType[], operacaoNome: string) => ReturnType
+  processRows: (rows: RowType[], operacaoNome: string) => RowType[]
 ) => {
   // Query para operação
   const operacaoQuery = useQuery({
@@ -64,7 +64,7 @@ export const useSheetData = <
     },
   });
 
-  const processData = (): ReturnType | null => {
+  const processData = (): RowType[] | null => {
     if (!operacaoQuery.data || !sheetQuery.data) return null;
 
     const rows = sheetQuery.data.rows as RowType[];

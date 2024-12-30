@@ -1,5 +1,6 @@
 import { useSheetData, BaseRow, parseCurrencyValue } from '@/service/google/baseGoogleService';
-
+import useDateFilter from "@/hooks/useDateFilter";
+import { useMemo } from 'react';
 
 // Cálculo da média de investimento:
 // AVG(TOTAL INVESTIDO (DIA)) - MÉDIA
@@ -10,33 +11,17 @@ interface MediaInvestidaResult {
   error: Error | null;
 }
 
-const useMediaInvestida = (operacaoNome: string): MediaInvestidaResult => {
-  return useSheetData<BaseRow, number>(
-    operacaoNome,
+const useMediaInvestida = (param: string, startingDate: Date | undefined, endingDate: Date | undefined): MediaInvestidaResult => {
+  const rowsData = useSheetData<BaseRow, number>(
+    param,
     "Total Investido (Dia)",
-    calcularMediaInvestimento
+    (rows, operacaoNome) => {
+      return rows.filter(row => row["Operação"]?.trim() === operacaoNome)
+    }
   );
-};
 
-const calcularMediaInvestimento = (rows: BaseRow[], operacaoNome: string): number => {
-  const rowsFiltradas = filtrarPorOperacao(rows, operacaoNome);
-  
-  if (rowsFiltradas.length === 0) {
-    return 0;
-  }
-
-  const { totalInvestido, quantidadeRegistros } = calcularTotais(rowsFiltradas);
-
-  return calcularMedia(totalInvestido, quantidadeRegistros);
-};
-
-const filtrarPorOperacao = (rows: BaseRow[], operacaoNome: string): BaseRow[] => {
-  return rows.filter(row => row["Operação"]?.trim() === operacaoNome);
-};
-
-const calcularTotais = (rows: BaseRow[]) => {
-  return rows.reduce((acumulador, row) => {
-    const valorStr = row["Total Investido (Dia)"]?.toString().trim();
+  const filteredData = useDateFilter(rowsData.data, startingDate, endingDate)?.reduce((acc, row) => {
+    const valorStr = row["Total Investido (Dia)"]?.toString().trim() || "R$ 0";
     
     // Verifica se é um valor válido
     if (!valorStr || 
@@ -47,23 +32,35 @@ const calcularTotais = (rows: BaseRow[]) => {
         valorStr === '0.00' || 
         valorStr.includes('R$ -') || 
         /^R?\$?\s*-$/.test(valorStr)) {
-      return acumulador;
+      return acc;
     }
 
     const valor = parseCurrencyValue(valorStr);
-    
-    if (!isNaN(valor) && valor > 0) {
-      return {
-        totalInvestido: acumulador.totalInvestido + valor,
-        quantidadeRegistros: acumulador.quantidadeRegistros + 1
-      };
-    }
-    return acumulador;
-  }, { totalInvestido: 0, quantidadeRegistros: 0 });
-};
+    return !isNaN(valor) && valor > 0 ? {
+      soma: acc.soma + valor,
+      count: acc.count + 1
+    } : acc;
+  }, { soma: 0, count: 0 });
 
-const calcularMedia = (total: number, quantidade: number): number => {
-  return quantidade > 0 ? total / quantidade : 0;
+  return useMemo(() => {
+    if (rowsData.error) {
+      return { data: null, isLoading: false, error: rowsData.error };
+    }
+
+    if (rowsData.isLoading) {
+      return { data: null, isLoading: true, error: null };
+    }
+
+    if (!filteredData || filteredData.count === 0) {
+      return { data: null, isLoading: false, error: null };
+    }
+
+    return {
+      data: filteredData.soma / filteredData.count,
+      isLoading: false,
+      error: null
+    };
+  }, [filteredData, rowsData.error, rowsData.isLoading]);
 };
 
 export default useMediaInvestida;

@@ -11,39 +11,39 @@ interface ValorMedioFTDResult {
   error: Error | null;
 }
 
-const useValorMedioFTD = (param: string): ValorMedioFTDResult => {
-  const ftdAmount = useFtdAmount(param);
-  const quantidadeFTD = useQuantidadeFTD(param);
+const useValorMedioFTD = (param: string, startingDate: Date | undefined, endingDate: Date | undefined) => {
+  const [ftdAmount, ftdIsLoading, ftdError] = useFtdAmount(param, startingDate, endingDate);
+  const [quantidadeFTD, quantidadeIsLoading, quantidadeError] = useQuantidadeFTD(param, startingDate, endingDate);
 
   return useMemo(() => {
     // Se estiver carregando qualquer um dos dados
-    if (ftdAmount.isLoading || quantidadeFTD.isLoading) {
+    if (ftdIsLoading || quantidadeIsLoading) {
       return { data: null, isLoading: true, error: null };
     }
 
     // Se houver erro em qualquer um dos hooks
-    if (ftdAmount.error || quantidadeFTD.error) {
+    if (ftdError || quantidadeError) {
       return {
         data: null,
         isLoading: false,
-        error: ftdAmount.error || quantidadeFTD.error
+        error: ftdError || quantidadeError
       };
     }
 
     // Se não houver dados ou quantidade for zero
-    if (!ftdAmount.data || !quantidadeFTD.data || quantidadeFTD.data === 0) {
+    if (!ftdAmount || !quantidadeFTD || quantidadeFTD === 0) {
       return { data: null, isLoading: false, error: null };
     }
 
     // Calcula o valor médio por FTD
-    const valorMedio = ftdAmount.data / quantidadeFTD.data;
+    const valorMedio = ftdAmount / quantidadeFTD;
 
     return {
       data: valorMedio,
       isLoading: false,
       error: null
     };
-  }, [ftdAmount, quantidadeFTD]);
+  }, [ftdAmount, ftdError, ftdIsLoading, quantidadeError, quantidadeFTD, quantidadeIsLoading]);
 };
 
 export default useValorMedioFTD;

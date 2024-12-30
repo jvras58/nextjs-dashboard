@@ -1,4 +1,5 @@
 import { useSheetData, BaseRow, parseCurrencyValue } from '@/service/google/baseGoogleService';
+import useDateFilter from "@/hooks/useDateFilter";
 
 interface GgrValorResult {
   data: number | null;
@@ -6,20 +7,21 @@ interface GgrValorResult {
   error: Error | null;
 }
 
-const useGgrValor = (param: string): GgrValorResult => {
-  return useSheetData<BaseRow, number>(
+const useGgrValor = (param: string, startingDate: Date|undefined, endingDate: Date|undefined) => {
+  const rowsData = useSheetData<BaseRow, number>(
     param,
     "GGR",
     (rows, operacaoNome) => {
       return rows
         .filter(row => row["Operação"]?.trim() === operacaoNome)
-        .reduce((sum, row) => {
-          const valueStr = row["GGR"]?.toString().trim() || "R$ 0";
-          const value = parseCurrencyValue(valueStr);
-          return isNaN(value) ? sum : sum + value;
-        }, 0);
     }
   );
+  const filteredData = useDateFilter(rowsData.data, startingDate, endingDate)?.reduce((sum, row)=> {
+    const valueStr = row["GGR"]?.toString().trim() || "R$ 0";
+    const value = parseCurrencyValue(valueStr);
+    return isNaN(value) ? sum : sum + value
+  }, 0)
+  return [filteredData, rowsData.isLoading, rowsData.error] as const
 };
 
 export default useGgrValor;

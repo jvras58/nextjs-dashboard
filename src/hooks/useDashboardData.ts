@@ -17,43 +17,43 @@ import useValorMedioFTD from "@/hooks/useTicketMedioFTD";
 import useTaxaRedeposito from "@/hooks/useRedeposito";
 import useTicketMedio from "@/hooks/useTicktetMedio";
 
-export default function useDashboardData(param: string) {
+export default function useDashboardData(param: string, startingDate?: Date, endingDate?: Date) {
 
     const { data: cadastroData, isLoading: cadastroLoading } = useCadastroData("cadastro", param); // estanos usando o firestore neste mas poderia ser a planilha que seria o hook useTotalCadastro(param)
     
-    const { data: totalCustoCadastro, isLoading: totalCustoCadastroLoading } = useCustoCadastro(param);
+    const { data: totalCustoCadastro, isLoading: totalCustoCadastroLoading } = useCustoCadastro(param, startingDate, endingDate);
 
-    const { data: ConversaoCadastroFTD, isLoading: ConversaoCadastroFTDLoading } = useConversaoCadastroFTD(param);
+    const { data: ConversaoCadastroFTD, isLoading: ConversaoCadastroFTDLoading } = useConversaoCadastroFTD(param, startingDate, endingDate);
 
-    const { data: totalInvestido, isLoading: investidoLoading } = useTotalInvestido(param);
+    const [ totalInvestido,  investidoLoading ] = useTotalInvestido(param, startingDate, endingDate);
 
-    const { data: MediaInvestida, isLoading: MediaInvestidaLoading } = useMediaInvestida(param);
+    const { data: MediaInvestida, isLoading: MediaInvestidaLoading } = useMediaInvestida(param, startingDate, endingDate);
 
-    const { data: roi, isLoading: roiLoading } = useRoi(param); 
+    const { data: roi, isLoading: roiLoading } = useRoi(param, startingDate, endingDate);
 
-    const { data: totalApostado, isLoading: apostadoLoading } = useTotalApostado(param);
+    const [totalApostado, apostadoLoading ] = useTotalApostado(param, startingDate, endingDate);
 
-    const { data: totalPremios, isLoading: premiosLoading } = useTotalPremios(param);
+    const [ totalPremios, premiosLoading ] = useTotalPremios(param, startingDate, endingDate);
 
-    const { data: totalFtd, isLoading: ftdLoading } = useQuantidadeFTD(param);
+    const [ totalFtd, ftdLoading ] = useQuantidadeFTD(param, startingDate, endingDate);
 
-    const { data: totalAmountFtd, isLoading: amountFtdLoading } = useFtdAmount(param);
+    const [totalAmountFtd, amountFtdLoading ] = useFtdAmount(param, startingDate, endingDate);
 
-    const { data: totalDeposito, isLoading: depositoLoading } = useQuantidadeDeposito(param);
+    const [totalDeposito, depositoLoading ] = useQuantidadeDeposito(param, startingDate, endingDate);
 
-    const { data: totalAmountDeposito, isLoading: depositoAmountLoading} = useDepositoValor(param);
+    const [totalAmountDeposito, depositoAmountLoading] = useDepositoValor(param, startingDate, endingDate);
 
-    const { data: CustoFTD, isLoading: CustoFTDLoading} = useCustoFTD(param);
+    const { data: CustoFTD, isLoading: CustoFTDLoading} = useCustoFTD(param, startingDate, endingDate);
     
-    const { data: ValorMedioFTD, isLoading: ValorMedioFTDLoading} = useValorMedioFTD(param);
+    const { data: ValorMedioFTD, isLoading: ValorMedioFTDLoading} = useValorMedioFTD(param, startingDate, endingDate);
     
-    const { data: TaxaRedeposito, isLoading: TaxaRedepositoLoading} = useTaxaRedeposito(param);
+    const { data: TaxaRedeposito, isLoading: TaxaRedepositoLoading} = useTaxaRedeposito(param, startingDate, endingDate);
 
-    const { data: TicketMedio, isLoading:TicketMedioLoading} = useTicketMedio(param);
+    const { data: TicketMedio, isLoading:TicketMedioLoading} = useTicketMedio(param, startingDate, endingDate);
 
-    const { data: totalGgr, isLoading: ggrLoading} = useGgrValor(param);
+    const [ totalGgr, ggrLoading] = useGgrValor(param, startingDate, endingDate);
     
-    const { data: taxaRetencao, isLoading: taxaRetencaoLoading } = useTaxaRetencaoDeposito(param);
+    const { data: taxaRetencao, isLoading: taxaRetencaoLoading } = useTaxaRetencaoDeposito(param, startingDate, endingDate);
 
 
     return {
@@ -75,6 +75,6 @@ export default function useDashboardData(param: string) {
         TicketMedio,
         totalGgr,
         taxaRetencao,
-        loading: cadastroLoading || totalCustoCadastroLoading || ConversaoCadastroFTDLoading || investidoLoading || MediaInvestidaLoading || roiLoading || apostadoLoading || premiosLoading || ftdLoading || amountFtdLoading || depositoLoading || depositoAmountLoading || CustoFTDLoading || TaxaRedepositoLoading || TicketMedioLoading || ValorMedioFTDLoading || ggrLoading || taxaRetencaoLoading
+        loading: cadastroLoading || totalCustoCadastroLoading || ConversaoCadastroFTDLoading || investidoLoading || roiLoading || apostadoLoading || premiosLoading || ftdLoading || amountFtdLoading || depositoLoading || depositoAmountLoading || CustoFTDLoading || TaxaRedepositoLoading || TicketMedioLoading || ValorMedioFTDLoading || ggrLoading || taxaRetencaoLoading || MediaInvestidaLoading
     };
 }

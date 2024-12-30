@@ -10,23 +10,23 @@ interface TaxaRetencaoDepositoResult {
   error: Error | null;
 }
 
-const useTaxaRetencaoDeposito = (param: string): TaxaRetencaoDepositoResult => {
-  const ggrResult = useGgrValor(param);
-  const depositoResult = useDepositoValor(param);
+const useTaxaRetencaoDeposito = (param: string, startingDate: Date | undefined, endingDate: Date | undefined) => {
+  const [ggrResult, ggrIsLoading, ggrError] = useGgrValor(param, startingDate, endingDate);
+  const [depositoResult, depositoIsLoading, depositoError] = useDepositoValor(param, startingDate, endingDate);
 
   const calcularTaxaRetencao = (): string | null => {
-    if (!ggrResult.data || !depositoResult.data || depositoResult.data === 0) {
+    if (!ggrResult || !depositoResult || depositoResult === 0) {
       return null;
     }
 
-    const taxa = ggrResult.data / depositoResult.data;
+    const taxa = ggrResult / depositoResult;
     return `${(taxa * 100).toFixed(1)}%`;
   };
 
   return {
     data: calcularTaxaRetencao(),
-    isLoading: ggrResult.isLoading || depositoResult.isLoading,
-    error: ggrResult.error || depositoResult.error
+    isLoading: ggrIsLoading || depositoIsLoading,
+    error: ggrError || depositoError
   };
 };
 

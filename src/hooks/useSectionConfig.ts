@@ -19,7 +19,7 @@ import CardTicketMedioGeral from "@/components/Cards/Deposito/card-TicktetmedioG
 import useDashboardData from "@/hooks/useDashboardData";
 import { useMemo } from "react";
 
-export const useSectionConfig = (param: string | undefined) => {
+export const useSectionConfig = (param: string | undefined, startingDate?: Date, endingDate?: Date) => {
   const {
     cadastroData,
     totalCustoCadastro,
@@ -39,8 +39,10 @@ export const useSectionConfig = (param: string | undefined) => {
     TicketMedio,
     totalGgr,
     taxaRetencao,
-  } = useDashboardData(param || "");
-  return useMemo(
+    loading
+  } = useDashboardData(param || "", startingDate, endingDate);
+
+  return [useMemo(
     () => [
       {
         title: "Investimento",
@@ -128,26 +130,6 @@ export const useSectionConfig = (param: string | undefined) => {
         ],
       },
     ],
-    [
-      totalInvestido,
-      MediaInvestida,
-      roi,
-      totalApostado,
-      totalPremios,
-      totalGgr,
-      taxaRetencao,
-      cadastroData.length,
-      totalCustoCadastro,
-      ConversaoCadastroFTD,
-      param,
-      totalFtd,
-      totalAmountFtd,
-      CustoFTD,
-      ValorMedioFTD,
-      totalDeposito,
-      totalAmountDeposito,
-      TaxaRedeposito,
-      TicketMedio,
-    ],
-  );
+    [totalInvestido, roi, totalApostado, totalPremios, totalGgr, taxaRetencao, cadastroData, totalCustoCadastro, ConversaoCadastroFTD, param, totalFtd, totalAmountFtd, CustoFTD, ValorMedioFTD, totalDeposito, totalAmountDeposito, TaxaRedeposito, TicketMedio],
+  ), loading] as const
 };

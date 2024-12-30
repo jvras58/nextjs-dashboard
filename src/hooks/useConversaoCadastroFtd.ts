@@ -10,23 +10,23 @@ interface ConversaoCadastroFTDResult {
   error: Error | null;
 }
 
-const useConversaoCadastroFTD = (param: string): ConversaoCadastroFTDResult => {
-  const ftdResult = useQuantidadeFTD(param);
-  const cadastroResult = useTotalCadastro(param);
+const useConversaoCadastroFTD = (param: string, startingDate: Date | undefined, endingDate: Date | undefined): ConversaoCadastroFTDResult => {
+  const [ftdResult, ftdIsLoading, ftdError] = useQuantidadeFTD(param, startingDate, endingDate);
+  const [cadastroResult, cadastroIsLoading, cadastroError] = useTotalCadastro(param, startingDate, endingDate);
 
   const calcularConversao = (): string | null => {
-    if (!ftdResult.data || !cadastroResult.data || cadastroResult.data === 0) {
+    if (!ftdResult || !cadastroResult || cadastroResult === 0) {
       return null;
     }
 
-    const taxa = ftdResult.data / cadastroResult.data;
+    const taxa = ftdResult / cadastroResult;
     return `${(taxa * 100).toFixed(1)}%`;
   };
 
   return {
     data: calcularConversao(),
-    isLoading: ftdResult.isLoading || cadastroResult.isLoading,
-    error: ftdResult.error || cadastroResult.error
+    isLoading: ftdIsLoading || cadastroIsLoading,
+    error: ftdError || cadastroError
   };
 };
 
