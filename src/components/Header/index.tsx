@@ -1,6 +1,7 @@
 import Link from "next/link";
 import DarkModeSwitcher from "./DarkModeSwitcher";
 import Image from "next/image";
+import DropdownUser from "./DropdownUser";
 
 const Header = (props: {
   sidebarOpen: string | boolean | undefined;
@@ -79,6 +80,9 @@ const Header = (props: {
             <DarkModeSwitcher />
             {/* <!-- Dark Mode Toggle --> */}
           </ul>
+          {/* <!-- User Area --> */}
+          <DropdownUser />
+          {/* <!-- User Area --> */}
         </div>
       </div>
     </header>

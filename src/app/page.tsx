@@ -34,10 +34,6 @@ export default async function Home() {
                 Lorem ipsum dolor sit amet. Et molestiae amet et voluptatem culpa aut nihil labore
                 aut excepturi velit sed quaerat consectetur ut iste molestiae non doloribus voluptatem
               </p>
-              <p className="text-zinc-900 dark:text-white text-xl">
-                Bem vindo, {session.user?.name}
-              </p>
-              <LogoutButton />
             </div>
             
 
