@@ -78,7 +78,7 @@ interface CampaignTableProps {
 }
 
 const CampaignTable: React.FC<CampaignTableProps> = ({ param }) => {
-    const { data, isLoading } = useCampanhaData(param || "");        
+    const { data, isLoading, error } = useCampanhaData(param || "");        
 
     if (isLoading || !data) {
         return (
@@ -93,6 +93,10 @@ const CampaignTable: React.FC<CampaignTableProps> = ({ param }) => {
                 <div>Carregando...</div>
             </div>
         );
+    }
+
+    if (error) {
+        return <div>Erro: {error.message}</div>;
     }
 
     return (

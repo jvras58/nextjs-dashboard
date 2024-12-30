@@ -147,8 +147,23 @@ interface DepositoFTDTableProps {
 const DepositoFTDTable: React.FC<DepositoFTDTableProps> = ({ param }) => {
     const { data = [], isLoading, error } = useDepositoData(param || "");
   
-    if (isLoading) return <div>Carregando...</div>;
-    if (error) return <div>Erro ao carregar dados</div>;
+    if (isLoading || !data) {
+        return (
+            <div className="col-span-12 rounded-[10px] bg-white px-7.5 pt-7.5 shadow-1 dark:bg-gray-dark dark:shadow-card xl:col-span-5 h-150">
+                <div className="mb-4 justify-between gap-4 sm:flex">
+                    <div>
+                        <h4 className="text-body-2xlg font-bold text-dark dark:text-white">
+                            Campanha Deposito FTD
+                        </h4>
+                    </div>
+                </div>
+                <div>Carregando...</div>
+            </div>
+        );
+    }
+    if (error) {
+        return <div>Erro: {error.message}</div>;
+        }
     
 return (
 <div className="col-span-12 rounded-[10px] bg-white px-7.5 pt-7.5 shadow-1 dark:bg-gray-dark dark:shadow-card xl:col-span-5 h-150">
