@@ -1,6 +1,6 @@
 import { Metadata } from "next";
 import DefaultLayout from "@/components/Layouts/DefaultLayout";
-import CampaignLinkGenerator from "@/components/Relatoria/CampaignLinkGenerator";
+import CampaignLinkGenerator from "@/components/campanha/CampaignLinkGenerator";
 import MapOne from "@/components/Maps/MapOne";
 import CampaignTable from "@/components/Tables/Campanha-Table";
 import EstadoTable from "@/components/Tables/Estado-Table";
