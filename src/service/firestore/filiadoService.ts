@@ -1,4 +1,4 @@
-import { collection, query, where, getDocs } from 'firebase/firestore';
+import { collection, query, where, getDocs, limit, orderBy } from 'firebase/firestore';
 import { db } from '@/config/firebaseconfig';
 import { FirebaseDocument } from '@/types/firebaseTypes';
 
@@ -29,7 +29,10 @@ export const fetchSheetData = async () => {
 export const fetchFiliadoData = async (collectionName: string, affiliateCodes: string[]) => {
   const q = query(
     collection(db, collectionName),
-    where("affiliate", "in", affiliateCodes)
+    where("affiliate", "in", affiliateCodes),
+    // TODO: preciso que felipe me libere um indice composto para poder usar orderBy e limit
+    // orderBy("date", "desc"),
+    // limit(1)
   );
 
   const querySnapshot = await getDocs(q);
